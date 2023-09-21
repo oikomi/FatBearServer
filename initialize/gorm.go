@@ -1,11 +1,13 @@
 package initialize
 
 import (
+	"os"
+
 	"github.com/oikomi/FatBearServer/config"
 	"github.com/oikomi/FatBearServer/internal/app"
+	"github.com/oikomi/FatBearServer/internal/room"
 	"github.com/oikomi/FatBearServer/pkg/auth"
 	"gorm.io/gorm"
-	"os"
 )
 
 func Gorm() *gorm.DB {
@@ -23,6 +25,7 @@ func RegisterTables(db *gorm.DB) {
 		// 系统模块表
 		auth.BaseUser{},
 		app.App{}, // app表注册
+		room.Room{},
 	)
 	if err != nil {
 		os.Exit(0)

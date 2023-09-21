@@ -9,6 +9,5 @@ func InitRouter(g *gin.RouterGroup) {
 	r := router.NewRouter(g.Group("room"))
 	a := NewRoomApi()
 	r.BindApi("", a)
-	r.BindGet("create", a.CreateRoom) //
-	r.BindGet("hello", a.Hello)       //
+	r.BindPost("create", a.CreateRoom)
 }

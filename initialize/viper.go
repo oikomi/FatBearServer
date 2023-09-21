@@ -3,11 +3,12 @@ package initialize
 import (
 	"flag"
 	"fmt"
+	"os"
+
 	"github.com/fsnotify/fsnotify"
 	"github.com/gin-gonic/gin"
 	"github.com/oikomi/FatBearServer/config"
 	"github.com/spf13/viper"
-	"os"
 )
 
 // Viper //
@@ -49,6 +50,9 @@ func Viper(path ...string) *viper.Viper {
 	} else {
 		cfg = path[0]
 	}
+
+	// debug
+	cfg = "/Users/harold/godev/src/github.com/oikomi/FatBearServer/config/config.yaml"
 
 	v := viper.New()
 	v.SetConfigFile(cfg)

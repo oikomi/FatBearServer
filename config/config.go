@@ -1,8 +1,8 @@
 package config
 
 import (
-	"github.com/robfig/cron/v3"
 	"github.com/oikomi/FatBearServer/config/autoload"
+	"github.com/robfig/cron/v3"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"gorm.io/gorm"

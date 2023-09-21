@@ -19,11 +19,10 @@ func NewRoomApi() RoomApi {
 }
 
 func (r RoomApi) CreateRoom(c *gin.Context) {
-	str := r.Service.CreateRoom()
-	response.OkWithData(str, c)
-}
+	err := r.Service.CreateRoom(c)
+	if err != nil {
+		response.FailWithError(err, c)
+	}
 
-func (r RoomApi) Hello(c *gin.Context) {
-	str := r.Service.Hello()
-	response.OkWithData(str, c)
+	response.Ok(c)
 }

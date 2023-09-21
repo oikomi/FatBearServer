@@ -2,11 +2,11 @@ package auth
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/pkg/errors"
 	"github.com/oikomi/FatBearServer/config"
 	"github.com/oikomi/FatBearServer/pkg/model"
 	"github.com/oikomi/FatBearServer/pkg/response"
 	"github.com/oikomi/FatBearServer/utils"
+	"github.com/pkg/errors"
 	"go.uber.org/zap"
 	"net/http"
 )

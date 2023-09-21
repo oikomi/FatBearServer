@@ -1,12 +1,14 @@
 package initialize
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/oikomi/FatBearServer/config"
 	"github.com/oikomi/FatBearServer/internal/app"
+	"github.com/oikomi/FatBearServer/internal/room"
 	"github.com/oikomi/FatBearServer/middleware"
 	"github.com/oikomi/FatBearServer/utils"
-	"net/http"
 )
 
 func HealthCheck(g *gin.Context) {
@@ -33,6 +35,7 @@ func Routers() *gin.Engine {
 
 	ApiGroup := Router.Group("api/v1")
 	app.InitRouter(ApiGroup)
+	room.InitRouter(ApiGroup)
 
 	return Router
 }

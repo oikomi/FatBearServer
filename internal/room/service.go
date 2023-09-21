@@ -2,9 +2,12 @@ package room
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/oikomi/FatBearServer/config"
 	"github.com/oikomi/FatBearServer/pkg/model"
 	"github.com/oikomi/FatBearServer/pkg/service"
 	"github.com/oikomi/FatBearServer/utils"
+	"github.com/pkg/errors"
+	"go.uber.org/zap"
 )
 
 type RoomService struct {
@@ -33,10 +36,33 @@ func (s RoomService) MakeResponse(val model.Model) any {
 	return res
 }
 
-func (s RoomService) CreateRoom() string {
-	
+func (s RoomService) CreateRoom(c *gin.Context) error {
+	var req CreateRoomReq
+	err := c.ShouldBind(&req)
+	if err != nil {
+		config.GVA_LOG.Error("Bind CreateRoomReq failed", zap.Error(err))
+		return err
+	}
 
-	return "Hello World"
+	m := Room{RoomName: req.Name}
+	mapper := model.NewMapper[Room](m, nil)
+	_, err = mapper.SelectOne()
+	if err == nil {
+		config.GVA_LOG.Error("Room exist", zap.String("room", req.Name))
+		return errors.Errorf("Room exist: %s", req.Name)
+	}
+	room := Room{
+		RoomName:   req.Name,
+		Creator:    req.Creator,
+		RoomStatus: int(created),
+	}
+	err = mapper.Insert(&room)
+	if err != nil {
+		config.GVA_LOG.Info("insert failed")
+		return errors.Errorf("insert room failed: %s", req.Name)
+	}
+
+	return nil
 }
 
 func (s RoomService) Hello() string {
