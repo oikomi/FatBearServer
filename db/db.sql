@@ -28,3 +28,17 @@ CREATE TABLE `fat_bear.t_users`
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 4
   DEFAULT CHARSET = UTF8MB4;
+
+CREATE TABLE `fat_bear.t_devs`
+(
+    `id`          bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `dev_name`    varchar(255)    NOT NULL DEFAULT '' COMMENT 'dev_name',
+    `cmd`         varchar(64)             NOT NULL DEFAULT '' COMMENT 'cmd',
+    `is_deleted`  TINYINT         NOT NULL DEFAULT 0 COMMENT 'is_deleted',
+    `created_at` datetime        NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'created time',
+    `updated_at` datetime        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'update time',
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 4
+  DEFAULT CHARSET = UTF8MB4;
+

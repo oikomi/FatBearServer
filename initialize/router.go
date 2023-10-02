@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/oikomi/FatBearServer/config"
 	"github.com/oikomi/FatBearServer/internal/app"
+	"github.com/oikomi/FatBearServer/internal/dev"
 	"github.com/oikomi/FatBearServer/internal/room"
 	"github.com/oikomi/FatBearServer/middleware"
 	"github.com/oikomi/FatBearServer/utils"
@@ -36,6 +37,8 @@ func Routers() *gin.Engine {
 	ApiGroup := Router.Group("api/v1")
 	app.InitRouter(ApiGroup)
 	room.InitRouter(ApiGroup)
+
+	dev.InitRouter(ApiGroup)
 
 	return Router
 }

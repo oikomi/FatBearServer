@@ -1,6 +1,8 @@
 
 
 import AgoraRTC from "agora-rtc-sdk-ng";
+import axios from 'axios'
+
 
 let rtc = {
     localAudioTrack: null,
@@ -104,6 +106,19 @@ async function startBasicCall() {
             // Leave the channel.
             await rtc.client.leave();
         };
+
+
+        document.getElementById("do").onclick = async function () {
+
+            let data = {"cmd":"xxx","name":"yyyy"};
+            axios.post(`${this.$url}/test/testRequest`,data).then(res=>{
+                console.log('res=>',res);            
+            })
+
+
+            console.log("do success!");
+        };
+
     };
 }
 
