@@ -1,0 +1,9 @@
+package dev
+
+import "github.com/oikomi/FatBearServer/pkg/model"
+
+type Dev struct {
+	model.BaseModel
+	DevName string `json:"dev_name"  gorm:"column:dev_name;type:varchar(255);not null;index;unique" `
+	Cmd     string `json:"cmd"  gorm:"column:cmd;type:varchar(255);not null;index;unique" `
+}
