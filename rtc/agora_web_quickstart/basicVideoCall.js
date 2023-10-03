@@ -16,10 +16,67 @@ let options = {
     // Set the channel name.
     channel: "fatbear",
     // Pass your temp token here.
-    token: "007eJxTYODwdTJ7YfDS5s3p0v4VNhdOcAYyLWM4e8jvxY4T/TNSVwcqMCQmG6YZmSVbWpqkJpqkWZpbJBoaJqcaGpkamhiZWBoZBAtIpTYEMjJMkf7OwAiFID47Q1piSVJqYhEDAwCb/B+6",
+    token: "007eJxTYFjC/o6v16OjYv/e1ttRxXd2935Iinj6+Mr+JFXDRu8S8y8KDInJhmlGZsmWliapiSZpluYWiYaGyamGRqaGJkYmlkYGF+ZLpzYEMjIEdzMxMjJAIIjPzpCWWJKUmljEwAAAMVEhYw==",
     // Set the user ID.
     uid: 123456,
 };
+
+// function clock() {
+//     var d = new Date();
+//     var t = d.toLocaleTimeString();
+//     // document.getElementById("clock").value=t;  
+    
+//     let data = {"dev_name":"123456","cmd":"get_cmd"};
+//     axios.get(`http://127.0.0.1:8080/api/v1/dev/cmd`).then(res=>{
+//         console.log('res=>',res);            
+//     })
+
+// }
+
+// var int=self.setInterval("clock()",1000);
+function get(url,params={}) {
+    return new Promise(
+        //一个正常的结果，一个异常的结果
+        (resolve,reject) =>{
+            axios.get(url,{
+                headers: {
+                  'Access-Control-Allow-Origin': '*'
+                }
+              })
+                .then(response=>{
+                    resolve(response.data);   //正常的，返回响应数据
+                })
+                .catch(
+                    err =>{
+                        reject(err);  //异常的，返回一个错误信息
+                    }
+                )
+        }
+    );
+
+}
+
+
+function fun() {
+    const config = {
+        headers:{
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Headers": "X-Requested-With,Content-Type",
+          "Access-Control-Allow-Methods": "PUT,POST,GET,DELETE,OPTIONS"
+        }
+      };
+      
+    let data = {"dev_name":"123456","cmd":"get_cmd"};
+    // axios.get(`http://127.0.0.1:8080/api/v1/dev/cmd`, config).then(res=>{
+    //     console.log('res=>',res);            
+    // })
+    get("http://127.0.0.1:8080/api/v1/dev/cmd", {})
+
+    console.log("定时器")
+}
+setInterval(fun, 1000);
+
+
 
 async function startBasicCall() {
     // Create an AgoraRTCClient object.
@@ -67,6 +124,30 @@ async function startBasicCall() {
     });
 
     window.onload = function () {
+        // document.getElementById("join").onclick = async function () {
+        //     // Join an RTC channel.
+        //     await rtc.client.join(options.appId, options.channel, options.token, options.uid);
+        //     // Create a local audio track from the audio sampled by a microphone.
+        //     rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+        //     // Create a local video track from the video captured by a camera.
+        //     rtc.localVideoTrack = await AgoraRTC.createCameraVideoTrack();
+        //     // Publish the local audio and video tracks to the RTC channel.
+        //     await rtc.client.publish([rtc.localAudioTrack, rtc.localVideoTrack]);
+        //     // Dynamically create a container in the form of a DIV element for playing the local video track.
+        //     const localPlayerContainer = document.createElement("div");
+        //     // Specify the ID of the DIV container. You can use the uid of the local user.
+        //     localPlayerContainer.id = options.uid;
+        //     localPlayerContainer.textContent = "Local user " + options.uid;
+        //     localPlayerContainer.style.width = "640px";
+        //     localPlayerContainer.style.height = "480px";
+        //     document.body.append(localPlayerContainer);
+
+        //     // Play the local video track.
+        //     // Pass the DIV container and the SDK dynamically creates a player in the container for playing the local video track.
+        //     rtc.localVideoTrack.play(localPlayerContainer);
+        //     console.log("publish success!");
+        // };
+
         document.getElementById("join").onclick = async function () {
             // Join an RTC channel.
             await rtc.client.join(options.appId, options.channel, options.token, options.uid);
@@ -77,19 +158,27 @@ async function startBasicCall() {
             // Publish the local audio and video tracks to the RTC channel.
             await rtc.client.publish([rtc.localAudioTrack, rtc.localVideoTrack]);
             // Dynamically create a container in the form of a DIV element for playing the local video track.
-            const localPlayerContainer = document.createElement("div");
-            // Specify the ID of the DIV container. You can use the uid of the local user.
-            localPlayerContainer.id = options.uid;
-            localPlayerContainer.textContent = "Local user " + options.uid;
+            // const localPlayerContainer = document.createElement("div");
+            // // Specify the ID of the DIV container. You can use the uid of the local user.
+            // localPlayerContainer.id = options.uid;
+            // localPlayerContainer.textContent = "Local user " + options.uid;
+            // localPlayerContainer.style.width = "640px";
+            // localPlayerContainer.style.height = "480px";
+            // document.body.append(localPlayerContainer);
+
+            const localPlayerContainer = document.getElementById("video_info")
+
             localPlayerContainer.style.width = "640px";
             localPlayerContainer.style.height = "480px";
-            document.body.append(localPlayerContainer);
 
             // Play the local video track.
             // Pass the DIV container and the SDK dynamically creates a player in the container for playing the local video track.
             rtc.localVideoTrack.play(localPlayerContainer);
             console.log("publish success!");
+
+
         };
+
 
         document.getElementById("leave").onclick = async function () {
             // Destroy the local audio and video tracks.
@@ -108,16 +197,25 @@ async function startBasicCall() {
         };
 
 
-        document.getElementById("do").onclick = async function () {
+        // document.getElementById("do").onclick = async function () {
 
-            let data = {"cmd":"xxx","name":"yyyy"};
-            axios.post(`${this.$url}/test/testRequest`,data).then(res=>{
-                console.log('res=>',res);            
-            })
+        //     // let data = {"cmd":"xxx","name":"yyyy"};
+        //     // axios.post(`${this.$url}/test/testRequest`,data).then(res=>{
+        //     //     console.log('res=>',res);            
+        //     // })
 
 
-            console.log("do success!");
-        };
+        //     const cmdContainer = document.createElement("div");
+        //     // Specify the ID of the DIV container. You can use the uid of the local user.
+        //     cmdContainer.id = options.uid;
+        //     cmdContainer.textContent = "receive command " + options.uid;
+        //     cmdContainer.style.width = "640px";
+        //     cmdContainer.style.height = "480px";
+        //     document.body.append(cmdContainer);
+
+        //     console.log("do success!");
+        // };
+
 
     };
 }

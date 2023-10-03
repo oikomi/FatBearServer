@@ -5,6 +5,7 @@ import (
 
 	"github.com/oikomi/FatBearServer/config"
 	"github.com/oikomi/FatBearServer/internal/app"
+	"github.com/oikomi/FatBearServer/internal/dev"
 	"github.com/oikomi/FatBearServer/internal/room"
 	"github.com/oikomi/FatBearServer/pkg/auth"
 	"gorm.io/gorm"
@@ -26,6 +27,7 @@ func RegisterTables(db *gorm.DB) {
 		auth.BaseUser{},
 		app.App{}, // app表注册
 		room.Room{},
+		dev.Dev{},
 	)
 	if err != nil {
 		os.Exit(0)
