@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/cors"
 	"github.com/oikomi/FatBearServer/config"
 	"github.com/oikomi/FatBearServer/internal/app"
 	"github.com/oikomi/FatBearServer/internal/dev"
@@ -25,6 +26,10 @@ func Routers() *gin.Engine {
 
 	Router := gin.Default()
 	//gin.SetMode(gin.DebugMode)
+
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowOrigins = []string{"*"}
+	Router.Use(cors.New(corsConfig))
 
 	Router.Use(middleware.Recovery())
 	Router.Use(middleware.Logger())

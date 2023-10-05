@@ -58,28 +58,10 @@
 
 
               </div>
-              <div class="col">
+              <div class="col" data-bs-spy="scroll"  id="cmd_con">
                 <div>
                     <h2 class="left-align">recive command</h2>
-
-                    <input type="text" id="clock" />
-                    <!-- <script type="text/javascript">
-                        // import axios from 'axios'
-
-                        var int=self.setInterval("clock()",1000);
-                        function clock() {
-                            var d=new Date();
-                            var t=d.toLocaleTimeString();
-                            document.getElementById("clock").value=t;  
-                            
-                            let data = {"dev_name":"123456","cmd":"get_cmd"};
-                            axios.Get(`http://127.0.0.1:8080/api/v1/dev/cmd`).then(res=>{
-                                console.log('res=>',res);            
-                            })
-
-                        }
-                    </script> -->
-
+                    <textarea class="form-control" id="area" rows="100"></textarea>
 
                 </div>
 

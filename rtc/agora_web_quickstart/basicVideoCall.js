@@ -21,17 +21,6 @@ let options = {
     uid: 123456,
 };
 
-// function clock() {
-//     var d = new Date();
-//     var t = d.toLocaleTimeString();
-//     // document.getElementById("clock").value=t;  
-    
-//     let data = {"dev_name":"123456","cmd":"get_cmd"};
-//     axios.get(`http://127.0.0.1:8080/api/v1/dev/cmd`).then(res=>{
-//         console.log('res=>',res);            
-//     })
-
-// }
 
 // var int=self.setInterval("clock()",1000);
 function get(url,params={}) {
@@ -41,9 +30,12 @@ function get(url,params={}) {
             axios.get(url,{
                 headers: {
                   'Access-Control-Allow-Origin': '*'
-                }
+                },
+                crossdomain: true
               })
                 .then(response=>{
+                    console.log(response.data)
+
                     resolve(response.data);   //正常的，返回响应数据
                 })
                 .catch(
@@ -58,25 +50,41 @@ function get(url,params={}) {
 
 
 function fun() {
-    const config = {
-        headers:{
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Headers": "X-Requested-With,Content-Type",
-          "Access-Control-Allow-Methods": "PUT,POST,GET,DELETE,OPTIONS"
-        }
-      };
+    console.log("start timer")
+    // const config = {
+    //     headers:{
+    //       "Access-Control-Allow-Origin": "*",
+    //       "Access-Control-Allow-Headers": "X-Requested-With,Content-Type",
+    //       "Access-Control-Allow-Methods": "PUT,POST,GET,DELETE,OPTIONS"
+    //     }
+    //   };
       
     let data = {"dev_name":"123456","cmd":"get_cmd"};
     // axios.get(`http://127.0.0.1:8080/api/v1/dev/cmd`, config).then(res=>{
     //     console.log('res=>',res);            
     // })
-    get("http://127.0.0.1:8080/api/v1/dev/cmd", {})
+    // get("http://127.0.0.1:8080/api/v1/dev/cmd", {})
 
-    console.log("定时器")
+    axios.get(`http://127.0.0.1:8080/api/v1/dev/cmd`).then(res=>{
+        console.log('res=>',res);
+
+        const info = "At: " + res.data.data.createdAt + " , recive cmd: " +  
+        res.data.data.cmd + ", to dev: "+ res.data.data.dev_name + ", from : " 
+
+        const labelcon = document.createTextNode(info);
+
+        document.getElementById("area").append(labelcon)
+        document.getElementById("area").append(document.createTextNode("\n----------------------------\n"))
+
+        // document.getElementById("cmd_text").value = JSON.stringify(res.data)         
+    }).catch(err =>{
+        console.log(err);  //异常的，返回一个错误信息
+    }
+)
+
+    console.log("time end")
 }
 setInterval(fun, 1000);
-
-
 
 async function startBasicCall() {
     // Create an AgoraRTCClient object.
