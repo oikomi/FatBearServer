@@ -87,10 +87,10 @@ function fun() {
         document.getElementById("area").append(document.createTextNode("\n----------------------------\n"))
 
         // document.getElementById("cmd_text").value = JSON.stringify(res.data)         
-    }).catch(err =>{
-        console.log(err);  //异常的，返回一个错误信息
-    }
-)
+        }).catch(err =>{
+            console.log(err);  //异常的，返回一个错误信息
+        }
+        )
 
     //console.log("time end")
 }

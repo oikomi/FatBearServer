@@ -75,6 +75,12 @@ $("#join-form").submit(async function (e) {
 $("#leave").click(function (e) {
   leave();
 });
+
+
+$("#send_cmd").click(function (e) {
+  send_cmd();
+});
+
 async function join() {
   // create Agora client
 
@@ -133,6 +139,46 @@ async function leave() {
   $("#joined-setup").css("display", "none");
   console.log("client leaves channel success");
 }
+
+async function send_cmd() {
+
+  axios.post('https://120.55.60.98/cmd', {
+    dev_name: '123456',
+    cmd: 'do',
+    send_user: options.uid
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+
+
+  // axios.post(`https://120.55.60.98/cmd`,{
+  //   params: {
+  //     "dev_name": options.devId
+  //   }
+  // }).then(res=>{
+  //   // console.log('res=>',res);
+
+  //   const info = res.data.data.createdAt + " , recive cmd : " +  
+  //   res.data.data.cmd + " , to dev "+ res.data.data.dev_name + " ,from " + res.data.data.send_user
+
+  //   const labelcon = document.createTextNode(info);
+
+  //   document.getElementById("area").append(labelcon)
+  //   document.getElementById("area").append(document.createTextNode("\n----------------------------\n"))
+
+  //   // document.getElementById("cmd_text").value = JSON.stringify(res.data)         
+  // }).catch(err =>{
+  //     console.log(err);  //异常的，返回一个错误信息
+  // })
+
+  console.log("send_cmd success");
+}
+
+
 async function subscribe(user, mediaType) {
   const uid = user.uid;
   // subscribe to a remote user
