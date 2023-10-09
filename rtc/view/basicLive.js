@@ -12,7 +12,7 @@ var remoteUsers = {};
 var options = {
   appid: "ac1f26c994ea4f978a11ce1251424920",
   channel: "fatbear",
-  uid: null,
+  uid: "",
   token: "007eJxTYFjDurL39usEP2GDlw8yhc5/MOq428Hw8beP8Lw7JTfzJecrMCQmG6YZmSVbWpqkJpqkWZpbJBoaJqcaGpkamhiZWBoZ7OhWTm0IZGRIKr7FxMgAgSA+O0NaYklSamIRAwMAGLkhlw==",
   role: "audience",
   // host or audience
