@@ -58,22 +58,31 @@ func (s DevService) SendCmd(c *gin.Context) error {
 	return nil
 }
 
-func (s DevService) GetCmd(c *gin.Context) (Dev, error) {
+func (s DevService) GetCmd(c *gin.Context) (*Dev, error) {
 	var req GetCmdReq
 	err := c.ShouldBind(&req)
 	if err != nil {
 		config.GVA_LOG.Error("get cmd failed", zap.Error(err))
-		return Dev{}, err
+		return nil, err
 	}
 
-	dev := Dev{
-		DevName: req.DevName,
-	}
-	mapper := model.NewMapper[Dev](dev, nil)
-	cmd, err := mapper.SelectOne()
+	config.GVA_LOG.Info("get cmd", zap.Object("req", req))
+
+	// dev := Dev{
+	// 	DevName: req.DevName,
+	// }
+
+	w := model.NewWrapper()
+	w.Eq("dev_name", req.DevName)
+
+	mapper := model.NewMapper[Dev](Dev{}, w)
+	cmds, err := mapper.Select()
 	if err != nil {
-		return cmd, errors.Errorf("find dev failed: %s", req.DevName)
+		return nil, errors.Errorf("find dev failed: %s", req.DevName)
+	}
+	if len(*cmds) >= 1 {
+		return &((*cmds)[0]), nil
 	}
 
-	return cmd, nil
+	return nil, nil
 }

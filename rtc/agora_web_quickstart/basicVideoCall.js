@@ -19,6 +19,8 @@ let options = {
     token: "007eJxTYFjC/o6v16OjYv/e1ttRxXd2935Iinj6+Mr+JFXDRu8S8y8KDInJhmlGZsmWliapiSZpluYWiYaGyamGRqaGJkYmlkYGF+ZLpzYEMjIEdzMxMjJAIIjPzpCWWJKUmljEwAAAMVEhYw==",
     // Set the user ID.
     uid: 123456,
+
+    devId: "0",
 };
 
 
@@ -59,17 +61,25 @@ function fun() {
     //     }
     //   };
       
-    let data = {"dev_name":"123456","cmd":"get_cmd"};
+    // let data = {"dev_name":"123456","cmd":"get_cmd"};
     // axios.get(`http://127.0.0.1:8080/api/v1/dev/cmd`, config).then(res=>{
     //     console.log('res=>',res);            
     // })
     // get("http://127.0.0.1:8080/api/v1/dev/cmd", {})
 
-    axios.get(`http://127.0.0.1:8080/api/v1/dev/cmd`).then(res=>{
-        console.log('res=>',res);
+    if (options.devId == "0" || options.devId == "") {
+        return
+    }
 
-        const info = "At: " + res.data.data.createdAt + " , recive cmd: " +  
-        res.data.data.cmd + ", to dev: "+ res.data.data.dev_name + ", from : " 
+    axios.get(`http://127.0.0.1:8080/api/v1/dev/cmd`,{
+        params: {
+          "dev_name": options.devId
+        }
+      }).then(res=>{
+        // console.log('res=>',res);
+
+        const info = res.data.data.createdAt + " , recive cmd : " +  
+        res.data.data.cmd + " , to dev "+ res.data.data.dev_name + " ,from " + res.data.data.send_user
 
         const labelcon = document.createTextNode(info);
 
@@ -82,9 +92,9 @@ function fun() {
     }
 )
 
-    console.log("time end")
+    //console.log("time end")
 }
-setInterval(fun, 1000);
+setInterval(fun, 10000);
 
 async function startBasicCall() {
     // Create an AgoraRTCClient object.
@@ -202,6 +212,17 @@ async function startBasicCall() {
 
             // Leave the channel.
             await rtc.client.leave();
+        };
+
+
+        document.getElementById("login").onclick = async function () {
+
+            const devId = document.getElementById("device_id_input").value
+
+            options.devId = devId
+            console.log(devId)
+            console.log("options.devId: " , options.devId)
+
         };
 
 
