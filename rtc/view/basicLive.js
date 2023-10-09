@@ -10,30 +10,30 @@ var localTracks = {
 var remoteUsers = {};
 // Agora client options
 var options = {
-  appid: null,
-  channel: null,
+  appid: "ac1f26c994ea4f978a11ce1251424920",
+  channel: "fatbear",
   uid: null,
-  token: null,
+  token: "007eJxTYFjDurL39usEP2GDlw8yhc5/MOq428Hw8beP8Lw7JTfzJecrMCQmG6YZmSVbWpqkJpqkWZpbJBoaJqcaGpkamhiZWBoZ7OhWTm0IZGRIKr7FxMgAgSA+O0NaYklSamIRAwMAGLkhlw==",
   role: "audience",
   // host or audience
   audienceLatency: 2
 };
 
 // the demo can auto join channel with params in url
-$(() => {
-  var urlParams = new URL(location.href).searchParams;
-  options.appid = urlParams.get("appid");
-  options.channel = urlParams.get("channel");
-  options.token = urlParams.get("token");
-  options.uid = urlParams.get("uid");
-  if (options.appid && options.channel) {
-    $("#uid").val(options.uid);
-    $("#appid").val(options.appid);
-    $("#token").val(options.token);
-    $("#channel").val(options.channel);
-    $("#join-form").submit();
-  }
-});
+// $(() => {
+//   var urlParams = new URL(location.href).searchParams;
+//   options.appid = urlParams.get("appid");
+//   options.channel = urlParams.get("channel");
+//   options.token = urlParams.get("token");
+//   options.uid = urlParams.get("uid");
+//   if (options.appid && options.channel) {
+//     $("#uid").val(options.uid);
+//     $("#appid").val(options.appid);
+//     $("#token").val(options.token);
+//     $("#channel").val(options.channel);
+//     $("#join-form").submit();
+//   }
+// });
 $("#host-join").click(function (e) {
   options.role = "host";
 });
@@ -52,10 +52,10 @@ $("#join-form").submit(async function (e) {
   $("#host-join").attr("disabled", true);
   $("#audience-join").attr("disabled", true);
   try {
-    options.channel = $("#channel").val();
+    // options.channel = $("#channel").val();
     options.uid = Number($("#uid").val());
-    options.appid = $("#appid").val();
-    options.token = $("#token").val();
+    // options.appid = $("#appid").val();
+    // options.token = $("#token").val();
     await join();
     if (options.role === "host") {
       $("#success-alert a").attr("href", `index.html?appid=${options.appid}&channel=${options.channel}&token=${options.token}`);

@@ -1,4 +1,4 @@
-docker run -p 443:443  -p 80:80 --name nginx  -v /root/ssl:/root/ssl  -v /home/rtc/nginx/conf/conf.d:/etc/nginx/conf.d  -v /home/rtc/FatBearServer/rtc/agora_web_quickstart:/usr/share/nginx/html  -d nginx
+docker run -p 443:443  -p 80:80 --name nginx  -v /root/ssl:/root/ssl  -v /home/rtc/nginx/conf/conf.d:/etc/nginx/conf.d  -v /home/rtc/FatBearServer/rtc:/usr/share/nginx/html  -d nginx
 
 
 
