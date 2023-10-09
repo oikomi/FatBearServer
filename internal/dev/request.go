@@ -18,6 +18,6 @@ type GetCmdReq struct {
 
 // MarshalLogObject implements zapcore.ObjectMarshaler.
 func (o GetCmdReq) MarshalLogObject(enc zapcore.ObjectEncoder) error {
-    enc.AddString("dev_name", o.DevName)
-    return nil
+	enc.AddString("dev_name", o.DevName)
+	return nil
 }

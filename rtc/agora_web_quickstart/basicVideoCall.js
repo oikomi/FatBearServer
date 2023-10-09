@@ -16,7 +16,7 @@ let options = {
     // Set the channel name.
     channel: "fatbear",
     // Pass your temp token here.
-    token: "007eJxTYFjC/o6v16OjYv/e1ttRxXd2935Iinj6+Mr+JFXDRu8S8y8KDInJhmlGZsmWliapiSZpluYWiYaGyamGRqaGJkYmlkYGF+ZLpzYEMjIEdzMxMjJAIIjPzpCWWJKUmljEwAAAMVEhYw==",
+    token: "007eJxTYFjDurL39usEP2GDlw8yhc5/MOq428Hw8beP8Lw7JTfzJecrMCQmG6YZmSVbWpqkJpqkWZpbJBoaJqcaGpkamhiZWBoZ7OhWTm0IZGRIKr7FxMgAgSA+O0NaYklSamIRAwMAGLkhlw==",
     // Set the user ID.
     uid: 123456,
 
@@ -94,7 +94,7 @@ function fun() {
 
     //console.log("time end")
 }
-setInterval(fun, 10000);
+setInterval(fun, 1000);
 
 async function startBasicCall() {
     // Create an AgoraRTCClient object.

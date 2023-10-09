@@ -45,8 +45,9 @@ func (s DevService) SendCmd(c *gin.Context) error {
 	}
 
 	dev := Dev{
-		DevName: req.DevName,
-		Cmd:     req.Cmd,
+		DevName:  req.DevName,
+		Cmd:      req.Cmd,
+		SendUser: req.SendUser,
 	}
 	mapper := model.NewMapper[Dev](dev, nil)
 	err = mapper.Insert(&dev)
