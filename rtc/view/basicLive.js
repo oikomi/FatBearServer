@@ -148,7 +148,7 @@ async function send_cmd() {
     send_user: options.uid
   })
   .then(function (response) {
-    alert('send cmd!', 'success')
+    alert('send cmd success!')
     console.log(response);
   })
   .catch(function (error) {
