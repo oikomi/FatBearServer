@@ -71,7 +71,7 @@ function fun() {
         return
     }
 
-    axios.get(`http://127.0.0.1:8080/api/v1/dev/cmd`,{
+    axios.get(`http://120.55.60.98:8080/api/v1/dev/cmd`,{
         params: {
           "dev_name": options.devId
         }
