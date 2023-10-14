@@ -1,0 +1,11 @@
+
+docker pull mysql:8.0.34
+
+docker run -p 3306:3306 --name mysql -v /root/mysql/conf/my.cnf:/etc/mysql/my.cnf -v /root/mysql/log:/home/mysql/log -v /root/mysql/data:/home/mysql/data -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8.0.34
+
+
+[mysqld]
+port=3306
+basedir=/home/mysql
+datadir=/home/mysql/data
+log_error=/home/mysql/log/mysql-error.log
