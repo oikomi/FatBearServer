@@ -35,3 +35,6 @@ zap: # 日志配置
   max_age: 0 # 日志留存时间
   show_line: true # 显示行
   log_in_console: true # 输出控制台
+
+security:
+  password_key: "fatbear"

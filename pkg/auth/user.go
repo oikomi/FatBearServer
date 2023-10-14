@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/oikomi/FatBearServer/config"
 	"github.com/oikomi/FatBearServer/pkg/model"
@@ -8,7 +9,6 @@ import (
 	"github.com/oikomi/FatBearServer/utils"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
-	"net/http"
 )
 
 type User interface {
@@ -21,6 +21,7 @@ type BaseUser struct {
 	model.BaseModel
 	Name     string `json:"name"`
 	Password string `json:"password"`
+	Role     string `json:"role"`
 	Email    string `json:"email"`
 }
 
@@ -28,11 +29,13 @@ func (b BaseUser) Login(c *gin.Context) error {
 	var req LoginReq
 	err := c.ShouldBind(&req)
 	utils.CheckError(err)
-	m := BaseUser{Name: req.Username}
+	m := BaseUser{
+		Name: req.UserName,
+	}
 	mapper := model.NewMapper[BaseUser](m, nil)
 	user, err := mapper.SelectOne()
 	if err != nil {
-		return errors.Errorf("用户不存在: %s", req.Username)
+		return errors.Errorf("用户不存在: %s", req.UserName)
 	}
 	if ok := utils.BcryptCheck(req.Password, user.Password); !ok {
 		return errors.New("用户名或密码错误")
@@ -44,14 +47,14 @@ func (b BaseUser) Register(c *gin.Context) error {
 	var req RegisterReq
 	err := c.ShouldBind(&req)
 	utils.CheckError(err)
-	m := BaseUser{Name: req.Username}
+	m := BaseUser{Name: req.UserName}
 	mapper := model.NewMapper[BaseUser](m, nil)
 	_, err = mapper.SelectOne()
 	if err == nil {
-		return errors.Errorf("用户已存在: %s", req.Username)
+		return errors.Errorf("用户已存在: %s", req.UserName)
 	}
 	user := BaseUser{
-		Name:     req.Username,
+		Name:     req.UserName,
 		Password: utils.BcryptHash(req.Password),
 		Email:    req.Email,
 	}
@@ -74,6 +77,8 @@ func (b BaseUser) Auth(c *gin.Context) error {
 }
 
 func (b BaseUser) tokenNext(c *gin.Context, user BaseUser) error {
+	session := sessions.Default(c)
+
 	j := utils.NewJWT()
 	claims := j.CreateClaims(utils.BaseClaims{
 		ID:       user.ID,
@@ -85,7 +90,11 @@ func (b BaseUser) tokenNext(c *gin.Context, user BaseUser) error {
 		response.FailWithMessage("获取token失败", c)
 		return err
 	}
-	c.SetCookie("token", token, 3600, "/", config.GVA_CONFIG.Domain, false, true)
-	c.Redirect(http.StatusFound, "/admin")
+
+	session.Set("token", token)
+	session.Save()
+
+	// c.SetCookie("token", token, 3600, "/", config.GVA_CONFIG.Domain, false, true)
+	// c.Redirect(http.StatusFound, "/admin")
 	return nil
 }

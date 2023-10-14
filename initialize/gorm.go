@@ -2,6 +2,7 @@ package initialize
 
 import (
 	"os"
+	"os/user"
 
 	"github.com/oikomi/FatBearServer/config"
 	"github.com/oikomi/FatBearServer/internal/app"
@@ -28,6 +29,7 @@ func RegisterTables(db *gorm.DB) {
 		app.App{}, // app表注册
 		room.Room{},
 		dev.Dev{},
+		user.User{},
 	)
 	if err != nil {
 		os.Exit(0)
