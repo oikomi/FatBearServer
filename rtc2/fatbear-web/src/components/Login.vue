@@ -5,7 +5,7 @@ import { useToast } from "vue-toastification";
 import { useRouter } from 'vue-router'
 
 
-const SERVER_BASE = "http://127.0.0.1:8080/api/v1/user/login"
+const SERVER_BASE = "http://120.55.60.98:8080/api/v1/user/login"
 
 const axios: any = inject('axios')  // inject axios
 

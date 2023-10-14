@@ -7,7 +7,7 @@ import { useRouter } from 'vue-router'
 
 const axios: any = inject('axios')  // inject axios
 
-const SERVER_BASE = "http://127.0.0.1:8080/health"
+const SERVER_BASE = "http://120.55.60.98:8080/health"
 
 const router = useRouter()
 
