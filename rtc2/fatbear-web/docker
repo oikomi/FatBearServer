@@ -1,0 +1,8 @@
+
+
+docker run -p 443:443  -p 80:80 --name nginx  -v /root/ssl:/root/ssl  -v /home/rtc/nginx/conf/conf.d:/etc/nginx/conf.d  -v /home/rtc/FatBearServer/rtc2/fatbear-web/dist:/usr/share/nginx/html  -d nginx
+
+
+
+
+docker run -p 3306:3306 --name mysql -v /root/mysql/conf/my.cnf:/etc/mysql/my.cnf -v /root/mysql/log:/home/mysql/log -v /root/mysql/data:/home/mysql/data -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8.0.34
