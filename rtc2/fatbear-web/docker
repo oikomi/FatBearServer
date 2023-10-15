@@ -1,7 +1,8 @@
 
 
-docker run -p 443:443  -p 80:80 --name nginx  -v /root/ssl:/root/ssl  -v /home/rtc/nginx/conf/conf.d:/etc/nginx/conf.d  -v /home/rtc/FatBearServer/rtc2/fatbear-web/dist2:/usr/share/nginx/html  -d nginx
 
+
+docker run -p 443:443  -p 80:80 --name nginx  -v /root/ssl:/root/ssl  -v /home/logs:/var/log/nginx  -v /home/rtc/nginx/conf/conf.d:/etc/nginx/conf.d  -v /home/rtc/FatBearServer/rtc2/fatbear-web/dist2:/usr/share/nginx/html  -d nginx
 
 
 
