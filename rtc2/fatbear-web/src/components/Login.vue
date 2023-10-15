@@ -7,6 +7,9 @@ import { useRouter } from 'vue-router'
 
 const SERVER_BASE = "http://120.55.60.98:8080/api/v1/user/login"
 
+const SERVER_BASE_ONLINE = "https://120.55.60.98/login"
+
+
 const axios: any = inject('axios')  // inject axios
 
 const toast = useToast();

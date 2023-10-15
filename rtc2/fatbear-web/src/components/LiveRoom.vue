@@ -9,10 +9,13 @@ const axios: any = inject('axios')  // inject axios
 
 const SERVER_BASE = "http://120.55.60.98:8080/health"
 
+const SERVER_BASE_ONLINE = "https://120.55.60.98/health"
+
+
 const router = useRouter()
 
 axios
-  .get(SERVER_BASE, { withCredentials: true })
+  .get(SERVER_BASE_ONLINE, { withCredentials: true })
   .then((response: { data: any }) => {
     console.log("res data", response.data)
     if (response.data === 401) {
