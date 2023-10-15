@@ -32,9 +32,9 @@ func Routers() *gin.Engine {
 	//gin.SetMode(gin.DebugMode)
 
 	store := cookie.NewStore([]byte("token"))
-	store.Options(sessions.Options{
-		MaxAge: 60,
-	})
+	// store.Options(sessions.Options{
+	// 	MaxAge: 60,
+	// })
 	Router.Use(sessions.Sessions("token", store))
 
 	corsConfig := cors.DefaultConfig()
