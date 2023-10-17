@@ -12,7 +12,7 @@ import (
 )
 
 type User interface {
-	Login(c *gin.Context) error
+	Login(c *gin.Context) (string, error)
 	Register(c *gin.Context) error
 	Auth(c *gin.Context) error
 }
@@ -25,7 +25,7 @@ type BaseUser struct {
 	Email    string `json:"email"`
 }
 
-func (b BaseUser) Login(c *gin.Context) error {
+func (b BaseUser) Login(c *gin.Context) (string, error) {
 	var req LoginReq
 	err := c.ShouldBind(&req)
 	utils.CheckError(err)
@@ -35,10 +35,10 @@ func (b BaseUser) Login(c *gin.Context) error {
 	mapper := model.NewMapper[BaseUser](m, nil)
 	user, err := mapper.SelectOne()
 	if err != nil {
-		return errors.Errorf("用户不存在: %s", req.UserName)
+		return "", errors.Errorf("用户不存在: %s", req.UserName)
 	}
 	if ok := utils.BcryptCheck(req.Password, user.Password); !ok {
-		return errors.New("用户名或密码错误")
+		return "", errors.New("用户名或密码错误")
 	}
 	return b.tokenNext(c, user)
 }
@@ -76,7 +76,7 @@ func (b BaseUser) Auth(c *gin.Context) error {
 	return nil
 }
 
-func (b BaseUser) tokenNext(c *gin.Context, user BaseUser) error {
+func (b BaseUser) tokenNext(c *gin.Context, user BaseUser) (string, error) {
 	session := sessions.Default(c)
 
 	j := utils.NewJWT()
@@ -88,7 +88,7 @@ func (b BaseUser) tokenNext(c *gin.Context, user BaseUser) error {
 	if err != nil {
 		config.GVA_LOG.Error("获取token失败!", zap.Error(err))
 		response.FailWithMessage("获取token失败", c)
-		return err
+		return "", err
 	}
 
 	session.Set("token", token)
@@ -96,5 +96,5 @@ func (b BaseUser) tokenNext(c *gin.Context, user BaseUser) error {
 
 	// c.SetCookie("token", token, 3600, "/", config.GVA_CONFIG.Domain, false, true)
 	// c.Redirect(http.StatusFound, "/admin")
-	return nil
+	return token, nil
 }

@@ -87,3 +87,20 @@ func (s DevService) GetCmd(c *gin.Context) (*Dev, error) {
 
 	return nil, nil
 }
+
+
+
+func (s DevService) Login(c *gin.Context) error {
+	var req DevLoginReq
+
+	w := model.NewWrapper()
+	w.Eq("dev_name", req.DevName)
+
+	mapper := model.NewMapper[DevInfo](DevInfo{}, w)
+	_, err := mapper.Select()
+	if err != nil {
+		return errors.Errorf("find dev failed: %s", req.DevName)
+	}
+
+	return nil
+}

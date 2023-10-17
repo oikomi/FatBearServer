@@ -22,7 +22,32 @@ func (r RoomApi) CreateRoom(c *gin.Context) {
 	err := r.Service.CreateRoom(c)
 	if err != nil {
 		response.FailWithError(err, c)
+		return
 	}
 
 	response.Ok(c)
 }
+
+func (r RoomApi) GetRoomList(c *gin.Context) {
+	rooms, err := r.Service.GetRoomList(c)
+	if err != nil {
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.OkWithData(rooms, c)
+}
+
+
+
+func (r RoomApi) UpdateRoom(c *gin.Context) {
+	err := r.Service.UpdateRoom(c)
+	if err != nil {
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.Ok(c)
+}
+
+

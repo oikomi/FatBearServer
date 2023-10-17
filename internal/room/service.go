@@ -44,8 +44,11 @@ func (s RoomService) CreateRoom(c *gin.Context) error {
 		return err
 	}
 
-	m := Room{RoomName: req.Name}
-	mapper := model.NewMapper[Room](m, nil)
+	w := model.NewWrapper()
+	w.Eq("room_name", req.Name)
+
+	m := Room{}
+	mapper := model.NewMapper[Room](m, w)
 	_, err = mapper.SelectOne()
 	if err == nil {
 		config.GVA_LOG.Error("Room exist", zap.String("room", req.Name))
@@ -58,13 +61,45 @@ func (s RoomService) CreateRoom(c *gin.Context) error {
 	}
 	err = mapper.Insert(&room)
 	if err != nil {
-		config.GVA_LOG.Info("insert failed")
+		config.GVA_LOG.Error("insert failed")
 		return errors.Errorf("insert room failed: %s", req.Name)
 	}
 
 	return nil
 }
 
-func (s RoomService) Hello() string {
-	return "Hello World"
+
+
+
+func (s RoomService) GetRoomList(c *gin.Context) ([]Room, error) {
+	
+	var req GetRoomListReq
+	err := c.ShouldBind(&req)
+	if err != nil {
+		config.GVA_LOG.Error("Bind GetRoomListReq failed", zap.Error(err))
+		return nil, err
+	}
+	w := model.NewWrapper()
+
+	if req.Name != "" {
+		w.Eq("room_name", req.Name)
+	}
+
+	m := Room{}
+	mapper := model.NewMapper[Room](m, w)
+	rooms, err := mapper.Select()
+	if err != nil {
+		config.GVA_LOG.Error("select room failed", zap.String("room", req.Name))
+		return nil, errors.Errorf("select room failed: %s", req.Name)
+	}
+
+
+	return *rooms, nil
+}
+
+func (s RoomService) UpdateRoom(c *gin.Context) error {
+
+
+
+	return nil
 }

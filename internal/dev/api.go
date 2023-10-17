@@ -22,6 +22,7 @@ func (r DevApi) SendCmd(c *gin.Context) {
 	err := r.Service.SendCmd(c)
 	if err != nil {
 		response.FailWithError(err, c)
+		return
 	}
 
 	response.Ok(c)
@@ -31,7 +32,20 @@ func (r DevApi) GetCmd(c *gin.Context) {
 	resp, err := r.Service.GetCmd(c)
 	if err != nil {
 		response.FailWithError(err, c)
+		return
 	}
 
 	response.OkWithData(resp, c)
 }
+
+
+func (r DevApi) Login(c *gin.Context) {
+	err := r.Service.Login(c)
+	if err != nil {
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.Ok(c)
+}
+

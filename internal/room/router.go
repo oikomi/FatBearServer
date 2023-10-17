@@ -10,4 +10,6 @@ func InitRouter(g *gin.RouterGroup) {
 	a := NewRoomApi()
 	r.BindApi("", a)
 	r.BindPost("create", a.CreateRoom)
+	r.BindGet("list", a.GetRoomList)
+	r.BindPost("update", a.UpdateRoom)
 }

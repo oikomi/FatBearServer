@@ -16,6 +16,12 @@ type GetCmdReq struct {
 	DevName string `json:"dev_name" form:"dev_name"`
 }
 
+type DevLoginReq struct {
+	DevName  string `json:"dev_name" `
+	Password      string `json:"password" `
+}
+
+
 // MarshalLogObject implements zapcore.ObjectMarshaler.
 func (o GetCmdReq) MarshalLogObject(enc zapcore.ObjectEncoder) error {
 	enc.AddString("dev_name", o.DevName)

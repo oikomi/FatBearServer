@@ -1,35 +1,56 @@
 <script setup lang="ts">
 
 import { inject, ref } from 'vue'
-import { useToast } from "vue-toastification";
 import { useRouter } from 'vue-router'
 
+import { useTokenStore } from '@/stores/token';
 
-const SERVER_BASE = "http://120.55.60.98:8080/api/v1/user/login"
+import { userStore } from '@/stores/user';
 
-const SERVER_BASE_ONLINE = "https://120.55.60.98/login"
 
+const tokenStore = useTokenStore()
+
+const uStore = userStore()
+
+
+const SERVER_BASE = "http://127.0.0.1:8080/api/v1/user/login"
+
+// const SERVER_BASE = "https://120.55.60.98/login"
 
 const axios: any = inject('axios')  // inject axios
 
-const toast = useToast();
 const router = useRouter()
 
 const userName = ref('')
 const password = ref('')
 const channel = ref('')
-const host = ref('')
+let host = ""
+const radioUser = ref('')
+const radioModel = ref('')
 
 async function doLogin() {
 	console.log("start login")
 
 	console.log(userName)
 	console.log(password)
+
+	console.log(radioUser.value)
+	console.log(radioModel.value)
+
+	if (radioModel.value === 'on') {
+		host = 'host'
+	} else {
+		host = 'user'
+	}
+
+	console.log("host is ", host)
+
+
 	axios
-		.post(SERVER_BASE_ONLINE, {
+		.post(SERVER_BASE, {
 			'user_name': userName.value,
 			'password': password.value,
-			'role': "host"
+			'role': host
 		})
 		.then((response: { data: any }) => {
 			console.log(response.data)
@@ -38,7 +59,17 @@ async function doLogin() {
 				alert("login failed")
 			} else {
 				console.log("login success ,push to live")
-				router.push({ name: 'live' })
+				tokenStore.setToken(response.data.data)
+				uStore.setHost(host)
+				uStore.setUserName(userName.value)
+				console.log("token is  :", tokenStore.getToken())
+				console.log("host is  :", uStore.getHost())
+
+				if (uStore.getHost() === 'host') {
+					router.push({ name: 'live' })
+				} else {
+					router.push({ name: 'model' })
+				}
 			}
 		}).catch((err: any) => {
 			console.log(err);
@@ -142,13 +173,15 @@ async function doLogin() {
 			<div class="form-check mt-2">
 				<div class="row">
 					<div class="col form-check">
-						<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+						<input class="form-check-input" type="radio" name="flexRadioDefault" v-model="radioUser"
+							id="flexRadioDefault1" checked>
 						<label class="form-check-label" for="flexRadioDefault1">
 							User
 						</label>
 					</div>
 					<div class="col form-check">
-						<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+						<input class="form-check-input" type="radio" name="flexRadioDefault" v-model="radioModel"
+							id="flexRadioDefault2">
 						<label class="form-check-label" for="flexRadioDefault2">
 							Model
 						</label>

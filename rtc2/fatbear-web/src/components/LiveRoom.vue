@@ -5,17 +5,27 @@ import Upper from './Upper.vue';
 import { ref, inject } from "vue";
 import { useRouter } from 'vue-router'
 
+import { useTokenStore } from '@/stores/token';
+
+import { userStore } from '@/stores/user';
+
+
+const uStore = userStore()
+
+const store = useTokenStore()
+
 const axios: any = inject('axios')  // inject axios
 
-const SERVER_BASE = "http://120.55.60.98:8080/health"
+axios.defaults.withCredentials = true
 
-const SERVER_BASE_ONLINE = "https://120.55.60.98/health"
-
+const SERVER_BASE = "http://127.0.0.1:8080/"
+// const SERVER_BASE = "https://120.55.60.98/"
 
 const router = useRouter()
 
 axios
-  .get(SERVER_BASE_ONLINE, { withCredentials: true })
+  .get(SERVER_BASE + "health", { headers: { 'Token': store.getToken() } }, { withCredentials: true })
+  // .get(SERVER_BASE + "health", { headers: { 'Token': store.getToken() } })
   .then((response: { data: any }) => {
     console.log("res data", response.data)
     if (response.data === 401) {
@@ -52,6 +62,8 @@ let isVideoSubed = ref(false);
 let isVideoOn = ref(false);
 let isAudioOn = ref(false);
 
+let roomName = ref('');
+
 async function turnOnCamera() {
   isVideoOn.value = !isVideoOn.value;
 
@@ -76,7 +88,7 @@ async function turnOnMicrophone() {
 const channel = ref("fatbear");
 // you can apply appid follow the guide https://www.agora.io/en/blog/how-to-get-started-with-agora/
 const APP_ID = "ac1f26c994ea4f978a11ce1251424920";
-const TOKEN = "007eJxTYNA5vt2ZzSI2Or9B51p5yP7s0tmPKhT+P0pYdfmqpfZK52cKDInJhmlGZsmWliapiSZpluYWiYaGyamGRqaGJkYmlkYG7j/VUxsCGRk41K8xMjJAIIjPzpCWWJKUmljEwAAAp2kgEA==";
+const TOKEN = "007eJxTYLjwKSk64Pvp02zv2XX29zs5znPXXiZ6ybyG9fg3/oKuVQoKDInJhmlGZsmWliapiSZpluYWiYaGyamGRqaGJkYmlkYG/Nd1UhsCGRkqUjawMDJAIIjPzpCWWJKUmljEwAAAiNQfYw==";
 
 
 async function joinChannel() {
@@ -153,9 +165,28 @@ async function publishAudio() {
   isAudioPubed.value = true;
 }
 
+
 async function startLive() {
   publishAudio()
   publishVideo()
+
+  axios
+    .post(SERVER_BASE + "api/v1/room/create", 
+      {
+          'name': roomName.value,
+          'creator': uStore.getUserName()
+      },
+      {
+      headers:
+        { 'Token': store.getToken() }
+    }
+    )
+    .then((response: { data: any }) => {
+      console.log("res data", response.data)
+    }).catch((err: any) => {
+      console.log("res err", err)
+    });
+
 }
 
 </script>
@@ -169,9 +200,9 @@ async function startLive() {
       <div class="row input-group">
         <div class="col-4">
           <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">user</span>
-            <input type="text" class="form-control" placeholder="Username" aria-label="Username"
-              aria-describedby="basic-addon1">
+            <span class="input-group-text" id="basic-addon1">room</span>
+            <input type="text" class="form-control" placeholder="room" aria-label="room" aria-describedby="basic-addon1"
+              v-model="roomName">
           </div>
 
         </div>
@@ -190,7 +221,7 @@ async function startLive() {
         </div>
 
 
-        <div class="col-4">
+        <!-- <div class="col-4">
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Card title</h5>
@@ -203,7 +234,7 @@ async function startLive() {
             </div>
           </div>
 
-        </div>
+        </div> -->
 
       </div>
 

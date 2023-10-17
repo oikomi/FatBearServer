@@ -54,7 +54,7 @@ func (BaseAdmin) RegisterView(c *gin.Context) {
 }
 
 func (b BaseAdmin) Login(c *gin.Context) {
-	err := b.User.Login(c)
+	_, err := b.User.Login(c)
 	utils.CheckError(err)
 	c.Redirect(http.StatusFound, HomePath)
 }

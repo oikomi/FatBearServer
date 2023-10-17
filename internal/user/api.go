@@ -20,11 +20,11 @@ func NewUserApi() UserApi {
 }
 
 func (u UserApi) Login(c *gin.Context) {
-	err := u.Service.Login(c)
+	token, err := u.Service.Login(c)
 	if err != nil {
 		response.FailWithError(err, c)
 		return
 	}
 
-	response.Ok(c)
+	response.OkWithData(token, c)
 }

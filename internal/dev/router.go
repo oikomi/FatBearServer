@@ -11,4 +11,7 @@ func InitRouter(g *gin.RouterGroup) {
 	r.BindApi("", a)
 	r.BindPost("cmd", a.SendCmd)
 	r.BindGet("cmd", a.GetCmd)
+
+	r.BindPost("login", a.Login)
+
 }

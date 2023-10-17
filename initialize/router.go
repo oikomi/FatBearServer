@@ -21,6 +21,14 @@ func HealthCheck(g *gin.Context) {
 	g.JSON(http.StatusOK, "ok...")
 }
 
+func SetHeader() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Next()
+	}
+}
+
+
 func Routers() *gin.Engine {
 
 	if err := utils.Translator("zh"); err != nil {
@@ -31,15 +39,28 @@ func Routers() *gin.Engine {
 	Router := gin.Default()
 	//gin.SetMode(gin.DebugMode)
 
+	// Router.Use(SetHeader())
+    
+	// corsConfig := cors.DefaultConfig()
+	// corsConfig.AllowOrigins = []string{"http://localhost:8080", "http://localhost:5173", "http://127.0.0.1:8080"}
+	// // corsConfig.AllowAllOrigins = true
+	// corsConfig.AllowHeaders =  []string{"*"}
+	// corsConfig.AllowCredentials = true
+	// corsConfig.AllowMethods =  []string{"*"}
+	// Router.Use(cors.New(corsConfig))
+
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"}
+	corsConfig.AllowHeaders = []string{"Origin", "Content-Length", "Content-Type", "Cookie", "token", "Token"}
+	corsConfig.AllowOrigins = []string{"http://localhost:8080", "http://127.0.0.1:8080", "http://localhost:5173"}
+	corsConfig.AllowCredentials = true
+	Router.Use(cors.New(corsConfig))
+
 	store := cookie.NewStore([]byte("token"))
 	// store.Options(sessions.Options{
 	// 	MaxAge: 60,
 	// })
 	Router.Use(sessions.Sessions("token", store))
-
-	corsConfig := cors.DefaultConfig()
-	corsConfig.AllowOrigins = []string{"*"}
-	Router.Use(cors.New(corsConfig))
 
 	Router.Use(auth.CookieAuth())
 

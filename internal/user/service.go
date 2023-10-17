@@ -36,7 +36,7 @@ func (s UserService) MakeResponse(val model.Model) any {
 	return res
 }
 
-func (s UserService) Login(c *gin.Context) error {
+func (s UserService) Login(c *gin.Context) (string, error) {
 	// var req LoginReq
 	// err := c.ShouldBind(&req)
 	// if err != nil {
@@ -46,11 +46,11 @@ func (s UserService) Login(c *gin.Context) error {
 
 	user := auth.BaseUser{}
 
-	err := user.Login(c)
+	token, err := user.Login(c)
 	if err != nil {
 		config.GVA_LOG.Info("login failed")
-		return errors.Errorf("login failed")
+		return "", errors.Errorf("login failed")
 	}
 
-	return nil
+	return token, nil
 }
