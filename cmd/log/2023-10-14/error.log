@@ -1,5 +1,0 @@
-{"level":"\u001b[31merror\u001b[0m","time":"2023-10-14 15:00:21.169","caller":"/Users/harold/godev/src/github.com/oikomi/FatBearServer/pkg/auth/cookie_auth.go:21","message":"http: named cookie not present"}
-{"level":"\u001b[31merror\u001b[0m","time":"2023-10-14 15:05:00.189","caller":"/Users/harold/godev/src/github.com/oikomi/FatBearServer/pkg/auth/cookie_auth.go:21","message":"http: named cookie not present"}
-{"level":"\u001b[31merror\u001b[0m","time":"2023-10-14 15:12:22.356","caller":"/Users/harold/godev/src/github.com/oikomi/FatBearServer/pkg/auth/cookie_auth.go:21","message":"http: named cookie not present"}
-{"level":"\u001b[31merror\u001b[0m","time":"2023-10-14 15:12:30.427","caller":"/Users/harold/godev/src/github.com/oikomi/FatBearServer/pkg/auth/cookie_auth.go:21","message":"http: named cookie not present"}
-{"level":"\u001b[31merror\u001b[0m","time":"2023-10-14 15:12:35.954","caller":"/Users/harold/godev/src/github.com/oikomi/FatBearServer/pkg/auth/cookie_auth.go:21","message":"http: named cookie not present"}
