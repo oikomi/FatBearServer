@@ -12,7 +12,6 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-
 const uStore = userStore()
 
 const store = useTokenStore()
@@ -30,11 +29,13 @@ const items = ref<IModel[]>([])
 
 const axios: any = inject('axios')  // inject axios
 
-const SERVER_BASE = "http://127.0.0.1:8080/api/v1/room/list"
+const SERVER_BASE = "http://127.0.0.1:8080/"
+
+const ROOM_LIST_URL = SERVER_BASE + "api/v1/room/list"
 
 
 axios
-  .get(SERVER_BASE, { headers: { 'Token': store.getToken() } }, { withCredentials: true })
+  .get(ROOM_LIST_URL, { headers: { 'Token': store.getToken() } }, { withCredentials: true })
   // .get(SERVER_BASE, { headers: { 'Token': store.getToken() } })
   .then((response: { data: any }) => {
     console.log("res data", response.data)

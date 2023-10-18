@@ -9,9 +9,14 @@ import { useTokenStore } from '@/stores/token';
 
 import { userStore } from '@/stores/user';
 
+import { useDevStore } from '@/stores/dev';
+
+
 const uStore = userStore()
 
 const store = useTokenStore()
+
+const devStore = useDevStore()
 
 const axios: any = inject('axios')  // inject axios
 
@@ -45,12 +50,12 @@ function sendTip() {
   axios
   .post(SEND_TIP_URL, { headers: { 'Token': store.getToken() } }, { withCredentials: true },
     {
-			'dev_name': ,
-			'model_name': password.value,
-			'send_user': host,
-      'vibration': ,
-      'duration': ,
-      'token': 
+			'dev_name': devStore.getDevName,
+			'model_name': "host",
+			'send_user': uStore.getUserName,
+      'vibration': "",
+      'duration': 10,
+      'token': 100
 		}
   
   )

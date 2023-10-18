@@ -11,8 +11,9 @@ type Dev struct {
 
 type DevInfo struct {
 	model.BaseModel
-	DevName  string `json:"dev_name"  gorm:"column:dev_name;type:varchar(255);not null;index" `
-	Password string `json:"password" gorm:"column:password;type:varchar(255);not null"`
+	DevName   string `json:"dev_name"  gorm:"column:dev_name;type:varchar(255);not null;index" `
+	Password  string `json:"password" gorm:"column:password;type:varchar(255);not null"`
+	ModelName string `json:"model_name"  gorm:"column:model_name;type:varchar(255);not null;index" `
 }
 
 type Order struct {

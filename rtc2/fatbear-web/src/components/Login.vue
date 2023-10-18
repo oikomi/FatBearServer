@@ -13,9 +13,11 @@ const tokenStore = useTokenStore()
 const uStore = userStore()
 
 
-const SERVER_BASE = "http://127.0.0.1:8080/api/v1/user/login"
+const SERVER_BASE = "http://127.0.0.1:8080/"
 
 // const SERVER_BASE = "https://120.55.60.98/login"
+
+const USER_LOOGIN_URL = SERVER_BASE + "api/v1/user/login"
 
 const axios: any = inject('axios')  // inject axios
 
@@ -46,7 +48,7 @@ async function doLogin() {
 	console.log("host is ", host)
 
 	axios
-		.post(SERVER_BASE, {
+		.post(USER_LOOGIN_URL, {
 			'user_name': userName.value,
 			'password': password.value,
 			'role': host

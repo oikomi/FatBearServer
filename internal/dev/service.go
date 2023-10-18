@@ -91,13 +91,27 @@ func (s DevService) GetCmd(c *gin.Context) (*Dev, error) {
 func (s DevService) Login(c *gin.Context) error {
 	var req DevLoginReq
 
+	err := c.ShouldBind(&req)
+	if err != nil {
+		config.GVA_LOG.Error("dev login failed", zap.Error(err))
+		return err
+	}
+
 	w := model.NewWrapper()
 	w.Eq("dev_name", req.DevName)
 
 	mapper := model.NewMapper[DevInfo](DevInfo{}, w)
-	_, err := mapper.Select()
+	dev, err := mapper.SelectOne()
 	if err != nil {
 		return errors.Errorf("find dev failed: %s", req.DevName)
+	}
+	if dev.ModelName != req.ModelName {
+		config.GVA_LOG.Info("model name not the same")
+		mapper := model.NewMapper[DevInfo](DevInfo{DevName: req.DevName}, w)
+		err = mapper.Update("model_name", req.ModelName)
+		if err != nil {
+			return errors.Errorf("update dev failed: %s", req.DevName)
+		}
 	}
 
 	return nil

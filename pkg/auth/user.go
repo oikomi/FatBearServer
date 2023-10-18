@@ -22,6 +22,7 @@ type BaseUser struct {
 	Name     string `json:"name"`
 	Password string `json:"password"`
 	Role     string `json:"role"`
+	DevId    string `json:"dev_id"`
 	Email    string `json:"email"`
 }
 

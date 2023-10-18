@@ -9,9 +9,14 @@ import { useTokenStore } from '@/stores/token';
 
 import { userStore } from '@/stores/user';
 
+import { useDevStore } from '@/stores/dev';
+
+
 const uStore = userStore()
 
 const store = useTokenStore()
+
+const devStore = useDevStore()
 
 const axios: any = inject('axios')  // inject axios
 
@@ -20,7 +25,12 @@ axios.defaults.withCredentials = true
 const SERVER_BASE = "http://127.0.0.1:8080/"
 // const SERVER_BASE = "https://120.55.60.98/"
 
+const DEV_LOGIN_URL = SERVER_BASE + "api/v1/dev/login"
+
 const router = useRouter()
+
+let devName = ref('')
+let devPassword = ref('')
 
 axios
   .get(SERVER_BASE + "health", { headers: { 'Token': store.getToken() } }, { withCredentials: true })
@@ -38,6 +48,45 @@ axios
       router.push({ name: 'login' })
     }
   });
+
+function devLogin() {
+
+  console.log("devName is ", devName.value)
+  console.log("devPassword is ", devPassword.value)
+
+  axios
+    .post(DEV_LOGIN_URL,
+      {
+        dev_name: devName.value,
+        password: devPassword.value,
+        model_name: uStore.getUserName()
+      },
+
+      { headers: { 'Token': store.getToken() } }, { withCredentials: true }
+
+
+
+    )
+    // .get(SERVER_BASE, { headers: { 'Token': store.getToken() } })
+    .then((response: { data: any }) => {
+      console.log("res data", response.data)
+      if (response.data === 401) {
+        console.log("get 401, push to login")
+        router.push({ name: 'login' })
+      }
+
+      devStore.setDevName(devName.value)
+    }).catch((err: any) => {
+      console.log("res err", err)
+      if (err.response.status === 401) {
+        console.log("res err, get 401, push to login")
+        router.push({ name: 'login' })
+      }
+
+    });
+
+
+}
 
 import type {
   IAgoraRTCClient,
@@ -248,17 +297,17 @@ async function startLive() {
             <div class="input-group mb-3">
               <span class="input-group-text" id="basic-addon1">User ID</span>
               <input type="text" class="form-control" placeholder="user id" aria-label="Username"
-                aria-describedby="basic-addon1">
+                aria-describedby="basic-addon1" v-model="devName">
             </div>
 
             <div class="input-group mb-3">
               <span class="input-group-text" id="basic-addon2">Password</span>
               <input type="text" class="form-control" placeholder="password" aria-label="Recipient's username"
-                aria-describedby="basic-addon2">
+                aria-describedby="basic-addon2" v-model="devPassword">
             </div>
 
             <div class="col-auto">
-              <button type="submit" class="btn btn-primary mb-2 text-center">Login</button>
+              <button type="submit" class="btn btn-primary mb-2 text-center" @click="devLogin">Login</button>
             </div>
 
           </div>

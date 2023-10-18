@@ -17,8 +17,9 @@ type GetCmdReq struct {
 }
 
 type DevLoginReq struct {
-	DevName  string `json:"dev_name" `
-	Password string `json:"password" `
+	DevName   string `json:"dev_name" `
+	Password  string `json:"password" `
+	ModelName string `json:"model_name" `
 }
 
 type OrderReq struct {
