@@ -53,6 +53,12 @@ axios
 
   });
 
+async function join() {
+
+  router.push({ name: 'view' })
+
+}
+
 
 </script>
 
@@ -72,7 +78,7 @@ axios
               <p class="card-text">{{index}}, {{ room.room_name }}, {{ room.creator }}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Join</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary" @click="join">Join</button>
                   <!-- <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
                 </div>
                 <!-- <small class="text-body-secondary">9 mins</small> -->

@@ -20,6 +20,8 @@ axios.defaults.withCredentials = true
 const SERVER_BASE = "http://127.0.0.1:8080/"
 // const SERVER_BASE = "https://120.55.60.98/"
 
+const SEND_TIP_URL = SERVER_BASE + "api/v1/dev/order"
+
 const router = useRouter()
 
 axios
@@ -37,7 +39,39 @@ axios
       console.log("res err, get 401, push to login")
       router.push({ name: 'login' })
     }
-  });
+});
+
+function sendTip() {
+  axios
+  .post(SEND_TIP_URL, { headers: { 'Token': store.getToken() } }, { withCredentials: true },
+    {
+			'dev_name': ,
+			'model_name': password.value,
+			'send_user': host,
+      'vibration': ,
+      'duration': ,
+      'token': 
+		}
+  
+  )
+  // .get(SERVER_BASE + "health", { headers: { 'Token': store.getToken() } })
+  .then((response: { data: any }) => {
+    console.log("res data", response.data)
+    if (response.data === 401) {
+      console.log("get 401, push to login")
+      router.push({ name: 'login' })
+    }
+  }).catch((err: any) => {
+    console.log("res err", err)
+    if (err.response.status === 401) {
+      console.log("res err, get 401, push to login")
+      router.push({ name: 'login' })
+    }
+});
+
+
+
+}
 
 import type {
   IAgoraRTCClient,
@@ -105,12 +139,19 @@ async function joinChannel() {
       codec: "vp8",
     });
 
-    client.setClientRole("host")
+    // client.setClientRole("audience", {
+    //   level: 2
+    // });
 
     client.on("user-published", onUserPublish);
+
+    // await client.join(APP_ID, channel.value, TOKEN, "1234567890");
+
+    // isJoined.value = true;
+
   }
 
-  await client.join(APP_ID, channel.value, TOKEN, 123);
+  await client.join(APP_ID, channel.value, TOKEN, 1234567890);
 
   isJoined.value = true;
 }
@@ -142,6 +183,19 @@ async function onUserPublish(
   }
 }
 
+async function joinLive() {
+  if (!isVideoOn.value) {
+    await turnOnCamera();
+  }
+
+  if (!isJoined.value) {
+    await joinChannel();
+  }
+  // await client.publish(track);
+  // isVideoPubed.value = true;
+}
+
+
 async function publishVideo() {
   if (!isVideoOn.value) {
     await turnOnCamera();
@@ -166,72 +220,66 @@ async function publishAudio() {
   isAudioPubed.value = true;
 }
 
-
-async function startLive() {
-  publishAudio()
-  publishVideo()
-
-  axios
-    .post(SERVER_BASE + "api/v1/room/create",
-      {
-        'name': roomName.value,
-        'creator': uStore.getUserName()
-      },
-      {
-        headers:
-          { 'Token': store.getToken() }
-      }
-    )
-    .then((response: { data: any }) => {
-      console.log("res data", response.data)
-    }).catch((err: any) => {
-      console.log("res err", err)
-    });
-
-}
-
 </script>
 
 
 <template>
   <Upper />
 
+  <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+  <symbol id="arrow-right-short" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+  </symbol>
+  <symbol id="x-lg" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
+    <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
+  </symbol>
+</svg>
+
+
   <div class="container row mt-1 mb-2">
     <div class="col-8 bg-info-subtle">
       <div class="row input-group">
-        <div class="col-4">
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">room</span>
+        <div class="col-2">
+          <!-- <div class="input-group mb-3"> -->
+            <!-- <span class="input-group-text" id="basic-addon1">room</span>
             <input type="text" class="form-control" placeholder="room" aria-label="room" aria-describedby="basic-addon1"
-              v-model="roomName">
-          </div>
+              v-model="roomName"> -->
+          <!-- </div> -->
 
         </div>
         <div class="col-8">
-          <button class="btn btn-primary w-45  me-1" @click="startLive">Join</button>
-          <button class="btn btn-primary w-45 " @click="leaveChannel">Leave</button>
+          <button class="btn btn-primary w-45  me-1" @click="joinLive">Join</button>
+          <!-- <button class="btn btn-primary w-45 " @click="leaveChannel">Leave</button> -->
         </div>
       </div>
       <div class="row">
         <div class="col-8">
-          <video class="col-8" v-show="isVideoOn" id="camera-video"></video>
-          <video class="col-8" v-show="isVideoSubed" id="remote-video"></video>
-          <div v-if="isJoined && !isVideoSubed" class="waiting">
-            <!-- You can shared channel {{ channel }} to others..... -->
+
+          <video class="col-8" v-show="isJoined" id="remote-video">remote</video>
+
+          <div v-if="isJoined" class="waiting">
+          
           </div>
+
+          <!-- <video class="col-8" v-show="isVideoOn" id="camera-video">local</video> -->
+          <!-- <video class="col-8" v-show="isVideoOn" id="camera-video"></video>
+          <video class="col-8" v-show="isVideoSubed" id="remote-video"></video>
+          <div v-if="isJoined && !isVideoSubed" class="waiting"> -->
+            <!-- You can shared channel {{ channel }} to others..... -->
         </div>
-
       </div>
+      </div>
+    <!-- </div> -->
 
-    </div>
 
 
-    <div class="col-4 bg-primary-subtle">
+  <div class="col-3 bg-primary-subtle">
 
       <nav>
         <div class="nav nav-tabs row" id="nav-tab" role="tablist">
           <button class="nav-link active col" id="nav-setting-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
-            type="button" role="tab" aria-controls="nav-home" aria-selected="true">Setting</button>
+            type="button" role="tab" aria-controls="nav-home" aria-selected="true">Send</button>
           <button class="nav-link col" id="nav-chat-tab" data-bs-toggle="tab" data-bs-target="#nav-chat" type="button"
             role="tab" aria-controls="nav-chat" aria-selected="false">Chat</button>
         </div>
@@ -239,33 +287,52 @@ async function startLive() {
       <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-setting-tab"
           tabindex="0">
-          <div class="bg-info mb-1">
-            <h4 class="left-align">Connect Toys</h4>
+
+
+          <div>
+            User ID: 
+
           </div>
 
-          <div class="container">
-            <h5 class="mb-2 text-center">VibCrafter APP</h5>
-            <div class="input-group mb-3">
-              <span class="input-group-text" id="basic-addon1">User ID</span>
-              <input type="text" class="form-control" placeholder="user id" aria-label="Username"
-                aria-describedby="basic-addon1">
-            </div>
+
+          <div class="container mt-2 text-center">
+                <div class=" btn-group text-center" role="group" aria-label="Basic radio toggle button group">
+                  <input type="radio" class=" btn-check btn-rounded" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                  <label class="btn btn-outline-primary" for="btnradio1">20</label>
+
+                  <input type="radio" class=" btn-check btn-rounded" name="btnradio" id="btnradio2" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="btnradio2">50</label>
+
+                  <input type="radio" class=" btn-check btn-rounded" name="btnradio" id="btnradio3" autocomplete="off">
+                  <label class="btn btn-outline-primary" for="btnradio3">100</label>
+              </div>
+
+          </div>
+
+          <div class="text-center mt-2">
 
             <div class="input-group mb-3">
-              <span class="input-group-text" id="basic-addon2">Password</span>
-              <input type="text" class="form-control" placeholder="password" aria-label="Recipient's username"
-                aria-describedby="basic-addon2">
-            </div>
+            <span class="input-group-text " id="basic-addon1">Custom Amount</span>
+            <input type="text" class="form-control" placeholder="" aria-label="room" aria-describedby="basic-addon1"
+              v-model="roomName">
+          </div>
 
-            <div class="col-auto">
-              <button type="submit" class="btn btn-primary mb-2 text-center">Login</button>
-            </div>
+          <div class="text-center mt-2">
 
+            <button class="btn btn-primary d-inline-flex align-items-center" type="button" @click="sendTip"> 
+              Send
+              <svg class="bi ms-1" width="20" height="20"><use xlink:href="#arrow-right-short"/></svg>
+            </button>
           </div>
 
 
         </div>
+
+
+        </div>
       </div>
+
+
       <div class="tab-pane fade" id="nav-chat" role="tabpanel" aria-labelledby="nav-chat-tab" tabindex="0">
         chat
 
@@ -273,7 +340,8 @@ async function startLive() {
 
       </div>
 
-    </div>
-
   </div>
+
+</div>
+
 </template>

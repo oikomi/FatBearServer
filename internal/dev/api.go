@@ -38,7 +38,6 @@ func (r DevApi) GetCmd(c *gin.Context) {
 	response.OkWithData(resp, c)
 }
 
-
 func (r DevApi) Login(c *gin.Context) {
 	err := r.Service.Login(c)
 	if err != nil {
@@ -49,3 +48,12 @@ func (r DevApi) Login(c *gin.Context) {
 	response.Ok(c)
 }
 
+func (r DevApi) Order(c *gin.Context) {
+	err := r.Service.Order(c)
+	if err != nil {
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.Ok(c)
+}

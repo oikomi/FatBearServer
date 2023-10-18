@@ -68,11 +68,8 @@ func (s RoomService) CreateRoom(c *gin.Context) error {
 	return nil
 }
 
-
-
-
 func (s RoomService) GetRoomList(c *gin.Context) ([]Room, error) {
-	
+
 	var req GetRoomListReq
 	err := c.ShouldBind(&req)
 	if err != nil {
@@ -93,13 +90,10 @@ func (s RoomService) GetRoomList(c *gin.Context) ([]Room, error) {
 		return nil, errors.Errorf("select room failed: %s", req.Name)
 	}
 
-
 	return *rooms, nil
 }
 
 func (s RoomService) UpdateRoom(c *gin.Context) error {
-
-
 
 	return nil
 }

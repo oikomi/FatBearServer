@@ -14,4 +14,6 @@ func InitRouter(g *gin.RouterGroup) {
 
 	r.BindPost("login", a.Login)
 
+	r.BindPost("order", a.Order)
+	r.BindGet("order", a.Order)
 }

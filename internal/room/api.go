@@ -38,8 +38,6 @@ func (r RoomApi) GetRoomList(c *gin.Context) {
 	response.OkWithData(rooms, c)
 }
 
-
-
 func (r RoomApi) UpdateRoom(c *gin.Context) {
 	err := r.Service.UpdateRoom(c)
 	if err != nil {
@@ -49,5 +47,3 @@ func (r RoomApi) UpdateRoom(c *gin.Context) {
 
 	response.Ok(c)
 }
-
-

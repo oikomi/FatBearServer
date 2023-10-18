@@ -24,7 +24,7 @@ func CookieAuth() gin.HandlerFunc {
 		}
 		config.GVA_LOG.Info("after get cookie, token is " + token)
 
-		if (token == "") {
+		if token == "" {
 			config.GVA_LOG.Info("try to get token from header")
 			token = c.Request.Header.Get("Token")
 		}

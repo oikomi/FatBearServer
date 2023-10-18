@@ -28,9 +28,7 @@ func SetHeader() gin.HandlerFunc {
 	}
 }
 
-
 func Routers() *gin.Engine {
-
 	if err := utils.Translator("zh"); err != nil {
 		config.GVA_LOG.Error(err.Error())
 		return nil
@@ -40,7 +38,7 @@ func Routers() *gin.Engine {
 	//gin.SetMode(gin.DebugMode)
 
 	// Router.Use(SetHeader())
-    
+
 	// corsConfig := cors.DefaultConfig()
 	// corsConfig.AllowOrigins = []string{"http://localhost:8080", "http://localhost:5173", "http://127.0.0.1:8080"}
 	// // corsConfig.AllowAllOrigins = true
@@ -57,9 +55,9 @@ func Routers() *gin.Engine {
 	Router.Use(cors.New(corsConfig))
 
 	store := cookie.NewStore([]byte("token"))
-	// store.Options(sessions.Options{
-	// 	MaxAge: 60,
-	// })
+	store.Options(sessions.Options{
+		SameSite: http.SameSiteNoneMode,
+	})
 	Router.Use(sessions.Sessions("token", store))
 
 	Router.Use(auth.CookieAuth())

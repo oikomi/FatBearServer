@@ -10,6 +10,5 @@ type CreateRoomReq struct {
 }
 
 type GetRoomListReq struct {
-	Name    string `json:"name" `
+	Name string `json:"name" `
 }
-
