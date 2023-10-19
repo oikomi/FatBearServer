@@ -29,10 +29,12 @@ const items = ref<IModel[]>([])
 
 const axios: any = inject('axios')  // inject axios
 
-const SERVER_BASE = "http://127.0.0.1:8080/"
+// const SERVER_BASE = "http://127.0.0.1:8080/"
+const SERVER_BASE = "https://120.55.60.98/"
 
+
+// dev
 const ROOM_LIST_URL = SERVER_BASE + "api/v1/room/list"
-
 
 axios
   .get(ROOM_LIST_URL, { headers: { 'Token': store.getToken() } }, { withCredentials: true })

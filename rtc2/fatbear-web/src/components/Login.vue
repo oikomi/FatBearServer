@@ -13,11 +13,12 @@ const tokenStore = useTokenStore()
 const uStore = userStore()
 
 
-const SERVER_BASE = "http://127.0.0.1:8080/"
+// const SERVER_BASE = "http://127.0.0.1:8080/"
+const SERVER_BASE = "https://120.55.60.98/"
 
-// const SERVER_BASE = "https://120.55.60.98/login"
-
+// dev
 const USER_LOOGIN_URL = SERVER_BASE + "api/v1/user/login"
+
 
 const axios: any = inject('axios')  // inject axios
 

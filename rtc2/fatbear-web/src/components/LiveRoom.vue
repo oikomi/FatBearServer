@@ -22,18 +22,37 @@ const axios: any = inject('axios')  // inject axios
 
 axios.defaults.withCredentials = true
 
-const SERVER_BASE = "http://127.0.0.1:8080/"
-// const SERVER_BASE = "https://120.55.60.98/"
+// const SERVER_BASE = "http://127.0.0.1:8080/"
+const SERVER_BASE = "https://120.55.60.98/"
 
 const DEV_LOGIN_URL = SERVER_BASE + "api/v1/dev/login"
+const DEV_SET_URL = SERVER_BASE + "api/v1/dev/set"
+const CREATE_ROOM = SERVER_BASE + "api/v1/room/create"
+
 
 const router = useRouter()
 
 let devName = ref('')
 let devPassword = ref('')
+let isDevLogin = ref(true)
+
+let isDevNotLogin = ref(false)
+
+interface IModel {
+    id: number
+    model_name: string
+    vibration: number
+    duration: number
+    token: number
+}
+
+const items = ref<IModel[]>([])
 
 axios
-  .get(SERVER_BASE + "health", { headers: { 'Token': store.getToken() } }, { withCredentials: true })
+  .get(DEV_SET_URL, { headers: { 'Token': store.getToken() } }, { withCredentials: true }
+  ,
+  {"model_name": "host"}
+  )
   // .get(SERVER_BASE + "health", { headers: { 'Token': store.getToken() } })
   .then((response: { data: any }) => {
     console.log("res data", response.data)
@@ -41,6 +60,7 @@ axios
       console.log("get 401, push to login")
       router.push({ name: 'login' })
     }
+    items.value = response.data.data
   }).catch((err: any) => {
     console.log("res err", err)
     if (err.response.status === 401) {
@@ -64,8 +84,6 @@ function devLogin() {
 
       { headers: { 'Token': store.getToken() } }, { withCredentials: true }
 
-
-
     )
     // .get(SERVER_BASE, { headers: { 'Token': store.getToken() } })
     .then((response: { data: any }) => {
@@ -74,6 +92,9 @@ function devLogin() {
         console.log("get 401, push to login")
         router.push({ name: 'login' })
       }
+
+      isDevLogin.value = false
+      isDevNotLogin.value = true
 
       devStore.setDevName(devName.value)
     }).catch((err: any) => {
@@ -221,7 +242,7 @@ async function startLive() {
   publishVideo()
 
   axios
-    .post(SERVER_BASE + "api/v1/room/create",
+    .post(CREATE_ROOM,
       {
         'name': roomName.value,
         'creator': uStore.getUserName()
@@ -288,12 +309,13 @@ async function startLive() {
       <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-setting-tab"
           tabindex="0">
-          <div class="bg-info mb-1">
+          <div class="bg-info mb-1 mt-1">
             <h4 class="left-align">Connect Toys</h4>
           </div>
 
-          <div class="container">
-            <h5 class="mb-2 text-center">VibCrafter APP</h5>
+          <h5 class="mb-2 text-center">VibCrafter APP</h5>
+
+          <div class="container" v-show="isDevLogin">
             <div class="input-group mb-3">
               <span class="input-group-text" id="basic-addon1">User ID</span>
               <input type="text" class="form-control" placeholder="user id" aria-label="Username"
@@ -312,6 +334,37 @@ async function startLive() {
 
           </div>
 
+          <div class="container mt-4" v-show="isDevNotLogin">
+
+            <h5 class="mb-2 text-center">Login Success</h5>
+
+          </div>
+
+
+          <div class="container bg-info mb-1">
+            <h4 class="left-align">Tip Setting</h4>
+
+            <table class="table mb-2">
+              <thead>
+                <tr >
+                  <th scope="col">#</th>
+                  <th scope="col">Activity</th>
+                  <th scope="col">Vibration</th>
+                  <th scope="col">Tokens</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(set, index) in items"  :key='set.id'>
+                  <th scope="row">{{index}}</th>
+                  <td>{{set.duration}} Sec</td>
+                  <td>{{set.vibration}}</td>
+                  <td>{{set.token}}</td>
+                </tr>
+              </tbody>
+            </table>
+
+
+          </div>
 
         </div>
       </div>

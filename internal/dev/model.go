@@ -26,3 +26,11 @@ type Order struct {
 	Token     int    `json:"token"  gorm:"column:token;type:int;not null" `
 	Status    int    `json:"status"  gorm:"column:status;type:int;not null" `
 }
+
+type DevSetting struct {
+	model.BaseModel
+	ModelName string `json:"model_name"  gorm:"column:model_name;type:varchar(255);not null;index" `
+	Vibration string `json:"vibration"  gorm:"column:vibration;type:varchar(255);not null" `
+	Duration  int    `json:"duration"  gorm:"column:duration;type:int;not null" `
+	Token     int    `json:"token"  gorm:"column:token;type:int;not null" `
+}

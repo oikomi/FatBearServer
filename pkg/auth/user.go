@@ -33,7 +33,11 @@ func (b BaseUser) Login(c *gin.Context) (string, error) {
 	m := BaseUser{
 		Name: req.UserName,
 	}
-	mapper := model.NewMapper[BaseUser](m, nil)
+
+	w := model.NewWrapper()
+	w.Eq("name", req.UserName)
+
+	mapper := model.NewMapper[BaseUser](m, w)
 	user, err := mapper.SelectOne()
 	if err != nil {
 		return "", errors.Errorf("用户不存在: %s", req.UserName)

@@ -142,3 +142,52 @@ func (s DevService) Order(c *gin.Context) error {
 
 	return nil
 }
+
+func (s DevService) OrderList(c *gin.Context) ([]Order, error) {
+	var req OrderListReq
+	err := c.ShouldBind(&req)
+	if err != nil {
+		config.GVA_LOG.Error("get order failed", zap.Error(err))
+		return nil, err
+	}
+
+	w := model.NewWrapper()
+	if req.SendUser != "" {
+		w.Eq("send_user", req.SendUser)
+	}
+
+	o := Order{}
+	mapper := model.NewMapper[Order](o, w)
+	orders, err := mapper.Select()
+	if err != nil {
+		config.GVA_LOG.Error("select order failed")
+		return nil, errors.Errorf("select order failed: %s", err)
+	}
+
+	return *orders, nil
+
+}
+
+func (s DevService) Set(c *gin.Context) ([]DevSetting, error) {
+	var req SetReq
+	err := c.ShouldBind(&req)
+	if err != nil {
+		config.GVA_LOG.Error("do set failed", zap.Error(err))
+		return nil, err
+	}
+
+	w := model.NewWrapper()
+	if req.ModelName != "" {
+		w.Eq("model_name", req.ModelName)
+	}
+
+	set := DevSetting{}
+	mapper := model.NewMapper[DevSetting](set, w)
+	sets, err := mapper.Select()
+	if err != nil {
+		config.GVA_LOG.Error("select dev set failed")
+		return nil, errors.Errorf("select dev set failed: %s", err)
+	}
+
+	return *sets, nil
+}

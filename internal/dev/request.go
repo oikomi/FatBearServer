@@ -31,6 +31,17 @@ type OrderReq struct {
 	Token     int    `json:"token" `
 }
 
+type OrderListReq struct {
+	SendUser string `json:"send_user" `
+}
+
+type SetReq struct {
+	ModelName string `json:"model_name" `
+	Vibration string `json:"vibration" `
+	Duration  int    `json:"duration" `
+	Token     int    `json:"token" `
+}
+
 // MarshalLogObject implements zapcore.ObjectMarshaler.
 func (o GetCmdReq) MarshalLogObject(enc zapcore.ObjectEncoder) error {
 	enc.AddString("dev_name", o.DevName)

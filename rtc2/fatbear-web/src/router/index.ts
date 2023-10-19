@@ -3,6 +3,7 @@ import LiveRoom from '@/components/LiveRoom.vue'
 import Login from '@/components/Login.vue'
 import ModelList from '@/components/ModelList.vue'
 import ViewRoom from '@/components/ViewRoom.vue'
+import Order from '@/components/Order.vue'
 
 
 const router = createRouter({
@@ -33,6 +34,12 @@ const router = createRouter({
       name: 'view',
       component: ViewRoom
     },
+    {
+      path: '/order',
+      name: 'order',
+      component: Order
+    },
+
 
   ]
 })

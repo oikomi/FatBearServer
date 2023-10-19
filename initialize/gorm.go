@@ -32,6 +32,7 @@ func RegisterTables(db *gorm.DB) {
 		dev.DevInfo{},
 		user.User{},
 		dev.Order{},
+		dev.DevSetting{},
 	)
 	if err != nil {
 		os.Exit(0)

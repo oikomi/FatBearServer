@@ -77,7 +77,6 @@ func (s RoomService) GetRoomList(c *gin.Context) ([]Room, error) {
 		return nil, err
 	}
 	w := model.NewWrapper()
-
 	if req.Name != "" {
 		w.Eq("room_name", req.Name)
 	}
