@@ -157,7 +157,7 @@ async function turnOnMicrophone() {
 const channel = ref("fatbear");
 // you can apply appid follow the guide https://www.agora.io/en/blog/how-to-get-started-with-agora/
 const APP_ID = "ac1f26c994ea4f978a11ce1251424920";
-const TOKEN = "007eJxTYIjz9PMVdWl9PydrlkXdhspzhRel7q/XZSpyTry5vu2e1TsFhsRkwzQjs2RLS5PURJM0S3OLREPD5FRDI1NDEyMTSyODI0Z6qQ2BjAwsZmysjAwQCOKzM6QlliSlJhYxMAAAZEkejw==";
+const TOKEN = "007eJxTYPh4TveowQ+tuAPJ8Y9epC/ldvLSOrj6dSq/5LMkR3u90CoFhsRkwzQjs2RLS5PURJM0S3OLREPD5FRDI1NDEyMTSyODY7cNUhsCGRnyXP8xMEIhiM/OkJZYkpSaWMTAAACkgSAs";
 
 
 async function joinChannel() {
