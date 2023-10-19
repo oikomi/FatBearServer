@@ -52,7 +52,7 @@ func Viper(path ...string) *viper.Viper {
 	}
 
 	// debug
-	cfg = "/Users/harold/godev/src/github.com/oikomi/FatBearServer/config/config.yaml"
+	// cfg = "/Users/harold/godev/src/github.com/oikomi/FatBearServer/config/config.yaml"
 
 	v := viper.New()
 	v.SetConfigFile(cfg)
