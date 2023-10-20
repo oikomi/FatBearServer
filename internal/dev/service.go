@@ -69,10 +69,6 @@ func (s DevService) GetCmd(c *gin.Context) (*Dev, error) {
 
 	config.GVA_LOG.Info("get cmd", zap.Object("req", req))
 
-	// dev := Dev{
-	// 	DevName: req.DevName,
-	// }
-
 	w := model.NewWrapper()
 	w.Eq("dev_name", req.DevName)
 
@@ -181,7 +177,9 @@ func (s DevService) Set(c *gin.Context) ([]DevSetting, error) {
 		w.Eq("model_name", req.ModelName)
 	}
 
-	set := DevSetting{}
+	set := DevSetting{
+		ModelName: req.ModelName,
+	}
 	mapper := model.NewMapper[DevSetting](set, w)
 	sets, err := mapper.Select()
 	if err != nil {

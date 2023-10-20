@@ -10,6 +10,9 @@ import { userStore } from '@/stores/user';
 
 import { useRouter } from 'vue-router'
 
+import {APP_ID, TOKEN, SERVER_BASE} from '@/config/config';
+
+
 const router = useRouter()
 
 const uStore = userStore()
@@ -28,9 +31,6 @@ interface IModel {
 const items = ref<IModel[]>([])
 
 const axios: any = inject('axios')  // inject axios
-
-// const SERVER_BASE = "http://127.0.0.1:8080/"
-const SERVER_BASE = "https://120.55.60.98/"
 
 
 // dev
@@ -69,7 +69,7 @@ async function join() {
   <Upper />
   
 <div album py-5 bg-body-tertiary >
-  <div class="container row">
+  <div class="container-fluid row mb-4 ms-4 me-4">
     <!-- <div v-for="(room, index) in items"  :key='room.id'> -->
         <div v-for="(room, index) in items"  :key='room.id' class="col-2 card shadow-sm">
             <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/>

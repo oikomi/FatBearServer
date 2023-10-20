@@ -12,3 +12,13 @@ type CreateRoomReq struct {
 type GetRoomListReq struct {
 	Name string `json:"name" `
 }
+
+type GetRoomMsgReq struct {
+	Name string `json:"name" `
+}
+
+type SendRoomMsgReq struct {
+	RoomName string `json:"name" `
+	SendUser string `json:"send_user" `
+	Msg      string `json:"msg" `
+}

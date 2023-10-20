@@ -96,3 +96,50 @@ func (s RoomService) UpdateRoom(c *gin.Context) error {
 
 	return nil
 }
+
+func (s RoomService) GetRoomMsg(c *gin.Context) ([]RoomMsg, error) {
+
+	var req GetRoomMsgReq
+	err := c.ShouldBind(&req)
+	if err != nil {
+		config.GVA_LOG.Error("Bind GetRoomMsgReq failed", zap.Error(err))
+		return nil, err
+	}
+	w := model.NewWrapper()
+	if req.Name != "" {
+		w.Eq("room_name", req.Name)
+	}
+
+	m := RoomMsg{}
+	mapper := model.NewMapper[RoomMsg](m, w)
+	msgs, err := mapper.Select()
+	if err != nil {
+		config.GVA_LOG.Error("select room failed", zap.String("room", req.Name))
+		return nil, errors.Errorf("select room failed: %s", req.Name)
+	}
+
+	return *msgs, nil
+}
+
+func (s RoomService) SendRoomMsg(c *gin.Context) error {
+	var req SendRoomMsgReq
+	err := c.ShouldBind(&req)
+	if err != nil {
+		config.GVA_LOG.Error("Send msg failed", zap.Error(err))
+		return err
+	}
+
+	msg := RoomMsg{
+		RoomName: req.RoomName,
+		SendUser: req.SendUser,
+		Msg:      req.Msg,
+	}
+	mapper := model.NewMapper[RoomMsg](msg, nil)
+	err = mapper.Insert(&msg)
+	if err != nil {
+		config.GVA_LOG.Info("insert failed")
+		return errors.Errorf("insert msg failed: %s, %s, %s", req.RoomName, req.SendUser, req.Msg)
+	}
+
+	return nil
+}

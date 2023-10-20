@@ -28,6 +28,7 @@ func RegisterTables(db *gorm.DB) {
 		auth.BaseUser{},
 		app.App{}, // app表注册
 		room.Room{},
+		room.RoomMsg{},
 		dev.Dev{},
 		dev.DevInfo{},
 		user.User{},

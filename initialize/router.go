@@ -35,6 +35,7 @@ func Routers() *gin.Engine {
 	}
 
 	Router := gin.Default()
+
 	//gin.SetMode(gin.DebugMode)
 
 	// Router.Use(SetHeader())

@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@ant-design/pro-components": "^2.6.28",
+    "@tencentcloud/chat-uikit-vue": "^1.4.5",
     "agora-rtc-sdk-ng": "^4.19.1",
     "antd": "^5.10.0",
     "axios": "^1.5.1",
@@ -43,6 +44,8 @@
     "jsdom": "^22.1.0",
     "npm-run-all2": "^6.0.6",
     "prettier": "^3.0.3",
+    "sass": "^1.69.4",
+    "sass-loader": "^13.3.2",
     "typescript": "~5.2.0",
     "vite": "^4.4.9",
     "vitest": "^0.34.4",

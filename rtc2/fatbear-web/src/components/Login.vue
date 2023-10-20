@@ -6,19 +6,14 @@ import { useRouter } from 'vue-router'
 import { useTokenStore } from '@/stores/token';
 
 import { userStore } from '@/stores/user';
-
+import {APP_ID, TOKEN, SERVER_BASE} from '@/config/config';
 
 const tokenStore = useTokenStore()
 
 const uStore = userStore()
 
-
-// const SERVER_BASE = "http://127.0.0.1:8080/"
-const SERVER_BASE = "https://120.55.60.98/"
-
 // dev
 const USER_LOOGIN_URL = SERVER_BASE + "api/v1/user/login"
-
 
 const axios: any = inject('axios')  // inject axios
 
@@ -29,7 +24,6 @@ const password = ref('')
 const channel = ref('')
 let host = ""
 const radioUser = ref('')
-const radioModel = ref('')
 
 async function doLogin() {
 	console.log("start login")
@@ -37,13 +31,12 @@ async function doLogin() {
 	console.log(userName)
 	console.log(password)
 
-	console.log(radioUser.value)
-	console.log(radioModel.value)
+	console.log("radioUser : ", radioUser.value)
 
-	if (radioModel.value === 'on') {
-		host = 'host'
-	} else {
+	if (radioUser.value === 'user') {
 		host = 'user'
+	} else if (radioUser.value === 'model') {
+		host = 'host'
 	}
 
 	console.log("host is ", host)
@@ -167,23 +160,23 @@ async function doLogin() {
 				<label for="password">Password</label>
 			</div>
 
-			<div class="form-floating mt-0">
+			<!-- <div class="form-floating mt-0">
 				<input type="text" class="form-control" id="channel" placeholder="channel" v-model="channel">
 				<label for="channel">Channel</label>
-			</div>
+			</div> -->
 
 			<div class="form-check mt-2">
 				<div class="row">
 					<div class="col form-check">
 						<input class="form-check-input" type="radio" name="flexRadioDefault" v-model="radioUser"
-							id="flexRadioDefault1" checked>
+							id="flexRadioDefault1"  value="user">
 						<label class="form-check-label" for="flexRadioDefault1">
 							User
 						</label>
 					</div>
 					<div class="col form-check">
-						<input class="form-check-input" type="radio" name="flexRadioDefault" v-model="radioModel"
-							id="flexRadioDefault2">
+						<input class="form-check-input" type="radio" name="flexRadioDefault" v-model="radioUser"
+							id="flexRadioDefault2" value="model">
 						<label class="form-check-label" for="flexRadioDefault2">
 							Model
 						</label>
@@ -203,6 +196,9 @@ async function doLogin() {
 		</main>
 
 		<!-- <button class="btn btn-primary w-100 py-2" @click="doLogin">Sign in</button> -->
+
+
+		
 
 	</body>
 </template>

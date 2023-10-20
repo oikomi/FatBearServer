@@ -9,6 +9,7 @@ require (
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-contrib/multitemplate v0.0.0-20230212012517-45920c92c271
 	github.com/gin-contrib/sessions v0.0.5
+	github.com/gin-gonic/autotls v0.0.5
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-openapi/spec v0.20.9
 	github.com/go-playground/locales v0.14.1

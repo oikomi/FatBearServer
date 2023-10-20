@@ -1,6 +1,10 @@
 
 <script setup lang="ts">
-import Upper from './Upper.vue';
+// import Upper from './Upper.vue';
+
+import Order from '@/components/Order.vue'
+import Chat from './Chat.vue';
+
 
 import { ref, inject } from "vue";
 import { useRouter } from 'vue-router'
@@ -10,6 +14,7 @@ import { useTokenStore } from '@/stores/token';
 import { userStore } from '@/stores/user';
 
 import { useDevStore } from '@/stores/dev';
+import { APP_ID, TOKEN, SERVER_BASE } from '@/config/config';
 
 
 const uStore = userStore()
@@ -22,12 +27,8 @@ const axios: any = inject('axios')  // inject axios
 
 axios.defaults.withCredentials = true
 
-// const SERVER_BASE = "http://127.0.0.1:8080/"
-const SERVER_BASE = "https://120.55.60.98/"
-
 const SEND_TIP_URL = SERVER_BASE + "api/v1/dev/order"
 const DEV_SET_URL = SERVER_BASE + "api/v1/dev/set"
-
 
 const router = useRouter()
 
@@ -42,9 +43,11 @@ interface IModel {
 const items = ref<IModel[]>([])
 
 axios
-  .get(DEV_SET_URL, { headers: { 'Token': store.getToken() } }, { withCredentials: true }
-    ,
-    { "model_name": "host" }
+  .get(DEV_SET_URL + "?model_name=" + "host",
+
+    { headers: { 'Token': store.getToken() } },
+    { withCredentials: true },
+
   )
   // .get(SERVER_BASE + "health", { headers: { 'Token': store.getToken() } })
   .then((response: { data: any }) => {
@@ -80,18 +83,44 @@ axios
 //     }
 // });
 
+
+const tselect = ref('')
+const tc = ref(0)
+let lastToken: number = 0
+
+function setting() {
+  router.push({ name: 'order' })
+}
+
 function sendTip() {
+
+  console.log("tselect : ", tselect.value)
+
+
+  if (tselect.value === '20') {
+    lastToken = 20
+  } else if (tselect.value === '50') {
+    lastToken = 50
+  } else if (tselect.value === '100') {
+    lastToken = 100
+  }
+
+  if (tc.value !== 0) {
+    lastToken = tc.value
+  }
+
+  console.log("lastToken is ", lastToken)
 
   console.log("send tip , token is  ", store.getToken())
   axios
-    .post(SEND_TIP_URL, 
-    {
+    .post(SEND_TIP_URL,
+      {
         'dev_name': devStore.getDevName(),
         'model_name': "host",
         'send_user': uStore.getUserName(),
         'vibration': "Medium",
         'duration': 10,
-        'token': 100
+        'token': lastToken,
       },
       { headers: { 'Token': store.getToken() } }, { withCredentials: true }
     )
@@ -109,8 +138,6 @@ function sendTip() {
         router.push({ name: 'login' })
       }
     });
-
-
 
 }
 
@@ -136,8 +163,6 @@ let isVideoSubed = ref(false);
 let isVideoOn = ref(false);
 let isAudioOn = ref(false);
 
-let roomName = ref('');
-
 async function turnOnCamera() {
   isVideoOn.value = !isVideoOn.value;
 
@@ -161,9 +186,8 @@ async function turnOnMicrophone() {
 
 const channel = ref("fatbear");
 // you can apply appid follow the guide https://www.agora.io/en/blog/how-to-get-started-with-agora/
-const APP_ID = "ac1f26c994ea4f978a11ce1251424920";
-const TOKEN = "007eJxTYPh4TveowQ+tuAPJ8Y9epC/ldvLSOrj6dSq/5LMkR3u90CoFhsRkwzQjs2RLS5PURJM0S3OLREPD5FRDI1NDEyMTSyODY7cNUhsCGRnyXP8xMEIhiM/OkJZYkpSaWMTAAACkgSAs";
-
+// const APP_ID = "ac1f26c994ea4f978a11ce1251424920";
+// const TOKEN = "007eJxTYPh4TveowQ+tuAPJ8Y9epC/ldvLSOrj6dSq/5LMkR3u90CoFhsRkwzQjs2RLS5PURJM0S3OLREPD5FRDI1NDEyMTSyODY7cNUhsCGRnyXP8xMEIhiM/OkJZYkpSaWMTAAACkgSAs";
 
 async function joinChannel() {
   if (!channel.value) {
@@ -193,6 +217,8 @@ async function joinChannel() {
   }
 
   await client.join(APP_ID, channel.value, TOKEN, 1234567890);
+
+  console.log("client join the live channle ok")
 
   isJoined.value = true;
 }
@@ -280,8 +306,8 @@ async function publishAudio() {
   </svg>
 
 
-  <div class="container row mt-1 mb-2">
-    <div class="col-8 bg-info-subtle">
+  <div class="container-fluid row mt-1 mb-2">
+    <div class="col-6 bg-info-subtle">
       <div class="row input-group">
         <div class="col-2">
           <!-- <div class="input-group mb-3"> -->
@@ -291,33 +317,33 @@ async function publishAudio() {
           <!-- </div> -->
 
         </div>
-        <div class="col-8">
+        <div class="col-4">
           <button class="btn btn-primary w-45  me-1" @click="joinLive">Join</button>
           <!-- <button class="btn btn-primary w-45 " @click="leaveChannel">Leave</button> -->
         </div>
       </div>
-      <div class="row">
-        <div class="col-8">
+      <div class="container-fluid">
+        <!-- <div class="col-8"> -->
 
-          <video class="col-8" v-show="isJoined" id="remote-video">remote</video>
+        <video class="col-12 object-fit: fill" v-show="isJoined" id="remote-video">remote</video>
 
-          <div v-if="isJoined" class="waiting">
+        <!-- <div v-if="isJoined" class="waiting">
 
-          </div>
+          </div> -->
 
-          <!-- <video class="col-8" v-show="isVideoOn" id="camera-video">local</video> -->
-          <!-- <video class="col-8" v-show="isVideoOn" id="camera-video"></video>
+        <!-- <video class="col-8" v-show="isVideoOn" id="camera-video">local</video> -->
+        <!-- <video class="col-8" v-show="isVideoOn" id="camera-video"></video>
           <video class="col-8" v-show="isVideoSubed" id="remote-video"></video>
           <div v-if="isJoined && !isVideoSubed" class="waiting"> -->
-          <!-- You can shared channel {{ channel }} to others..... -->
-        </div>
+        <!-- You can shared channel {{ channel }} to others..... -->
+        <!-- </div> -->
       </div>
     </div>
     <!-- </div> -->
 
 
 
-    <div class="col-3 bg-primary-subtle">
+    <div class="col-6 bg-primary-subtle">
 
       <nav>
         <div class="nav nav-tabs row" id="nav-tab" role="tablist">
@@ -356,21 +382,23 @@ async function publishAudio() {
           </div>
 
           <div>
-            User ID: {{ uStore.getUserName() }} Token Left
+            User ID: {{ uStore.getUserName() }}, Token Left:
           </div>
 
 
           <div class="container mt-2 text-center">
-            <div class=" btn-group text-center" role="group" aria-label="Basic radio toggle button group">
-              <input type="radio" class=" btn-check btn-rounded" name="btnradio" id="btnradio1" autocomplete="off"
-                checked>
-              <label class="btn btn-outline-primary" for="btnradio1">20</label>
+            <div class="form-check btn-group text-center" role="group" aria-label="Basic radio toggle button group">
+              <input type="radio" class="form-check-input btn-check  " name="btnradio" id="btnradio1" autocomplete="off"
+                checked value="20" v-model="tselect">
+              <label class="btn btn-outline-primary me-4" for="btnradio1">20</label>
 
-              <input type="radio" class=" btn-check btn-rounded" name="btnradio" id="btnradio2" autocomplete="off">
-              <label class="btn btn-outline-primary" for="btnradio2">50</label>
+              <input type="radio" class="form-check-input btn-check " name="btnradio" id="btnradio2" autocomplete="off"
+                value="50" v-model="tselect">
+              <label class="btn btn-outline-primary me-4" for="btnradio2">50</label>
 
-              <input type="radio" class=" btn-check btn-rounded" name="btnradio" id="btnradio3" autocomplete="off">
-              <label class="btn btn-outline-primary" for="btnradio3">100</label>
+              <input type="radio" class="form-check-input btn-check " name="btnradio" id="btnradio3" autocomplete="off"
+                value="100" v-model="tselect">
+              <label class="btn btn-outline-primary me-4" for="btnradio3">100</label>
             </div>
 
           </div>
@@ -380,21 +408,56 @@ async function publishAudio() {
             <div class="input-group mb-3">
               <span class="input-group-text " id="basic-addon1">Custom Amount</span>
               <input type="text" class="form-control" placeholder="" aria-label="room" aria-describedby="basic-addon1"
-                v-model="roomName">
+                v-model="tc">
             </div>
 
-            <div class="text-center mt-2">
+            <div class="row text-center mt-2">
 
-              <button class="btn btn-primary d-inline-flex align-items-center" type="button" @click="sendTip">
+              <button class="offset-2 col-4 btn btn-primary d-inline-flex align-items-center " type="button" @click="sendTip">
                 Send
                 <svg class="bi ms-1" width="20" height="20">
                   <use xlink:href="#arrow-right-short" />
                 </svg>
               </button>
+
+
+              <button type="button" class="col-4 btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Setting
+              </button>
             </div>
 
+            <!-- <button type="button" class="btn btn-sm btn-outline-secondary" @click="setting">setting</button> -->
+
+            <div>
+
+              <!-- Button trigger modal -->
+
+              <!-- Modal -->
+              <div class="modal fade modal-xl" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Setting</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body ">
+                      
+                      <Order />
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
 
           </div>
+
 
 
         </div>
@@ -402,12 +465,12 @@ async function publishAudio() {
 
 
       <div class="tab-pane fade" id="nav-chat" role="tabpanel" aria-labelledby="nav-chat-tab" tabindex="0">
-        chat
 
-        <h2 class="left-align">Easemob Chat Examples</h2>
+        <Chat />
 
       </div>
 
     </div>
 
-</div></template>
+  </div>
+</template>

@@ -4,6 +4,7 @@ import Login from '@/components/Login.vue'
 import ModelList from '@/components/ModelList.vue'
 import ViewRoom from '@/components/ViewRoom.vue'
 import Order from '@/components/Order.vue'
+import Chat from '@/components/Chat.vue'
 
 
 const router = createRouter({
@@ -38,6 +39,11 @@ const router = createRouter({
       path: '/order',
       name: 'order',
       component: Order
+    },
+    {
+      path: '/chat',
+      name: 'chat',
+      component: Chat
     },
 
 

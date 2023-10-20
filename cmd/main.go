@@ -2,21 +2,35 @@ package main
 
 import (
 	"fmt"
+	"net/http"
+	"time"
+
 	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
 	"github.com/oikomi/FatBearServer/config"
 	"github.com/oikomi/FatBearServer/initialize"
 	"go.uber.org/zap"
-	"time"
 )
 
 type server interface {
 	ListenAndServe() error
 }
 
+func runTlsServer(r *gin.Engine) {
+	err := http.ListenAndServeTLS(":443",
+		"/Users/harold/godev/src/github.com/oikomi/FatBearServer/api.missvib.com.pem",
+		"/Users/harold/godev/src/github.com/oikomi/FatBearServer/api.missvib.com.key", nil)
+	if err != nil {
+		config.GVA_LOG.Error(err.Error())
+	}
+
+}
+
 func runServer(r *gin.Engine) {
 	address := ":8080"
 	s := initServer(address, r)
+
+	// go runTlsServer(r)
 
 	if err := s.ListenAndServe(); err != nil {
 		config.GVA_LOG.Error(err.Error())

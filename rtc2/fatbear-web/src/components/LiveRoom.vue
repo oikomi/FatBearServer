@@ -2,6 +2,9 @@
 <script setup lang="ts">
 import Upper from './Upper.vue';
 
+import Chat from './Chat.vue';
+
+
 import { ref, inject } from "vue";
 import { useRouter } from 'vue-router'
 
@@ -10,6 +13,9 @@ import { useTokenStore } from '@/stores/token';
 import { userStore } from '@/stores/user';
 
 import { useDevStore } from '@/stores/dev';
+
+import {APP_ID, TOKEN, SERVER_BASE} from '@/config/config';
+
 
 
 const uStore = userStore()
@@ -21,9 +27,6 @@ const devStore = useDevStore()
 const axios: any = inject('axios')  // inject axios
 
 axios.defaults.withCredentials = true
-
-// const SERVER_BASE = "http://127.0.0.1:8080/"
-const SERVER_BASE = "https://120.55.60.98/"
 
 const DEV_LOGIN_URL = SERVER_BASE + "api/v1/dev/login"
 const DEV_SET_URL = SERVER_BASE + "api/v1/dev/set"
@@ -109,6 +112,16 @@ function devLogin() {
 
 }
 
+function save() {
+
+
+}
+
+function chat() {
+  router.push({ name: 'chat' })
+}
+
+
 import type {
   IAgoraRTCClient,
   IAgoraRTCRemoteUser,
@@ -156,8 +169,8 @@ async function turnOnMicrophone() {
 
 const channel = ref("fatbear");
 // you can apply appid follow the guide https://www.agora.io/en/blog/how-to-get-started-with-agora/
-const APP_ID = "ac1f26c994ea4f978a11ce1251424920";
-const TOKEN = "007eJxTYPh4TveowQ+tuAPJ8Y9epC/ldvLSOrj6dSq/5LMkR3u90CoFhsRkwzQjs2RLS5PURJM0S3OLREPD5FRDI1NDEyMTSyODY7cNUhsCGRnyXP8xMEIhiM/OkJZYkpSaWMTAAACkgSAs";
+// const APP_ID = "ac1f26c994ea4f978a11ce1251424920";
+// const TOKEN = "+tuAPJ8Y9epC//5LMkR3u90CoFhsRkwzQjs2RLS5PURJM0S3OLREPD5FRDI1NDEyMTSyODY7cNUhsCGRnyXP8xMEIhiM/OkJZYkpSaWMTAAACkgSAs";
 
 
 async function joinChannel() {
@@ -266,37 +279,37 @@ async function startLive() {
 <template>
   <Upper />
 
-  <div class="container row mt-1 mb-2">
-    <div class="col-8 bg-info-subtle">
-      <div class="row input-group">
+  <main>
+
+  <div class="container-fluid row text-center mt-1 mb-2">
+    <div class="col-6 bg-info-subtle">
+      <div class="row input-group mt-2">
         <div class="col-4">
-          <div class="input-group mb-3">
+          <div class="input-group offset-1 mb-3">
             <span class="input-group-text" id="basic-addon1">room</span>
             <input type="text" class="form-control" placeholder="room" aria-label="room" aria-describedby="basic-addon1"
               v-model="roomName">
           </div>
-
         </div>
-        <div class="col-8">
-          <button class="btn btn-primary w-45  me-1" @click="startLive">Join</button>
-          <button class="btn btn-primary w-45 " @click="leaveChannel">Leave</button>
+        <div class="col-2 ">
+          <button class="btn btn-primary w-45 me-1" @click="startLive">Join</button>
+          <!-- <button class="btn btn-primary w-45 " @click="leaveChannel">Leave</button> -->
         </div>
       </div>
-      <div class="row">
-        <div class="col-8">
-          <video class="col-8" v-show="isVideoOn" id="camera-video"></video>
-          <video class="col-8" v-show="isVideoSubed" id="remote-video"></video>
+      <div class="container-fluid row">
+        <div >
+          <video class="col-12 object-fit: fill" v-show="isVideoOn" id="camera-video"></video>
+          <video class="col-12 object-fit: fill" v-show="isVideoSubed" id="remote-video"></video>
           <div v-if="isJoined && !isVideoSubed" class="waiting">
             <!-- You can shared channel {{ channel }} to others..... -->
           </div>
         </div>
-
       </div>
 
     </div>
 
 
-    <div class="col-4 bg-primary-subtle">
+    <div class="col-6 bg-primary-subtle">
 
       <nav>
         <div class="nav nav-tabs row" id="nav-tab" role="tablist">
@@ -309,42 +322,70 @@ async function startLive() {
       <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-setting-tab"
           tabindex="0">
-          <div class="bg-info mb-1 mt-1">
-            <h4 class="left-align">Connect Toys</h4>
+          <div class="bg-info">
+            <h4 class="left-align text-start mt-1 mb-1">Connect Toys</h4>
           </div>
 
-          <h5 class="mb-2 text-center">VibCrafter APP</h5>
+          <h5 class="mb-2 text-center bg-info">VibCrafter APP</h5>
 
-          <div class="container" v-show="isDevLogin">
-            <div class="input-group mb-3">
+          <!-- <div class=" row " v-show="isDevLogin">
+            <div class="input-group mb-3 col-sm-4 ">
               <span class="input-group-text" id="basic-addon1">User ID</span>
               <input type="text" class="form-control" placeholder="user id" aria-label="Username"
                 aria-describedby="basic-addon1" v-model="devName">
             </div>
 
-            <div class="input-group mb-3">
+            <div class="input-group mb-3 col-sm-4">
               <span class="input-group-text" id="basic-addon2">Password</span>
               <input type="text" class="form-control" placeholder="password" aria-label="Recipient's username"
                 aria-describedby="basic-addon2" v-model="devPassword">
             </div>
 
-            <div class="col-auto">
+            <div class="col-sm-4">
               <button type="submit" class="btn btn-primary mb-2 text-center" @click="devLogin">Login</button>
             </div>
 
+          </div> -->
+
+
+          <div class="row g-3 bg-info mb-2" v-show="isDevLogin">
+
+            <div class="col-sm-4 text-start ">
+              <label for="firstName" class="form-label text-start">User ID</label>
+              <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+              <div class="invalid-feedback">
+                Valid first name is required.
+              </div>
+            </div>
+
+            <div class="col-sm-4 text-start">
+              <label for="lastName" class="form-label text-start">Password</label>
+              <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+              <div class="invalid-feedback">
+                Valid last name is required.
+              </div>
+            </div>
+
+              <div class="col-sm-4  text-start">
+                <label for="devLogin" class="form-label text-start">  Login   </label>
+                <button id="devLogin" type="submit" class="form-control btn btn-primary text-center" @click="devLogin">Login</button>
+              </div>
+
           </div>
+
+
 
           <div class="container mt-4" v-show="isDevNotLogin">
 
-            <h5 class="mb-2 text-center">Login Success</h5>
+            <h5 class="mb-4 text-center">Login Success</h5>
 
           </div>
 
 
-          <div class="container bg-info mb-1">
+          <div class="container bg-info mt-4 mb-4">
             <h4 class="left-align">Tip Setting</h4>
 
-            <table class="table mb-2">
+            <table class="table mt-2 mb-4">
               <thead>
                 <tr >
                   <th scope="col">#</th>
@@ -363,19 +404,25 @@ async function startLive() {
               </tbody>
             </table>
 
+            <div class="col-auto">
+              <button type="submit" class="btn btn-primary mb-2 text-center" @click="save">Save</button>
+            </div>
+
 
           </div>
 
         </div>
       </div>
       <div class="tab-pane fade" id="nav-chat" role="tabpanel" aria-labelledby="nav-chat-tab" tabindex="0">
-        chat
 
-        <h2 class="left-align">Easemob Chat Examples</h2>
+        <Chat />
 
       </div>
 
     </div>
 
   </div>
+
+</main>
+
 </template>
