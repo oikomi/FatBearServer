@@ -6,7 +6,7 @@ import Order from '@/components/Order.vue'
 import Chat from './Chat.vue';
 
 
-import { ref, inject } from "vue";
+import { ref, inject, onMounted } from "vue";
 import { useRouter } from 'vue-router'
 
 import { useTokenStore } from '@/stores/token';
@@ -29,6 +29,9 @@ axios.defaults.withCredentials = true
 
 const SEND_TIP_URL = SERVER_BASE + "api/v1/dev/order"
 const DEV_SET_URL = SERVER_BASE + "api/v1/dev/set"
+
+const GET_TOKEN_URL = SERVER_BASE + "api/v1/user/getToken"
+
 
 const router = useRouter()
 
@@ -64,6 +67,39 @@ axios
       router.push({ name: 'login' })
     }
   });
+
+  let userToken = ref(0);
+
+  function getUserToken() {
+
+    axios
+  .get(GET_TOKEN_URL + "?name=" + uStore.getUserName(),
+    { headers: { 'Token': store.getToken() } },
+    { withCredentials: true },
+  )
+  // .get(SERVER_BASE + "health", { headers: { 'Token': store.getToken() } })
+  .then((response: { data: any }) => {
+    console.log("res data", response.data)
+    if (response.data === 401) {
+      console.log("get 401, push to login")
+    }
+    userToken.value = response.data.data
+  }).catch((err: any) => {
+    console.log("res err", err)
+    if (err.response.status === 401) {
+      console.log("res err, get 401, push to login")
+      router.push({ name: 'login' })
+    }
+  });
+  }
+
+  onMounted(() => {
+  console.log(`the component is now mounted.`)
+  getUserToken()
+
+})
+
+  // setInterval(getUserToken, 1000);
 
 
 // axios
@@ -293,6 +329,8 @@ async function publishAudio() {
 <template>
   <Upper />
 
+  <body>
+
   <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
     <symbol id="arrow-right-short" viewBox="0 0 16 16">
       <path fill-rule="evenodd"
@@ -307,7 +345,7 @@ async function publishAudio() {
 
 
   <div class="container-fluid row mt-1 mb-2">
-    <div class="col-6 bg-info-subtle">
+    <div class="col-6 ">
       <div class="row input-group">
         <div class="col-2">
           <!-- <div class="input-group mb-3"> -->
@@ -324,6 +362,10 @@ async function publishAudio() {
       </div>
       <div class="container-fluid">
         <!-- <div class="col-8"> -->
+        <div class="container-fluid row col-2 xiaotubiaored rounded">
+          <h6 class=" fontcss mt-1 ">Live</h6>
+        </div>
+
 
         <video class="col-12 object-fit: fill" v-show="isJoined" id="remote-video">remote</video>
 
@@ -341,9 +383,7 @@ async function publishAudio() {
     </div>
     <!-- </div> -->
 
-
-
-    <div class="col-6 bg-primary-subtle">
+    <div class="col-6 setting">
 
       <nav>
         <div class="nav nav-tabs row" id="nav-tab" role="tablist">
@@ -357,7 +397,7 @@ async function publishAudio() {
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-setting-tab"
           tabindex="0">
 
-          <h4 class="left-align mt-1">Tip Menu</h4>
+          <h4 class="left-align mt-1 fontcss">Tip Menu</h4>
 
           <div>
             <table class="table mb-2">
@@ -381,12 +421,14 @@ async function publishAudio() {
 
           </div>
 
-          <div>
-            User ID: {{ uStore.getUserName() }}, Token Left:
+          <div class="dandivfushang">
+
+          <div class="mt-2 ">
+            <h5 class="fontcss text-center">User ID: {{ uStore.getUserName() }}, Token Left: {{userToken}}</h5>
           </div>
 
 
-          <div class="container mt-2 text-center">
+          <div class="container mt-2  text-center">
             <div class="form-check btn-group text-center" role="group" aria-label="Basic radio toggle button group">
               <input type="radio" class="form-check-input btn-check  " name="btnradio" id="btnradio1" autocomplete="off"
                 checked value="20" v-model="tselect">
@@ -405,15 +447,17 @@ async function publishAudio() {
 
           <div class="text-center mt-2">
 
-            <div class="input-group mb-3">
-              <span class="input-group-text " id="basic-addon1">Custom Amount</span>
-              <input type="text" class="form-control" placeholder="" aria-label="room" aria-describedby="basic-addon1"
-                v-model="tc">
+            <div class="container row ">
+              <div class="input-group  col-8 mb-3" width="20" height="20">
+                <span class="input-group-text" id="basic-addon1">Custom Amount</span>
+                <input type="text" class="form-control" placeholder="" aria-label="room" aria-describedby="basic-addon1"
+                  v-model="tc">
+              </div>
             </div>
 
             <div class="row text-center mt-2">
 
-              <button class="offset-2 col-4 btn btn-primary d-inline-flex align-items-center " type="button" @click="sendTip">
+              <button class="offset-4 col-2 btn  d-inline-flex align-items-center secai" type="button" @click="sendTip">
                 Send
                 <svg class="bi ms-1" width="20" height="20">
                   <use xlink:href="#arrow-right-short" />
@@ -421,9 +465,12 @@ async function publishAudio() {
               </button>
 
 
-              <button type="button" class="col-4 btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              <button type="button" class="col-2 btn  ms-2 secai" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Setting
               </button>
+            </div>
+
+
             </div>
 
             <!-- <button type="button" class="btn btn-sm btn-outline-secondary" @click="setting">setting</button> -->
@@ -438,7 +485,7 @@ async function publishAudio() {
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h1 class="modal-title fs-5" id="exampleModalLabel">Setting</h1>
+                      <h1 class="modal-title fs-5 " id="exampleModalLabel">Setting</h1>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body ">
@@ -473,4 +520,70 @@ async function publishAudio() {
     </div>
 
   </div>
+
+</body>
+
 </template>
+
+
+<style scoped>
+
+html,
+body {
+	width : 100%;
+  height : 100%;
+	/* background-color:#C24362; */
+	background-image: linear-gradient(-45deg, #C24362, #6450A4);
+  /* background-image: url(/src/assets/SVG/chunbeijing/meinv.svg); */
+	/* background-repeat: no-repeat; */
+}
+
+
+.secai {
+	background-image: linear-gradient(-45deg, #C24362, #6450A4);
+}
+
+.maincss {
+    background-image: url(/src/assets/SVG/chunbeijing/meinv.svg);
+
+} 
+
+.setting {
+    background-image: linear-gradient(-45deg, #ba4068, #8474b1);
+} 
+
+.dandiv {
+  background-image: linear-gradient(-45deg, #c95b7c, #7252c4);
+}
+
+.tablecss {
+  /* background-image: linear-gradient(-45deg, #753c4d, #594b7e); */
+  background-color:rgba(0,0,0,0);
+
+}
+
+.xiaotubiao {
+  background-image: linear-gradient(-45deg, #1c181c, #8675b5);
+  /* background-color:rgba(20, 19, 19, 0); */
+
+}
+
+.dandivfushang {
+  background-image: linear-gradient(-45deg, #c95b7c, #4d4b52);
+}
+
+
+.xiaotubiaored {
+  background-image: linear-gradient(-45deg, #e80f45, #8d8898);
+  /* background-color:rgba(20, 19, 19, 0); */
+
+}
+
+
+
+.fontcss {
+
+  color: azure;
+}
+
+</style>

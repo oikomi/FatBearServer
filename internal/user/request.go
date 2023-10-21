@@ -9,3 +9,13 @@ type LoginReq struct {
 	PassWord string `json:"password" `
 	Role     string `json:"role" `
 }
+
+type AddTokenReq struct {
+	Name  string `json:"name" `
+	Token int    `json:"token" `
+}
+
+type GetTokenReq struct {
+	Name  string `json:"name" `
+}
+

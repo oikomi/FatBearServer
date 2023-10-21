@@ -24,6 +24,7 @@ type BaseUser struct {
 	Role     string `json:"role"`
 	DevId    string `json:"dev_id"`
 	Email    string `json:"email"`
+	Token    int    `json:"token"`
 }
 
 func (b BaseUser) Login(c *gin.Context) (string, error) {

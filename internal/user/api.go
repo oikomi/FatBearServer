@@ -28,3 +28,26 @@ func (u UserApi) Login(c *gin.Context) {
 
 	response.OkWithData(token, c)
 }
+
+func (u UserApi) AddToken(c *gin.Context) {
+	err := u.Service.AddToken(c)
+	if err != nil {
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.Ok(c)
+}
+
+func (u UserApi) GetToken(c *gin.Context) {
+	token, err := u.Service.GetToken(c)
+	if err != nil {
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.OkWithData(token, c)
+}
+
+
+

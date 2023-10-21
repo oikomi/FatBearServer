@@ -10,4 +10,9 @@ func InitRouter(g *gin.RouterGroup) {
 	a := NewUserApi()
 	r.BindApi("", a)
 	r.BindPost("login", a.Login)
+
+	r.BindPost("addToken", a.AddToken)
+
+	r.BindGet("getToken", a.GetToken)
+
 }

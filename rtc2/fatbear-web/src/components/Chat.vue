@@ -102,9 +102,8 @@ axios
 
 <template>
 
-      <div class="bg-info right-side">
-        <div class="header">
-          <div class="current-chatter">Chat Window</div>
+      <div class="container right-side">
+          <!-- <div class="current-chatter">Chat Window</div> -->
           <!-- <button
             id="log-out"
             type="button"
@@ -116,13 +115,13 @@ axios
           </button> -->
         </div>
         <div class="chat-window container-fluid">
-          <div class="system-message">
+          <div class="system-message ">
             Conversation starts ! Say Hi to others.
           </div>
           <div class="system-message">11:05PM, 7/14/2023</div>
           <div  v-for="(item, index) in items"  :key='item.id + index' class="current-chatter-wrapper">
             <div class="chatter-avatar">
-              <img src="../assets/pic/logo.png" alt="..." />
+              <img src="/src/assets/SVG/SVG/touxiang.svg" alt="..." />
             </div>
             <div class="chatter-message container">{{item.send_user}} says:  {{item.msg}}</div>
           </div>
@@ -148,12 +147,11 @@ axios
             <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="email@example.com">
         </div> -->
         <div class="col-6">
-            <label for="inputMsg" class="visually-hidden">Password</label>
+            <label for="inputMsg" class="visually-hidden secai">Password</label>
             <input type="text" class="form-control" id="inputMsg" placeholder="input msg" v-model="inMsg">
         </div>
         <div class="col-6">
-            <button type="submit" class="btn btn-primary mb-3" @click="sendMsg">Send msg</button>
-        </div>
+            <button type="submit" class="btn secai fontcss mb-3" @click="sendMsg">Send msg</button>
         </div>
 
       </div>
@@ -164,13 +162,13 @@ axios
 .app {
   /*display: flex;*/
   display: none;
-  width: 70%;
+  width: 100%;
   height: 80%;
-  -webkit-box-shadow: -1px -1px 32px -4px rgba(0, 0, 0, 0.64);
-  -moz-box-shadow: -1px -1px 32px -4px rgba(0, 0, 0, 0.64);
-  box-shadow: -1px -1px 32px -4px rgba(0, 0, 0, 0.64);
+  -webkit-box-shadow: -1px -1px 32px -4px rgba(157, 60, 60, 0.64);
+  -moz-box-shadow: -1px -1px 32px -4px rgba(166, 80, 80, 0.64);
+  box-shadow: -1px -1px 32px -4px rgba(163, 115, 115, 0.64);
   padding: 0;
-  border: 1px solid #2b2e36;
+  border: 1px solid #6b2e43;
   border-radius: 5px;
   position: absolute;
   left: 15%;
@@ -179,6 +177,15 @@ axios
   -ms-overflow-style:none;
   /*hide scrollbar in firwfox*/
   overflow-y:-moz-scrollbars-none;
+}
+
+.fontcss {
+
+color: azure;
+}
+
+.secai {
+	background-image: linear-gradient(-45deg, #C24362, #6450A4);
 }
 
 .left-side {
@@ -263,7 +270,7 @@ axios
 }
 
 .right-side {
-  background-color: antiquewhite;
+  background-color: rgb(139, 56, 131);
 }
 
 .header button:focus{
@@ -275,7 +282,7 @@ axios
 .right-side .header {
   width: 100%;
   height: 15%;
-  background-color: #2b2e36;
+  background-color: #623068;
   color: white;
   font-style: italic;
   font-size: 30px;
@@ -285,8 +292,8 @@ axios
   border-bottom:1px solid grey;
 }
 .header .current-chatter {
-  width: 95%;
-  height: 70%;
+  width: 90%;
+  height: 60%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -294,7 +301,7 @@ axios
 .right-side .chat-window {
   width: 100%;
   height: 60%;
-  background-color: #3e414a;
+  background-color: #da77ba;
   padding-top: 2%;
   overflow-y: scroll;
 }
@@ -303,7 +310,7 @@ axios
   margin-bottom: 2%;
   height: auto;
   text-align: center;
-  color: grey;
+  color: rgb(222, 214, 214);
   font-size: 70%;
 }
 .chat-window::-webkit-scrollbar {
@@ -314,8 +321,6 @@ axios
   border-radius: 5px;
   background: rgba(100, 100, 100, 0.7);
 }
-
-
 
 .chat-window .current-chatter-wrapper {
   width: 70%;
@@ -331,8 +336,8 @@ axios
   margin-right: 10px;
 }
 .chatter-avatar img {
-  width: 100%;
-  height: 100%;
+  width: 80%;
+  height: 80%;
   float: right;
 }
 .current-chatter-wrapper .chatter-message {
@@ -342,8 +347,8 @@ axios
   min-height: 42px;
   line-height: 35px;
   height: auto;
-  background-color: rgb(78, 206, 223);
-  border: 2px solid black;
+  background-color: rgb(211, 170, 193);
+  border: 1px solid rgb(172, 171, 171);
   -webkit-box-shadow: -1px -1px 32px -4px rgba(0, 0, 0, 0.64);
   -moz-box-shadow: -1px -1px 32px -4px rgba(0, 0, 0, 0.64);
   box-shadow: -1px -1px 32px -4px rgba(0, 0, 0, 0.64);

@@ -76,7 +76,7 @@ async function doLogin() {
 </script>
 
 <template>
-	<body class="d-flex align-items-center py-4 bg-body-tertiary">
+	<body class="d-flex align-items-center py-4">
 		<svg xmlns="http://www.w3.org/2000/svg" class="d-none">
 			<symbol id="check2" viewBox="0 0 16 16">
 				<path
@@ -97,59 +97,15 @@ async function doLogin() {
 			</symbol>
 		</svg>
 
-		<!-- <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle"> -->
-		<!-- <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button"
-				aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (auto)">
-				<svg class="bi my-1 theme-icon-active" width="1em" height="1em">
-					<use href="#circle-half"></use>
-				</svg>
-				<span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
-			</button> -->
-		<!-- <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
-				<li>
-					<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light"
-						aria-pressed="false">
-						<svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em">
-							<use href="#sun-fill"></use>
-						</svg>
-						Light
-						<svg class="bi ms-auto d-none" width="1em" height="1em">
-							<use href="#check2"></use>
-						</svg>
-					</button>
-				</li>
-				<li>
-					<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark"
-						aria-pressed="false">
-						<svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em">
-							<use href="#moon-stars-fill"></use>
-						</svg>
-						Dark
-						<svg class="bi ms-auto d-none" width="1em" height="1em">
-							<use href="#check2"></use>
-						</svg>
-					</button>
-				</li>
-				<li>
-					<button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto"
-						aria-pressed="true">
-						<svg class="bi me-2 opacity-50 theme-icon" width="1em" height="1em">
-							<use href="#circle-half"></use>
-						</svg>
-						Auto
-						<svg class="bi ms-auto d-none" width="1em" height="1em">
-							<use href="#check2"></use>
-						</svg>
-					</button>
-				</li>
-			</ul> -->
-		<!-- </div> -->
 
-
-		<main class="form-signin w-100 m-auto">
-			<img class="mb-3" src="/src/assets/pic/logo.png" alt="" width="72" height="57">
+		<main class="form-signin w-100 m-auto maincss rounded-3">
+			<img class="mb-3" src="/src/assets/SVG/SVG/huatong.svg" alt="" width="72" height="57">
 			<h1 class="h3 mb-3 fw-normal fw-bold">Livestream Demo System</h1>
-			<h4 class="h5 mb-3 fw-normal">Just for demo Using</h4>
+
+			<div class="row mb-3">
+			<img class="col-2 " src="/src/assets/SVG/SVG/shouzhang.svg" alt="" width="46" height="35">
+			<h4 class="col-10 h5  fw-normal">Just for demo Using</h4>
+			</div>
 
 			<div class="form-floating">
 				<input type="text" class="form-control" id="user_id" placeholder="123456" v-model="userName">
@@ -191,7 +147,7 @@ async function doLogin() {
 					Remember me
 				</label>
 			</div> -->
-			<button class="btn btn-primary w-100 py-2 mt-2" @click="doLogin">Sign in</button>
+			<button class="btn btn-primary w-100 py-2 mt-2 secai" @click="doLogin">Login</button>
 			<p class="mt-5 mb-3 text-body-secondary">&copy; 2023</p>
 		</main>
 
@@ -206,7 +162,18 @@ async function doLogin() {
 <style scoped>
 html,
 body {
-	height: 100%;
+	width : 100%;
+    height : 100%;
+	/* background-color:#C24362; */
+	background-image: linear-gradient(-45deg, #C24362, #6450A4);
+}
+
+.secai {
+	background-image: linear-gradient(-45deg, #C24362, #6450A4);
+}
+
+.maincss {
+	background-color:#FBFCF9;
 }
 
 .form-signin {

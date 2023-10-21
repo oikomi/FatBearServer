@@ -38,6 +38,9 @@ const axios: any = inject('axios')  // inject axios
 
 const GET_ORDER = SERVER_BASE + "api/v1/dev/order"
 
+const ADD_TOKEN = SERVER_BASE + "api/v1/user/addToken"
+
+
 axios
     .get(GET_ORDER + "?send_user=" + uStore.getUserName(),
     { headers: { 'Token': store.getToken() } }, 
@@ -63,7 +66,36 @@ axios
 
 function addToken() {
 
-    
+    axios
+    .post(ADD_TOKEN,
+    {
+			'name': uStore.getUserName(),
+			'token': 1000,
+		},
+    { headers: { 'Token': store.getToken() } }, 
+    { withCredentials: true },
+    )
+    // .get(SERVER_BASE, { headers: { 'Token': store.getToken() } })
+    .then((response: { data: any }) => {
+        // console.log("res data", response.data)
+        // if (response.data === 401) {
+        //     console.log("get 401, push to login")
+        //     router.push({ name: 'login' })
+        // }
+
+        alert("add token success")
+
+    }).catch((err: any) => {
+        // console.log("res err", err)
+        // if (err.response.status === 401) {
+        //     console.log("res err, get 401, push to login")
+        //     router.push({ name: 'login' })
+        // }
+
+        alert("add token failed")
+
+    });
+
 }
 
 
@@ -73,23 +105,30 @@ function addToken() {
     <Upper />
 
 
-    <div>
-          <div class="bg-info mb-1 mt-1 text-start">
-            <h4 class=" mt-2 text-start">Add Tokens</h4>
+    <div class="secai text-start">
+          <div class="row mb-1 mt-2 text-start">
+			<img class="col-2 " src="/src/assets/SVG/SVG/jiaqiang.svg" alt="" width="50" height="39">
+            <h4 class=" col-10 text-start fontcss">Add Tokens</h4>
           </div>
 
+          <!-- <div class="row mb-3">
+			<img class="col-2 " src="/src/assets/SVG/SVG/shouzhang.svg" alt="" width="46" height="35">
+			<h4 class="col-10 h5  fw-normal">Just for demo Using</h4>
+			</div> -->
 
-        <div class="container row text-center">
-            <h4 class="left-align mt-2 col-4">Token left: </h4> 
-            <button type="button" class="btn btn-sm btn-warning col-4" @click="addToken">Apply for 1000 Tokens</button>
+
+
+        <div class="container row text-start mb-2">
+            <h4 class="left-align mt-2 col-4 fontcss">Token left: </h4> 
+            <button type="button" class="btn  col-4 xiaotubiaored fontcss" @click="addToken">Apply for 1000 Tokens</button>
 
         </div>
 
     </div>
 
 
-    <div class="container-fluid bg-info mb-1">
-        <h4 class="left-align mt-2 text-start">Recently 100 times action</h4>
+    <div class="container-fluid secai text-start mb-1">
+        <h4 class="left-align mt-2 text-start secai fontcss">Recently 100 times action</h4>
 
         <table class="table mb-2">
             <thead>
@@ -118,4 +157,59 @@ function addToken() {
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+html,
+body {
+	width : 100%;
+  height : 100%;
+	/* background-color:#C24362; */
+	background-image: linear-gradient(-45deg, #C24362, #6450A4);
+  /* background-image: url(/src/assets/SVG/chunbeijing/meinv.svg); */
+	/* background-repeat: no-repeat; */
+}
+
+
+.secai {
+	background-image: linear-gradient(-45deg, #C24362, #6450A4);
+}
+
+.maincss {
+    background-image: url(/src/assets/SVG/chunbeijing/meinv.svg);
+
+} 
+
+.setting {
+    background-image: linear-gradient(-45deg, #ba4068, #8474b1);
+} 
+
+.dandiv {
+  background-image: linear-gradient(-45deg, #c95b7c, #7252c4);
+}
+
+.tablecss {
+  /* background-image: linear-gradient(-45deg, #753c4d, #594b7e); */
+  background-color:rgba(0,0,0,0);
+
+}
+
+.xiaotubiao {
+  background-image: linear-gradient(-45deg, #1c181c, #8675b5);
+  /* background-color:rgba(20, 19, 19, 0); */
+
+}
+
+.xiaotubiaored {
+  background-image: linear-gradient(-45deg, #e80f45, #8d8898);
+  /* background-color:rgba(20, 19, 19, 0); */
+
+}
+
+
+
+.fontcss {
+
+  color: azure;
+}
+
+</style>

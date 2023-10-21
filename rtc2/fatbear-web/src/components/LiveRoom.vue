@@ -279,10 +279,12 @@ async function startLive() {
 <template>
   <Upper />
 
+  <body>
+
   <main>
 
-  <div class="container-fluid row text-center mt-1 mb-2">
-    <div class="col-6 bg-info-subtle">
+  <div class="container-fluid row text-center mt-1">
+    <div class="col-6 maincss">
       <div class="row input-group mt-2">
         <div class="col-4">
           <div class="input-group offset-1 mb-3">
@@ -292,10 +294,22 @@ async function startLive() {
           </div>
         </div>
         <div class="col-2 ">
-          <button class="btn btn-primary w-45 me-1" @click="startLive">Join</button>
+          <button class="btn btn-primary w-45 secai me-1" @click="startLive">Join</button>
           <!-- <button class="btn btn-primary w-45 " @click="leaveChannel">Leave</button> -->
         </div>
       </div>
+
+      <div class="container-fluid  row ms-3 mb-2 rounded">
+        <div class="container-fluid row col-2 xiaotubiaored rounded">
+          <h6 class=" fontcss mt-1 ">Live</h6>
+        </div>
+
+        <div class="container-fluid  row col-4 ms-1 xiaotubiao rounded">
+          <img class="col-1" src="/src/assets/SVG/SVG/huodecaichang.svg" alt="" width="30" height="26">
+          <h6 class="col-3 fontcss mt-1 ">Earnings:83</h6>
+        </div>
+      </div>
+
       <div class="container-fluid row">
         <div >
           <video class="col-12 object-fit: fill" v-show="isVideoOn" id="camera-video"></video>
@@ -309,24 +323,24 @@ async function startLive() {
     </div>
 
 
-    <div class="col-6 bg-primary-subtle">
+    <div class="col-6 setting">
 
       <nav>
         <div class="nav nav-tabs row" id="nav-tab" role="tablist">
-          <button class="nav-link active col" id="nav-setting-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
+          <button class="nav-link active col fontcss" id="nav-setting-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
             type="button" role="tab" aria-controls="nav-home" aria-selected="true">Setting</button>
-          <button class="nav-link col" id="nav-chat-tab" data-bs-toggle="tab" data-bs-target="#nav-chat" type="button"
+          <button class="nav-link col fontcss" id="nav-chat-tab" data-bs-toggle="tab" data-bs-target="#nav-chat" type="button"
             role="tab" aria-controls="nav-chat" aria-selected="false">Chat</button>
         </div>
       </nav>
       <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-setting-tab"
           tabindex="0">
-          <div class="bg-info">
-            <h4 class="left-align text-start mt-1 mb-1">Connect Toys</h4>
+          <div class="dandiv">
+            <h4 class="left-align text-start mt-1 mb-1 fontcss">Connect Toys</h4>
           </div>
 
-          <h5 class="mb-2 text-center bg-info">VibCrafter APP</h5>
+          <h5 class="mb-2 text-center fontcss">VibCrafter APP</h5>
 
           <!-- <div class=" row " v-show="isDevLogin">
             <div class="input-group mb-3 col-sm-4 ">
@@ -348,27 +362,27 @@ async function startLive() {
           </div> -->
 
 
-          <div class="row g-3 bg-info mb-2" v-show="isDevLogin">
+          <div class="row g-3  mb-2" v-show="isDevLogin">
 
             <div class="col-sm-4 text-start ">
-              <label for="firstName" class="form-label text-start">User ID</label>
-              <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+              <label for="firstName" class="form-label text-start fontcss">User ID</label>
+              <input type="text" class="form-control fontcss" id="firstName" placeholder="" value="" required>
               <div class="invalid-feedback">
                 Valid first name is required.
               </div>
             </div>
 
             <div class="col-sm-4 text-start">
-              <label for="lastName" class="form-label text-start">Password</label>
-              <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+              <label for="lastName" class="form-label text-start fontcss">Password</label>
+              <input type="text" class="form-control fontcss" id="lastName" placeholder="" value="" required>
               <div class="invalid-feedback">
                 Valid last name is required.
               </div>
             </div>
 
               <div class="col-sm-4  text-start">
-                <label for="devLogin" class="form-label text-start">  Login   </label>
-                <button id="devLogin" type="submit" class="form-control btn btn-primary text-center" @click="devLogin">Login</button>
+                <label for="devLogin" class="form-label fontcss text-start">  Login   </label>
+                <button id="devLogin" type="submit" class="form-control btn secai fontcss text-center" @click="devLogin">Login</button>
               </div>
 
           </div>
@@ -377,15 +391,17 @@ async function startLive() {
 
           <div class="container mt-4" v-show="isDevNotLogin">
 
-            <h5 class="mb-4 text-center">Login Success</h5>
+            <img class="mb-3" src="/src/assets/SVG/SVG/logins.svg" alt="" width="72" height="57">
+
+            <h5 class="mb-4 text-center fontcss">Login Success</h5>
 
           </div>
 
 
-          <div class="container bg-info mt-4 mb-4">
-            <h4 class="left-align">Tip Setting</h4>
+          <div class="dandiv  mt-4 mb-4">
+            <h4 class=" text-start fontcss">Tip Setting</h4>
 
-            <table class="table mt-2 mb-4">
+            <table class="table mt-2 mb-4 table-hover table-borderless opacity-10 tablecss">
               <thead>
                 <tr >
                   <th scope="col">#</th>
@@ -405,7 +421,7 @@ async function startLive() {
             </table>
 
             <div class="col-auto">
-              <button type="submit" class="btn btn-primary mb-2 text-center" @click="save">Save</button>
+              <button type="submit" class="btn  mb-2 secai text-center fontcss" @click="save">Save</button>
             </div>
 
 
@@ -425,4 +441,63 @@ async function startLive() {
 
 </main>
 
+</body>
 </template>
+
+<style scoped>
+html,
+body {
+	width : 100%;
+  height : 100%;
+	/* background-color:#C24362; */
+	background-image: linear-gradient(-45deg, #C24362, #6450A4);
+  /* background-image: url(/src/assets/SVG/chunbeijing/meinv.svg); */
+	/* background-repeat: no-repeat; */
+}
+
+
+.secai {
+	background-image: linear-gradient(-45deg, #C24362, #6450A4);
+}
+
+.maincss {
+    background-image: url(/src/assets/SVG/chunbeijing/meinv.svg);
+
+} 
+
+.setting {
+    background-image: linear-gradient(-45deg, #ba4068, #8474b1);
+} 
+
+.dandiv {
+  background-image: linear-gradient(-45deg, #c95b7c, #7252c4);
+}
+
+.tablecss {
+  /* background-image: linear-gradient(-45deg, #753c4d, #594b7e); */
+  background-color:rgba(0,0,0,0);
+
+}
+
+.xiaotubiao {
+  background-image: linear-gradient(-45deg, #1c181c, #8675b5);
+  /* background-color:rgba(20, 19, 19, 0); */
+
+}
+
+.xiaotubiaored {
+  background-image: linear-gradient(-45deg, #e80f45, #8d8898);
+  /* background-color:rgba(20, 19, 19, 0); */
+
+}
+
+
+
+.fontcss {
+
+  color: azure;
+}
+
+
+
+</style>
