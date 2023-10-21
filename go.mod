@@ -1,6 +1,6 @@
 module github.com/oikomi/FatBearServer
 
-go 1.21.1
+go 1.21.3
 
 require (
 	github.com/coocood/freecache v1.2.3
