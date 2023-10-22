@@ -15,6 +15,13 @@ func CookieAuth() gin.HandlerFunc {
 			c.Next()
 			return
 		}
+
+		superToken := c.Request.Header.Get("super_token")
+		if superToken == config.GVA_CONFIG.Security.SuperToken {
+			c.Next()
+			return
+		}
+
 		token, err := c.Cookie("token")
 		if err != nil {
 			config.GVA_LOG.Error(err.Error())

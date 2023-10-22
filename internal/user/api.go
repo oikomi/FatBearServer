@@ -48,6 +48,3 @@ func (u UserApi) GetToken(c *gin.Context) {
 
 	response.OkWithData(token, c)
 }
-
-
-

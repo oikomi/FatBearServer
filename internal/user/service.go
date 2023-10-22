@@ -94,7 +94,6 @@ func (s UserService) AddToken(c *gin.Context) error {
 	return nil
 }
 
-
 func (s UserService) GetToken(c *gin.Context) (int, error) {
 	var req GetTokenReq
 	err := c.ShouldBind(&req)

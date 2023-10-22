@@ -16,6 +16,5 @@ type AddTokenReq struct {
 }
 
 type GetTokenReq struct {
-	Name  string `json:"name" `
+	Name string `json:"name" `
 }
-

@@ -37,4 +37,5 @@ zap: # 日志配置
   log_in_console: true # 输出控制台
 
 security:
+  super_token: "super_token"
   password_key: "fatbear"
