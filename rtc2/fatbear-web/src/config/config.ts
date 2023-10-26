@@ -1,7 +1,7 @@
 
 export const APP_ID = "ac1f26c994ea4f978a11ce1251424920"
 
-export const TOKEN = "007eJxTYKhX6eM23D/ZUfe6h5SMgnT2zgNiVbeZ6uUVZ3xlFZzz/IQCQ2KyYZqRWbKlpUlqokmapblFoqFhcqqhkamhiZGJpZGB6VWL1IZARobCsxxMjAwQCOKzM6QlliSlJhYxMAAAjhsczA=="
+export const TOKEN = "007eJxTYAjRuafhOtXxyJWpWy8wVUbNmLB007fDrcLW4Xeavcxk3aMUGBKTDdOMzJItLU1SE03SLM0tEg0Nk1MNjUwNTYxMLI0MJn6zTG0IZGTo2XqUhZEBAkF8doa0xJKk1MQiBgYAnX8geA=="
 
 
 // export const SERVER_BASE = "http://127.0.0.1:8080/"
