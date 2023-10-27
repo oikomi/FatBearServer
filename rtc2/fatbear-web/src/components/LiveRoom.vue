@@ -366,7 +366,7 @@ async function startLive() {
 
             <div class="col-sm-4 text-start ">
               <label for="firstName" class="form-label text-start fontcss">User ID</label>
-              <input type="text" class="form-control fontcss" id="firstName" placeholder="" value="" required>
+              <input type="text" class="form-control devfontcss" id="firstName" placeholder="" value="" required>
               <div class="invalid-feedback">
                 Valid first name is required.
               </div>
@@ -374,7 +374,7 @@ async function startLive() {
 
             <div class="col-sm-4 text-start">
               <label for="lastName" class="form-label text-start fontcss">Password</label>
-              <input type="text" class="form-control fontcss" id="lastName" placeholder="" value="" required>
+              <input type="text" class="form-control devfontcss" id="lastName" placeholder="" value="" required>
               <div class="invalid-feedback">
                 Valid last name is required.
               </div>
@@ -382,7 +382,7 @@ async function startLive() {
 
               <div class="col-sm-4  text-start">
                 <label for="devLogin" class="form-label fontcss text-start">  Login   </label>
-                <button id="devLogin" type="submit" class="form-control btn secai fontcss text-center" @click="devLogin">Login</button>
+                <button id="devLogin" type="submit" class="form-control btn secai devfontcss text-center" @click="devLogin">Login</button>
               </div>
 
           </div>
@@ -497,6 +497,12 @@ body {
 
   color: azure;
 }
+
+.devfontcss {
+
+color: rgb(15, 35, 35);
+}
+
 
 
 
