@@ -155,7 +155,7 @@ function sendTip() {
         'model_name': "host",
         'send_user': uStore.getUserName(),
         'vibration': "Medium",
-        'duration': 10,
+        'duration': 2,
         'token': lastToken,
       },
       { headers: { 'Token': store.getToken() } }, { withCredentials: true }
