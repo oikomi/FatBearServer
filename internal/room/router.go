@@ -13,6 +13,8 @@ func InitRouter(g *gin.RouterGroup) {
 	r.BindGet("list", a.GetRoomList)
 	r.BindPost("update", a.UpdateRoom)
 	r.BindGet("msg", a.GetRoomMsg)
+	r.BindPost("msg", a.SendRoomMsg)
+
 
 
 	msgRouter := router.NewRouter(g.Group("roommsg"))

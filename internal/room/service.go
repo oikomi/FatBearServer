@@ -120,6 +120,28 @@ func (s RoomService) GetRoomMsg(c *gin.Context) ([]RoomMsg, error) {
 	return *msgs, nil
 }
 
+func (s RoomService) SendRoomMsg(c *gin.Context) error {
+	var req SendRoomMsgReq
+	err := c.ShouldBind(&req)
+	if err != nil {
+		config.GVA_LOG.Error("Send msg failed", zap.Error(err))
+		return err
+	}
+
+	msg := RoomMsg{
+		RoomName: req.RoomName,
+		SendUser: req.SendUser,
+		Msg:      req.Msg,
+	}
+	mapper := model.NewMapper[RoomMsg](msg, nil)
+	err = mapper.Insert(&msg)
+	if err != nil {
+		config.GVA_LOG.Info("insert failed")
+		return errors.Errorf("insert msg failed: %s, %s, %s", req.RoomName, req.SendUser, req.Msg)
+	}
+
+	return nil
+}
 
 
 // room msg
