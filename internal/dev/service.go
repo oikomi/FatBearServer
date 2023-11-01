@@ -113,7 +113,17 @@ func (s DevService) Login(c *gin.Context) error {
 	return nil
 }
 
-func (s DevService) Order(c *gin.Context) error {
+
+// order
+type DevOrderService struct {
+	service.Service[Order]
+}
+
+func NewDevOrderService(r Order) DevOrderService {
+	return DevOrderService{service.NewBaseService[Order](r)}
+}
+
+func (s DevOrderService) Order(c *gin.Context) error {
 	var req OrderReq
 	err := c.ShouldBind(&req)
 	if err != nil {
@@ -139,7 +149,7 @@ func (s DevService) Order(c *gin.Context) error {
 	return nil
 }
 
-func (s DevService) OrderList(c *gin.Context) ([]Order, error) {
+func (s DevOrderService) OrderList(c *gin.Context) ([]Order, error) {
 	var req OrderListReq
 	err := c.ShouldBind(&req)
 	if err != nil {
@@ -149,19 +159,26 @@ func (s DevService) OrderList(c *gin.Context) ([]Order, error) {
 
 	w := model.NewWrapper()
 	if req.SendUser != "" {
-		w.Eq("send_user", req.SendUser)
+		w.Eq("model_name", req.SendUser).EqF("status", 0)
 	}
 
-	o := Order{}
-	mapper := model.NewMapper[Order](o, w)
+	mapper := model.NewMapper[Order](Order{}, w)
 	orders, err := mapper.Select()
 	if err != nil {
 		config.GVA_LOG.Error("select order failed")
 		return nil, errors.Errorf("select order failed: %s", err)
 	}
 
-	return *orders, nil
+	// w = model.NewWrapper()
+	// w.Eq("model_name", req.SendUser)
+	// w.EqF("status", 0)
+	
+	// err = config.GVA_DB.Debug().Model(&Order{}).Where("model_name=?", req.SendUser).Where("status=?", 0).Update("status", 1).Error
+	// if err != nil {
+	// 	return nil, errors.Errorf("update order status failed: %s", req.SendUser)
+	// }
 
+	return *orders, nil
 }
 
 func (s DevService) Set(c *gin.Context) ([]DevSetting, error) {

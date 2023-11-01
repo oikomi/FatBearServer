@@ -1,7 +1,6 @@
 <!-- eslint-disable vue/require-v-for-key -->
 <script setup lang="ts">
 
-import Upper from './Upper.vue';
 import { ref, inject } from "vue";
 
 import { useTokenStore } from '@/stores/token';
@@ -10,7 +9,8 @@ import { userStore } from '@/stores/user';
 
 import { useRouter } from 'vue-router'
 
-import {APP_ID, TOKEN, SERVER_BASE} from '@/config/config';
+import { APP_ID, TOKEN, SERVER_BASE, MSG_INTERVAL } from '@/config/config';
+import { dataType } from "element-plus/es/components/table-v2/src/common.mjs";
 
 
 const router = useRouter()
@@ -36,65 +36,112 @@ const items = ref<IModel[]>([])
 
 const axios: any = inject('axios')  // inject axios
 
-const GET_ORDER = SERVER_BASE + "api/v1/dev/order"
+const GET_ORDER = SERVER_BASE + "api/v1/devorder/order"
 
 const ADD_TOKEN = SERVER_BASE + "api/v1/user/addToken"
+const GET_TOKEN = SERVER_BASE + "api/v1/user/getToken"
 
 
-axios
-    .get(GET_ORDER + "?send_user=" + uStore.getUserName(),
-    { headers: { 'Token': store.getToken() } }, 
-    { withCredentials: true },
-    )
-    // .get(SERVER_BASE, { headers: { 'Token': store.getToken() } })
-    .then((response: { data: any }) => {
-        // console.log("res data", response.data)
-        // if (response.data === 401) {
-        //     console.log("get 401, push to login")
-        //     router.push({ name: 'login' })
-        // }
+function getOrderF() {
+    axios
+        .get(GET_ORDER + "?send_user=" + "host",
+            { headers: { 'Token': store.getToken() } },
+            { withCredentials: true },
+        )
+        // .get(SERVER_BASE, { headers: { 'Token': store.getToken() } })
+        .then((response: { data: any }) => {
+            // console.log("res data", response.data)
+            // if (response.data === 401) {
+            //     console.log("get 401, push to login")
+            //     router.push({ name: 'login' })
+            // }
 
-        items.value = response.data.data
-    }).catch((err: any) => {
-        // console.log("res err", err)
-        // if (err.response.status === 401) {
-        //     console.log("res err, get 401, push to login")
-        //     router.push({ name: 'login' })
-        // }
-    });
+            items.value = response.data.data
+
+            console.log(items.value)
+            console.log("get order success")
+
+
+            // alert("get token success")
+
+        }).catch((err: any) => {
+            // console.log("res err", err)
+            // if (err.response.status === 401) {
+            //     console.log("res err, get 401, push to login")
+            //     router.push({ name: 'login' })
+            // }
+            alert("get order failed: " + err)
+        });
+
+}
+
+let leftToken = ref(0)
+
+
+function getToken() {
+
+    axios
+        .get(GET_TOKEN + "?name=view",
+            { headers: { 'Token': store.getToken() } },
+            { withCredentials: true },
+        )
+        // .get(SERVER_BASE, { headers: { 'Token': store.getToken() } })
+        .then((response: { data: any }) => {
+            // console.log("res data", response.data)
+            // if (response.data === 401) {
+            //     console.log("get 401, push to login")
+            //     router.push({ name: 'login' })
+            // }
+            console.log("get token success")
+            console.log(response.data)
+            leftToken.value = response.data.data
+        }).catch((err: any) => {
+            // console.log("res err", err)
+            // if (err.response.status === 401) {
+            //     console.log("res err, get 401, push to login")
+            //     router.push({ name: 'login' })
+            // }
+
+            alert("get token failed: " + err)
+        });
+
+}
+
+
+// setInterval(getOrderF, 1000);
 
 
 function addToken() {
 
     axios
-    .post(ADD_TOKEN,
-    {
-			'name': uStore.getUserName(),
-			'token': 1000,
-		},
-    { headers: { 'Token': store.getToken() } }, 
-    { withCredentials: true },
-    )
-    // .get(SERVER_BASE, { headers: { 'Token': store.getToken() } })
-    .then((response: { data: any }) => {
-        // console.log("res data", response.data)
-        // if (response.data === 401) {
-        //     console.log("get 401, push to login")
-        //     router.push({ name: 'login' })
-        // }
+        .post(ADD_TOKEN,
+            {
+                'name': uStore.getUserName(),
+                'token': 1000,
+            },
+            { headers: { 'Token': store.getToken() } },
+            { withCredentials: true },
+        )
+        // .get(SERVER_BASE, { headers: { 'Token': store.getToken() } })
+        .then((response: { data: any }) => {
+            // console.log("res data", response.data)
+            // if (response.data === 401) {
+            //     console.log("get 401, push to login")
+            //     router.push({ name: 'login' })
+            // }
 
-        alert("add token success")
+            alert("add token success")
 
-    }).catch((err: any) => {
-        // console.log("res err", err)
-        // if (err.response.status === 401) {
-        //     console.log("res err, get 401, push to login")
-        //     router.push({ name: 'login' })
-        // }
+        }).catch((err: any) => {
+            // console.log("res err", err)
+            // if (err.response.status === 401) {
+            //     console.log("res err, get 401, push to login")
+            //     router.push({ name: 'login' })
+            // }
 
-        alert("add token failed")
+            alert("add token failed: " + err)
 
-    });
+        });
 
 }
 
@@ -102,33 +149,28 @@ function addToken() {
 </script>
 
 <template>
-    <Upper />
-
-
     <div class="secai text-start">
-          <div class="row mb-1 mt-2 text-start">
-			<img class="col-2 " src="/src/assets/SVG/SVG/jiaqiang.svg" alt="" width="50" height="39">
+        <div class="row mb-1 mt-2 text-start">
+            <img class="col-2 " src="/src/assets/SVG/SVG/jiaqiang.svg" alt="" width="50" height="39">
             <h4 class=" col-10 text-start fontcss">Add Tokens</h4>
-          </div>
-
-          <!-- <div class="row mb-3">
-			<img class="col-2 " src="/src/assets/SVG/SVG/shouzhang.svg" alt="" width="46" height="35">
-			<h4 class="col-10 h5  fw-normal">Just for demo Using</h4>
-			</div> -->
-
+        </div>
 
 
         <div class="container row text-start mb-2">
-            <h4 class="left-align mt-2 col-4 fontcss">Token left: </h4> 
-            <button type="button" class="btn  col-4 xiaotubiaored fontcss" @click="addToken">Apply for 1000 Tokens</button>
-
+            <h4 class="left-align mt-2 col-4 fontcss">Token left: {{leftToken}}</h4>
+            <button class="col-2 btn btn-primary mt-1 mb-2 secai" @click="getToken">Refresh</button>
+            <button type="button" class="btn offset-1 col-4 xiaotubiaored fontcss" @click="getToken">Apply for 1000
+                Tokens</button>
         </div>
 
     </div>
 
 
     <div class="container-fluid secai text-start mb-1">
-        <h4 class="left-align mt-2 text-start secai fontcss">Recently 100 times action</h4>
+        <div class="container-fluid row">
+            <h4 class="left-align col-4 mt-2 text-start secai fontcss">Recently 100 times action</h4>
+            <button class="offset-1 col-2 btn btn-primary mt-1 mb-2 secai" @click="getOrderF">Refresh</button>
+        </div>
 
         <table class="table mb-2">
             <thead>
@@ -158,50 +200,49 @@ function addToken() {
 </template>
 
 <style scoped>
-
 html,
 body {
-	width : 100%;
-  height : 100%;
-	/* background-color:#C24362; */
-	background-image: linear-gradient(-45deg, #C24362, #6450A4);
-  /* background-image: url(/src/assets/SVG/chunbeijing/meinv.svg); */
-	/* background-repeat: no-repeat; */
+    width: 100%;
+    height: 100%;
+    /* background-color:#C24362; */
+    background-image: linear-gradient(-45deg, #C24362, #6450A4);
+    /* background-image: url(/src/assets/SVG/chunbeijing/meinv.svg); */
+    /* background-repeat: no-repeat; */
 }
 
 
 .secai {
-	background-image: linear-gradient(-45deg, #C24362, #6450A4);
+    background-image: linear-gradient(-45deg, #C24362, #6450A4);
 }
 
 .maincss {
     background-image: url(/src/assets/SVG/chunbeijing/meinv.svg);
 
-} 
+}
 
 .setting {
     background-image: linear-gradient(-45deg, #ba4068, #8474b1);
-} 
+}
 
 .dandiv {
-  background-image: linear-gradient(-45deg, #c95b7c, #7252c4);
+    background-image: linear-gradient(-45deg, #c95b7c, #7252c4);
 }
 
 .tablecss {
-  /* background-image: linear-gradient(-45deg, #753c4d, #594b7e); */
-  background-color:rgba(0,0,0,0);
+    /* background-image: linear-gradient(-45deg, #753c4d, #594b7e); */
+    background-color: rgba(0, 0, 0, 0);
 
 }
 
 .xiaotubiao {
-  background-image: linear-gradient(-45deg, #1c181c, #8675b5);
-  /* background-color:rgba(20, 19, 19, 0); */
+    background-image: linear-gradient(-45deg, #1c181c, #8675b5);
+    /* background-color:rgba(20, 19, 19, 0); */
 
 }
 
 .xiaotubiaored {
-  background-image: linear-gradient(-45deg, #e80f45, #8d8898);
-  /* background-color:rgba(20, 19, 19, 0); */
+    background-image: linear-gradient(-45deg, #e80f45, #8d8898);
+    /* background-color:rgba(20, 19, 19, 0); */
 
 }
 
@@ -209,7 +250,6 @@ body {
 
 .fontcss {
 
-  color: azure;
+    color: azure;
 }
-
 </style>

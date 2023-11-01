@@ -97,7 +97,18 @@ func (s RoomService) UpdateRoom(c *gin.Context) error {
 	return nil
 }
 
-func (s RoomService) GetRoomMsg(c *gin.Context) ([]RoomMsg, error) {
+
+
+type RoomMsgService struct {
+	service.Service[RoomMsg]
+}
+
+func NewRoomMsgService(msg RoomMsg) RoomMsgService {
+	return RoomMsgService{service.NewBaseService[RoomMsg](msg)}
+}
+
+
+func (s RoomMsgService) GetRoomMsg(c *gin.Context) ([]RoomMsg, error) {
 
 	var req GetRoomMsgReq
 	err := c.ShouldBind(&req)
@@ -121,7 +132,7 @@ func (s RoomService) GetRoomMsg(c *gin.Context) ([]RoomMsg, error) {
 	return *msgs, nil
 }
 
-func (s RoomService) SendRoomMsg(c *gin.Context) error {
+func (s RoomMsgService) SendRoomMsg(c *gin.Context) error {
 	var req SendRoomMsgReq
 	err := c.ShouldBind(&req)
 	if err != nil {

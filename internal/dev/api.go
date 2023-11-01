@@ -48,7 +48,22 @@ func (r DevApi) Login(c *gin.Context) {
 	response.Ok(c)
 }
 
-func (r DevApi) Order(c *gin.Context) {
+
+// order api
+
+type DevOrderApi struct {
+	api.Api
+	Service DevOrderService
+}
+
+func NewDevOrderApi() DevOrderApi {
+	var o Order
+	s := NewDevOrderService(o)
+	baseApi := api.NewApi[Order](s)
+	return DevOrderApi{Api: baseApi, Service: s}
+}
+
+func (r DevOrderApi) Order(c *gin.Context) {
 	err := r.Service.Order(c)
 	if err != nil {
 		response.FailWithError(err, c)
@@ -58,7 +73,7 @@ func (r DevApi) Order(c *gin.Context) {
 	response.Ok(c)
 }
 
-func (r DevApi) OrderList(c *gin.Context) {
+func (r DevOrderApi) OrderList(c *gin.Context) {
 	orders, err := r.Service.OrderList(c)
 	if err != nil {
 		response.FailWithError(err, c)
@@ -68,6 +83,8 @@ func (r DevApi) OrderList(c *gin.Context) {
 	response.OkWithData(orders, c)
 }
 
+
+// set api
 func (r DevApi) Set(c *gin.Context) {
 	sets, err := r.Service.Set(c)
 	if err != nil {

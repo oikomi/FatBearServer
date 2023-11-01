@@ -11,7 +11,7 @@ import { userStore } from '@/stores/user';
 
 import { useRouter } from 'vue-router'
 
-import {APP_ID, TOKEN, SERVER_BASE} from '@/config/config';
+import {APP_ID, TOKEN, SERVER_BASE, MSG_INTERVAL} from '@/config/config';
 
 
 const router = useRouter()
@@ -38,7 +38,7 @@ let inMsg = ref('')
 const axios: any = inject('axios')  // inject axios
 
 // dev
-const ROOM_MSG_LIST_URL = SERVER_BASE + "api/v1/room/msg"
+const ROOM_MSG_LIST_URL = SERVER_BASE + "api/v1/roommsg/msg"
 
 function getMsg() {
 
@@ -96,7 +96,7 @@ axios
   }
 
   getMsg()
-  setInterval(getMsg, 500);
+  setInterval(getMsg, MSG_INTERVAL);
 
 </script>
 

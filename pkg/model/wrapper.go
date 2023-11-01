@@ -57,6 +57,12 @@ func (w *wrapper) Eq(name string, params interface{}) *wrapper {
 	return w
 }
 
+// fix by zero value
+func (w *wrapper) EqF(name string, params interface{}) *wrapper {
+	w.append(name, params, EQ, true)
+	return w
+}
+
 func (w *wrapper) Ne(name string, params interface{}) *wrapper {
 	w.append(name, params, NE, false)
 	return w

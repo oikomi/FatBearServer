@@ -6,3 +6,5 @@ export const TOKEN = "007eJxTYNBmitovYNjnrL58d+SvnRNM/U8e5FK4uur+gSViqXsqfDkVGBK
 
 // export const SERVER_BASE = "http://127.0.0.1:8080/"
 export const SERVER_BASE = "https://120.55.60.98/"
+
+export const MSG_INTERVAL = 2000

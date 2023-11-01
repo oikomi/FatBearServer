@@ -32,7 +32,7 @@ type OrderReq struct {
 }
 
 type OrderListReq struct {
-	SendUser string `json:"send_user" `
+	SendUser string `form:"send_user" `
 }
 
 type SetReq struct {

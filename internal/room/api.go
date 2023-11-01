@@ -48,7 +48,21 @@ func (r RoomApi) UpdateRoom(c *gin.Context) {
 	response.Ok(c)
 }
 
-func (r RoomApi) GetRoomMsg(c *gin.Context) {
+
+type RoomMsgApi struct {
+	api.Api
+	Service RoomMsgService
+}
+
+func NewRoomMsgApi() RoomMsgApi {
+	var msg RoomMsg
+	s := NewRoomMsgService(msg)
+	baseApi := api.NewApi[RoomMsg](s)
+	return RoomMsgApi{Api: baseApi, Service: s}
+}
+
+
+func (r RoomMsgApi) GetRoomMsg(c *gin.Context) {
 	msgs, err := r.Service.GetRoomMsg(c)
 	if err != nil {
 		response.FailWithError(err, c)
@@ -58,7 +72,7 @@ func (r RoomApi) GetRoomMsg(c *gin.Context) {
 	response.OkWithData(msgs, c)
 }
 
-func (r RoomApi) SendRoomMsg(c *gin.Context) {
+func (r RoomMsgApi) SendRoomMsg(c *gin.Context) {
 	err := r.Service.SendRoomMsg(c)
 	if err != nil {
 		response.FailWithError(err, c)

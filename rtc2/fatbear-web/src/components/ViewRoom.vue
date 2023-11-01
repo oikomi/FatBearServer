@@ -27,7 +27,7 @@ const axios: any = inject('axios')  // inject axios
 
 axios.defaults.withCredentials = true
 
-const SEND_TIP_URL = SERVER_BASE + "api/v1/dev/order"
+const SEND_TIP_URL = SERVER_BASE + "api/v1/devorder/order"
 const DEV_SET_URL = SERVER_BASE + "api/v1/dev/set"
 
 const GET_TOKEN_URL = SERVER_BASE + "api/v1/user/getToken"
@@ -167,12 +167,15 @@ function sendTip() {
         console.log("get 401, push to login")
         router.push({ name: 'login' })
       }
+      alert("send success")
     }).catch((err: any) => {
       console.log("res err", err)
       if (err.response.status === 401) {
         console.log("res err, get 401, push to login")
         router.push({ name: 'login' })
       }
+      alert("send failed")
+
     });
 
 }
