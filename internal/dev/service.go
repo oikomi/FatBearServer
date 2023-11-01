@@ -145,6 +145,33 @@ func (s DevService) OrderList(c *gin.Context) ([]Order, error) {
 	return *orders, nil
 }
 
+func (s DevService) Order(c *gin.Context) error {
+	var req OrderReq
+	err := c.ShouldBind(&req)
+	if err != nil {
+		config.GVA_LOG.Error("do order failed", zap.Error(err))
+		return err
+	}
+
+	order := Order{
+		DevName:   req.DevName,
+		ModelName: req.ModelName,
+		SendUser:  req.SendUser,
+		Vibration: req.Vibration,
+		Duration:  req.Duration,
+		Token:     req.Token,
+	}
+	mapper := model.NewMapper[Order](order, nil)
+	err = mapper.Insert(&order)
+	if err != nil {
+		config.GVA_LOG.Error("insert failed")
+		return errors.Errorf("insert order failed: %s", req.DevName)
+	}
+
+	return nil
+}
+
+
 
 
 // order

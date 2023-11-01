@@ -27,7 +27,7 @@ const axios: any = inject('axios')  // inject axios
 
 axios.defaults.withCredentials = true
 
-const SEND_TIP_URL = SERVER_BASE + "api/v1/devorder/order"
+const SEND_TIP_URL = SERVER_BASE + "api/v1/dev/order"
 const DEV_SET_URL = SERVER_BASE + "api/v1/dev/set"
 
 const GET_TOKEN_URL = SERVER_BASE + "api/v1/user/getToken"
@@ -156,7 +156,7 @@ function sendTip() {
         'send_user': uStore.getUserName(),
         'vibration': "Medium",
         'duration': 2,
-        'token': lastToken,
+        'token': 22,
       },
       { headers: { 'Token': store.getToken() } }, { withCredentials: true }
     )

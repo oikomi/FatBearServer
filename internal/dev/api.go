@@ -58,6 +58,17 @@ func (r DevApi) OrderList(c *gin.Context) {
 	response.OkWithData(orders, c)
 }
 
+func (r DevApi) Order(c *gin.Context) {
+	err := r.Service.Order(c)
+	if err != nil {
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.Ok(c)
+}
+
+
 
 
 
