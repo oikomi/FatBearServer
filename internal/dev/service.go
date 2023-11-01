@@ -159,7 +159,7 @@ func (s DevOrderService) OrderList(c *gin.Context) ([]Order, error) {
 
 	w := model.NewWrapper()
 	if req.SendUser != "" {
-		w.Eq("model_name", req.SendUser).EqF("status", 0)
+		w.Eq("model_name", "host").EqF("status", 0)
 	}
 
 	mapper := model.NewMapper[Order](Order{}, w)
