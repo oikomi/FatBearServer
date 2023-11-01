@@ -113,6 +113,39 @@ func (s DevService) Login(c *gin.Context) error {
 	return nil
 }
 
+func (s DevService) OrderList(c *gin.Context) ([]Order, error) {
+	var req OrderListReq
+	err := c.ShouldBind(&req)
+	if err != nil {
+		config.GVA_LOG.Error("get order failed", zap.Error(err))
+		return nil, err
+	}
+
+	w := model.NewWrapper()
+	if req.SendUser != "" {
+		w.Eq("model_name", "host").EqF("status", 0)
+	}
+
+	mapper := model.NewMapper[Order](Order{}, w)
+	orders, err := mapper.Select()
+	if err != nil {
+		config.GVA_LOG.Error("select order failed")
+		return nil, errors.Errorf("select order failed: %s", err)
+	}
+
+	// w = model.NewWrapper()
+	// w.Eq("model_name", req.SendUser)
+	// w.EqF("status", 0)
+	
+	// err = config.GVA_DB.Debug().Model(&Order{}).Where("model_name=?", req.SendUser).Where("status=?", 0).Update("status", 1).Error
+	// if err != nil {
+	// 	return nil, errors.Errorf("update order status failed: %s", req.SendUser)
+	// }
+
+	return *orders, nil
+}
+
+
 
 // order
 type DevOrderService struct {
