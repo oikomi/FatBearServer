@@ -48,6 +48,17 @@ func (r RoomApi) UpdateRoom(c *gin.Context) {
 	response.Ok(c)
 }
 
+func (r RoomApi) GetRoomMsg(c *gin.Context) {
+	msgs, err := r.Service.GetRoomMsg(c)
+	if err != nil {
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.OkWithData(msgs, c)
+}
+
+// room msg
 
 type RoomMsgApi struct {
 	api.Api

@@ -38,7 +38,7 @@ let inMsg = ref('')
 const axios: any = inject('axios')  // inject axios
 
 // dev
-const ROOM_MSG_LIST_URL = SERVER_BASE + "api/v1/roommsg/msg"
+const ROOM_MSG_LIST_URL = SERVER_BASE + "api/v1/room/msg"
 
 function getMsg() {
 
