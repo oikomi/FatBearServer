@@ -189,8 +189,11 @@ func (s DevService) Order(c *gin.Context) error {
 		return errors.Errorf("insert order failed: %s", req.DevName)
 	}
 
+	config.GVA_LOG.Info("start to update token")
+
 	curToken, err := s.getToken(req.SendUser)
 	if err != nil {
+		config.GVA_LOG.Error("get curToken failed", zap.Error(err))
 		return err
 	}
 
@@ -201,6 +204,7 @@ func (s DevService) Order(c *gin.Context) error {
 
 	err = config.GVA_DB.Debug().Model(&auth.BaseUser{}).Where("name=?", req.SendUser).Update("token", curToken - req.Token).Error
 	if err != nil {
+		config.GVA_LOG.Error("update token failed", zap.Error(err))
 		return errors.Errorf("send order failed: %s", req.SendUser)
 	}
 

@@ -14,7 +14,7 @@ import { useTokenStore } from '@/stores/token';
 import { userStore } from '@/stores/user';
 
 import { useDevStore } from '@/stores/dev';
-import { APP_ID, TOKEN, SERVER_BASE } from '@/config/config';
+import { APP_ID, TOKEN, SERVER_BASE, MSG_INTERVAL } from '@/config/config';
 
 
 const uStore = userStore()
@@ -97,7 +97,7 @@ onMounted(() => {
   console.log(`the component is now mounted.`)
   getUserToken()
 
-  setInterval(getUserToken, 5000);
+  setInterval(getUserToken, MSG_INTERVAL);
 })
 
 

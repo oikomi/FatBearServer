@@ -11,7 +11,7 @@ import { userStore } from '@/stores/user';
 
 import { useRouter } from 'vue-router'
 
-import {APP_ID, TOKEN, SERVER_BASE, MSG_INTERVAL} from '@/config/config';
+import {SERVER_BASE, MSG_INTERVAL} from '@/config/config';
 
 
 const router = useRouter()
