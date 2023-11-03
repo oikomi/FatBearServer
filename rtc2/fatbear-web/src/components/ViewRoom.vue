@@ -93,7 +93,7 @@ axios
   });
   }
 
-  onMounted(() => {
+onMounted(() => {
   console.log(`the component is now mounted.`)
   getUserToken()
 

@@ -3,7 +3,7 @@
 // https://github.com/WeiLin-Liao/vue-min-chat/blob/master/src/components/message-pabel.vue
 
 import Upper from './Upper.vue';
-import { ref, inject } from "vue";
+import { ref, inject ,onMounted} from "vue";
 
 import { useTokenStore } from '@/stores/token';
 
@@ -95,8 +95,12 @@ axios
 
   }
 
+  onMounted(() => {
+  console.log(`the component is now mounted.`)
   getMsg()
   setInterval(getMsg, MSG_INTERVAL);
+})
+
 
 </script>
 

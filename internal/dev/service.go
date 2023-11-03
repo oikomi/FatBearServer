@@ -195,6 +195,7 @@ func (s DevService) Order(c *gin.Context) error {
 	}
 
 	if curToken < req.Token {
+		config.GVA_LOG.Error("not enough token to pay : %d")
 		return errors.Errorf("not enough token to pay: %s", req.SendUser)
 	}
 
