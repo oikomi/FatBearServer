@@ -97,9 +97,9 @@ axios
   console.log(`the component is now mounted.`)
   getUserToken()
 
+  setInterval(getUserToken, 5000);
 })
 
-  // setInterval(getUserToken, 1000);
 
 
 // axios
@@ -121,8 +121,10 @@ axios
 
 
 const tselect = ref('')
-const tc = ref(0)
+const tc = ref('')
 let lastToken: number = 0
+
+let finalToken : number = 0
 
 function setting() {
   router.push({ name: 'order' })
@@ -141,11 +143,12 @@ function sendTip() {
     lastToken = 100
   }
 
-  if (tc.value !== 0) {
-    lastToken = tc.value
+  if (tc.value !== '') {
+    lastToken = parseInt(tc.value, 10)
   }
 
-  console.log("lastToken is ", lastToken)
+  finalToken = lastToken as number
+  console.log("finalToken is ", lastToken)
 
   console.log("send tip , token is  ", store.getToken())
   axios
@@ -156,7 +159,7 @@ function sendTip() {
         'send_user': uStore.getUserName(),
         'vibration': "Medium",
         'duration': 2,
-        'token': 22,
+        'token': lastToken,
       },
       { headers: { 'Token': store.getToken() } }, { withCredentials: true }
     )

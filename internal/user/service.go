@@ -80,15 +80,9 @@ func (s UserService) AddToken(c *gin.Context) error {
 		return errors.Errorf("user not exist: %s", req.Name)
 	}
 
-	w2 := model.NewWrapper()
-	w2.Eq("name", req.Name)
-
-	mapper = model.NewMapper[auth.BaseUser](auth.BaseUser{
-		Name: req.Name,
-	}, w2)
-	err = mapper.Update("token", storeUser.Token+req.Token)
+	err = config.GVA_DB.Debug().Model(&auth.BaseUser{}).Where("name=?", req.Name).Update("token", storeUser.Token + req.Token).Error
 	if err != nil {
-		return errors.Errorf("update user token failed: %s", req.Name)
+		return errors.Errorf("add token failed: %s", req.Name)
 	}
 
 	return nil

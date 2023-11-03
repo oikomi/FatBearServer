@@ -23,12 +23,12 @@ type DevLoginReq struct {
 }
 
 type OrderReq struct {
-	DevName   string `json:"dev_name" `
-	ModelName string `json:"model_name" `
-	SendUser  string `json:"send_user" `
-	Vibration string `json:"vibration" `
-	Duration  int    `json:"duration" `
-	Token     int    `json:"token" `
+	DevName   string `json:"dev_name" form:"dev_name"`
+	ModelName string `json:"model_name" form:"model_name"`
+	SendUser  string `json:"send_user" form:"send_user"`
+	Vibration string `json:"vibration" form:"vibration"`
+	Duration  int    `json:"duration" form:"duration"`
+	Token     int    `json:"token" form:"token"`
 }
 
 type OrderListReq struct {

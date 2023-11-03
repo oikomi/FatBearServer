@@ -44,7 +44,7 @@ const GET_TOKEN = SERVER_BASE + "api/v1/user/getToken"
 
 function getOrderF() {
     axios
-        .get(GET_ORDER + "?send_user=" + "host",
+        .get(GET_ORDER + "?send_user=" + "view",
             { headers: { 'Token': store.getToken() } },
             { withCredentials: true },
         )
@@ -159,7 +159,7 @@ function addToken() {
         <div class="container row text-start mb-2">
             <h4 class="left-align mt-2 col-4 fontcss">Token left: {{leftToken}}</h4>
             <button class="col-2 btn btn-primary mt-1 mb-2 secai" @click="getToken">Refresh</button>
-            <button type="button" class="btn offset-1 col-4 xiaotubiaored fontcss" @click="getToken">Apply for 1000
+            <button type="button" class="btn offset-1 col-4 xiaotubiaored fontcss" @click="addToken">Apply for 1000
                 Tokens</button>
         </div>
 

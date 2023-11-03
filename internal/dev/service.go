@@ -8,6 +8,7 @@ import (
 	"github.com/oikomi/FatBearServer/utils"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
+	"github.com/oikomi/FatBearServer/pkg/auth"
 )
 
 type DevService struct {
@@ -145,6 +146,26 @@ func (s DevService) OrderList(c *gin.Context) ([]Order, error) {
 	return *orders, nil
 }
 
+func (s DevService) getToken(name string) (int, error) {
+
+	user := auth.BaseUser{
+		Name: name,
+	}
+
+	w := model.NewWrapper()
+	w.Eq("name", name)
+
+	mapper := model.NewMapper[auth.BaseUser](user, w)
+	storeUser, err := mapper.SelectOne()
+	if err != nil {
+		config.GVA_LOG.Error("user not exist", zap.String("name", name))
+		return 0, errors.Errorf("user not exist: %s", name)
+	}
+
+	return storeUser.Token, nil
+}
+
+
 func (s DevService) Order(c *gin.Context) error {
 	var req OrderReq
 	err := c.ShouldBind(&req)
@@ -166,6 +187,20 @@ func (s DevService) Order(c *gin.Context) error {
 	if err != nil {
 		config.GVA_LOG.Error("insert failed")
 		return errors.Errorf("insert order failed: %s", req.DevName)
+	}
+
+	curToken, err := s.getToken(req.SendUser)
+	if err != nil {
+		return err
+	}
+
+	if curToken < req.Token {
+		return errors.Errorf("not enough token to pay: %s", req.SendUser)
+	}
+
+	err = config.GVA_DB.Debug().Model(&auth.BaseUser{}).Where("name=?", req.SendUser).Update("token", curToken - req.Token).Error
+	if err != nil {
+		return errors.Errorf("send order failed: %s", req.SendUser)
 	}
 
 	return nil
