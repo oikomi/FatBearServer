@@ -5,7 +5,9 @@ import "github.com/oikomi/FatBearServer/pkg/model"
 type Status int
 
 const (
-	created Status = iota
+	CREATE Status = iota
+	LIVING
+	EXIT
 )
 
 type Room struct {

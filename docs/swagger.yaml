@@ -1,0 +1,345 @@
+definitions:
+  dev.DevLoginReq:
+    properties:
+      dev_name:
+        type: string
+      model_name:
+        type: string
+      password:
+        type: string
+    type: object
+  dev.Order:
+    properties:
+      createdAt:
+        description: 创建时间
+        type: string
+      dev_name:
+        type: string
+      duration:
+        type: integer
+      id:
+        description: 主键ID
+        type: integer
+      model_name:
+        type: string
+      send_user:
+        type: string
+      status:
+        type: integer
+      token:
+        type: integer
+      updatedAt:
+        description: 更新时间
+        type: string
+      vibration:
+        type: string
+    type: object
+  dev.OrderReq:
+    properties:
+      dev_name:
+        type: string
+      duration:
+        type: integer
+      model_name:
+        type: string
+      send_user:
+        type: string
+      token:
+        type: integer
+      vibration:
+        type: string
+    type: object
+  room.CreateRoomReq:
+    properties:
+      creator:
+        type: string
+      name:
+        type: string
+    type: object
+  room.Room:
+    properties:
+      createdAt:
+        description: 创建时间
+        type: string
+      creator:
+        type: string
+      id:
+        description: 主键ID
+        type: integer
+      room_name:
+        type: string
+      room_status:
+        type: integer
+      updatedAt:
+        description: 更新时间
+        type: string
+    type: object
+  room.RoomMsg:
+    properties:
+      createdAt:
+        description: 创建时间
+        type: string
+      id:
+        description: 主键ID
+        type: integer
+      msg:
+        type: string
+      room_name:
+        type: string
+      send_user:
+        type: string
+      updatedAt:
+        description: 更新时间
+        type: string
+    type: object
+  room.SendRoomMsgReq:
+    properties:
+      msg:
+        type: string
+      name:
+        type: string
+      send_user:
+        type: string
+    type: object
+  user.AddTokenReq:
+    properties:
+      name:
+        type: string
+      token:
+        type: integer
+    type: object
+  user.LoginReq:
+    properties:
+      password:
+        type: string
+      role:
+        type: string
+      user_name:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server Petstore server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /api/v1/dev/login:
+    post:
+      consumes:
+      - application/json
+      description: DevLogin
+      parameters:
+      - description: Authentication header
+        in: header
+        name: super_token
+        type: string
+      - description: dev login
+        in: body
+        name: DevLoginReq
+        required: true
+        schema:
+          $ref: '#/definitions/dev.DevLoginReq'
+      produces:
+      - application/json
+      responses: {}
+  /api/v1/dev/order:
+    get:
+      consumes:
+      - application/json
+      description: OrderList
+      parameters:
+      - description: Authentication header
+        in: header
+        name: super_token
+        type: string
+      - description: OrderList
+        in: body
+        name: DevLoginReq
+        required: true
+        schema:
+          $ref: '#/definitions/dev.DevLoginReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dev.Order'
+            type: array
+    post:
+      consumes:
+      - application/json
+      description: send Order
+      parameters:
+      - description: Authentication header
+        in: header
+        name: super_token
+        type: string
+      - description: send order
+        in: body
+        name: OrderReq
+        required: true
+        schema:
+          $ref: '#/definitions/dev.OrderReq'
+      produces:
+      - application/json
+      responses: {}
+  /api/v1/room/create:
+    post:
+      consumes:
+      - application/json
+      description: CreateRoom
+      parameters:
+      - description: Authentication header
+        in: header
+        name: super_token
+        type: string
+      - description: create room
+        in: body
+        name: createRoom
+        required: true
+        schema:
+          $ref: '#/definitions/room.CreateRoomReq'
+      produces:
+      - application/json
+      responses: {}
+  /api/v1/room/list:
+    get:
+      consumes:
+      - application/json
+      description: GetRoomList
+      parameters:
+      - description: Authentication header
+        in: header
+        name: super_token
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/room.Room'
+            type: array
+  /api/v1/room/msg:
+    get:
+      consumes:
+      - application/json
+      description: GetRoomMsg
+      parameters:
+      - description: Authentication header
+        in: header
+        name: super_token
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/room.RoomMsg'
+            type: array
+    post:
+      consumes:
+      - application/json
+      description: GetRoomMsg
+      parameters:
+      - description: Authentication header
+        in: header
+        name: super_token
+        type: string
+      - description: send room msg
+        in: body
+        name: SendRoomMsgReq
+        required: true
+        schema:
+          $ref: '#/definitions/room.SendRoomMsgReq'
+      produces:
+      - application/json
+      responses: {}
+  /api/v1/user/addToken:
+    post:
+      consumes:
+      - application/json
+      description: user add token
+      parameters:
+      - description: Authentication header
+        in: header
+        name: super_token
+        type: string
+      - description: AddToken
+        in: body
+        name: AddTokenReq
+        required: true
+        schema:
+          $ref: '#/definitions/user.AddTokenReq'
+      produces:
+      - application/json
+      responses: {}
+  /api/v1/user/getToken:
+    get:
+      consumes:
+      - application/json
+      description: user add token
+      parameters:
+      - description: Authentication header
+        in: header
+        name: super_token
+        type: string
+      - description: AddToken
+        in: body
+        name: AddTokenReq
+        required: true
+        schema:
+          $ref: '#/definitions/user.AddTokenReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: token
+          schema:
+            type: integer
+  /api/v1/user/login:
+    post:
+      consumes:
+      - application/json
+      description: user login
+      parameters:
+      - description: Authentication header
+        in: header
+        name: super_token
+        type: string
+      - description: user login
+        in: body
+        name: LoginReq
+        required: true
+        schema:
+          $ref: '#/definitions/user.LoginReq'
+      produces:
+      - application/json
+      responses: {}
+  /health:
+    get:
+      consumes:
+      - application/json
+      description: HealthCheck
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+      summary: HealthCheck
+swagger: "2.0"

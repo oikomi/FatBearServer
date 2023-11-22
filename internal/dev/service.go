@@ -3,12 +3,12 @@ package dev
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/oikomi/FatBearServer/config"
+	"github.com/oikomi/FatBearServer/pkg/auth"
 	"github.com/oikomi/FatBearServer/pkg/model"
 	"github.com/oikomi/FatBearServer/pkg/service"
 	"github.com/oikomi/FatBearServer/utils"
 	"github.com/pkg/errors"
 	"go.uber.org/zap"
-	"github.com/oikomi/FatBearServer/pkg/auth"
 )
 
 type DevService struct {
@@ -137,7 +137,7 @@ func (s DevService) OrderList(c *gin.Context) ([]Order, error) {
 	// w = model.NewWrapper()
 	// w.Eq("model_name", req.SendUser)
 	// w.EqF("status", 0)
-	
+
 	err = config.GVA_DB.Debug().Model(&Order{}).Where("model_name=?", "host").Where("status=?", 0).Update("status", 1).Error
 	if err != nil {
 		return nil, errors.Errorf("update order status failed: %s", req.SendUser)
@@ -164,7 +164,6 @@ func (s DevService) getToken(name string) (int, error) {
 
 	return storeUser.Token, nil
 }
-
 
 func (s DevService) Order(c *gin.Context) error {
 	var req OrderReq
@@ -202,7 +201,7 @@ func (s DevService) Order(c *gin.Context) error {
 		return errors.Errorf("not enough token to pay: %s", req.SendUser)
 	}
 
-	err = config.GVA_DB.Debug().Model(&auth.BaseUser{}).Where("name=?", req.SendUser).Update("token", curToken - req.Token).Error
+	err = config.GVA_DB.Debug().Model(&auth.BaseUser{}).Where("name=?", req.SendUser).Update("token", curToken-req.Token).Error
 	if err != nil {
 		config.GVA_LOG.Error("update token failed", zap.Error(err))
 		return errors.Errorf("send order failed: %s", req.SendUser)
@@ -210,7 +209,6 @@ func (s DevService) Order(c *gin.Context) error {
 
 	return nil
 }
-
 
 // order
 type DevOrderService struct {
@@ -270,7 +268,7 @@ func (s DevOrderService) OrderList(c *gin.Context) ([]Order, error) {
 	// w = model.NewWrapper()
 	// w.Eq("model_name", req.SendUser)
 	// w.EqF("status", 0)
-	
+
 	// err = config.GVA_DB.Debug().Model(&Order{}).Where("model_name=?", req.SendUser).Where("status=?", 0).Update("status", 1).Error
 	// if err != nil {
 	// 	return nil, errors.Errorf("update order status failed: %s", req.SendUser)

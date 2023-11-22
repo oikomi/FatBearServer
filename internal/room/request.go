@@ -9,6 +9,10 @@ type CreateRoomReq struct {
 	Creator string `json:"creator" `
 }
 
+type HeartbeatReq struct {
+	Name string `json:"name" `
+}
+
 type GetRoomListReq struct {
 	Name string `json:"name" `
 }

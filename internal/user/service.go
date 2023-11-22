@@ -80,7 +80,7 @@ func (s UserService) AddToken(c *gin.Context) error {
 		return errors.Errorf("user not exist: %s", req.Name)
 	}
 
-	err = config.GVA_DB.Debug().Model(&auth.BaseUser{}).Where("name=?", req.Name).Update("token", storeUser.Token + req.Token).Error
+	err = config.GVA_DB.Debug().Model(&auth.BaseUser{}).Where("name=?", req.Name).Update("token", storeUser.Token+req.Token).Error
 	if err != nil {
 		return errors.Errorf("add token failed: %s", req.Name)
 	}

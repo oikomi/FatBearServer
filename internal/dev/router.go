@@ -17,8 +17,6 @@ func InitRouter(g *gin.RouterGroup) {
 	r.BindGet("order", a.OrderList)
 	r.BindPost("order", a.Order)
 
-
-
 	// dev order
 	devOrderRouter := router.NewRouter(g.Group("devorder"))
 	devOrderApi := NewDevOrderApi()
@@ -27,5 +25,4 @@ func InitRouter(g *gin.RouterGroup) {
 	devOrderRouter.BindGet("order", devOrderApi.OrderList)
 
 	r.BindGet("set", a.Set)
-
 }

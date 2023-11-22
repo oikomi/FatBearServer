@@ -8,7 +8,10 @@ import (
 	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
 	"github.com/oikomi/FatBearServer/config"
+	docs "github.com/oikomi/FatBearServer/docs"
 	"github.com/oikomi/FatBearServer/initialize"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"go.uber.org/zap"
 )
 
@@ -45,6 +48,19 @@ func initServer(address string, router *gin.Engine) server {
 	return s
 }
 
+//	@title			Swagger Example API
+//	@version		1.0
+//	@description	This is a sample server Petstore server.
+//	@termsOfService	http://swagger.io/terms/
+
+//	@contact.name	API Support
+//	@contact.url	http://www.swagger.io/support
+//	@contact.email	support@swagger.io
+
+//	@license.name	Apache 2.0
+//	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host	localhost:8080
 func main() {
 	// 初始化配置
 	config.GVA_VP = initialize.Viper()
@@ -70,8 +86,30 @@ func main() {
 		return
 	}
 
+	HealthGroup := router.Group("")
+	{
+		// 健康监测
+		HealthGroup.GET("/health", HealthCheck)
+	}
+
 	// 初始化Admin
 	initialize.Admin(router)
 
+	// initialize.Swagger(router)
+
+	docs.SwaggerInfo.Host = "120.55.60.98:8080"
+	// url := ginSwagger.URL("http://127.0.0.1:8080/swagger/doc.json") // The url pointing to API definition
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	runServer(router)
+}
+
+// @Summary		HealthCheck
+// @Description	HealthCheck
+// @Accept			json
+// @Produce		json
+// @Success		200	{string}	string	"ok"
+// @Router			/health [get]
+func HealthCheck(g *gin.Context) {
+	g.JSON(http.StatusOK, "ok")
 }

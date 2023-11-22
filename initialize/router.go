@@ -17,16 +17,12 @@ import (
 	"github.com/oikomi/FatBearServer/utils"
 )
 
-func HealthCheck(g *gin.Context) {
-	g.JSON(http.StatusOK, "ok...")
-}
-
-func SetHeader() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
-		c.Next()
-	}
-}
+// func SetHeader() gin.HandlerFunc {
+// 	return func(c *gin.Context) {
+// 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+// 		c.Next()
+// 	}
+// }
 
 func Routers() *gin.Engine {
 	if err := utils.Translator("zh"); err != nil {
@@ -65,11 +61,6 @@ func Routers() *gin.Engine {
 
 	Router.Use(middleware.Recovery())
 	Router.Use(middleware.Logger())
-	HealthGroup := Router.Group("")
-	{
-		// 健康监测
-		HealthGroup.GET("/health", HealthCheck)
-	}
 
 	ApiGroup := Router.Group("api/v1")
 	app.InitRouter(ApiGroup)

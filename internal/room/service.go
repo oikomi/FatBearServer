@@ -36,6 +36,37 @@ func (s RoomService) MakeResponse(val model.Model) any {
 	return res
 }
 
+func (s RoomService) checkRoomExist(name string) (bool, error) {
+	w := model.NewWrapper()
+	w.Eq("room_name", name)
+
+	m := Room{}
+	mapper := model.NewMapper[Room](m, w)
+	findRoom, err := mapper.SelectOne()
+	if err == nil && findRoom.ID > 0 {
+		config.GVA_LOG.Info("Room exist : ", zap.String("room", name))
+		return true, nil
+	} else {
+		return false, err
+	}
+}
+
+func (s RoomService) Heartbeat(c *gin.Context) error {
+	var req HeartbeatReq
+	err := c.ShouldBind(&req)
+	if err != nil {
+		config.GVA_LOG.Error("Bind Heartbeat failed", zap.Error(err))
+		return err
+	}
+
+	// isExist, err := checkRoomExist(req.Name)
+	// if err != nil {
+
+	// }
+
+	return nil
+}
+
 func (s RoomService) CreateRoom(c *gin.Context) error {
 	var req CreateRoomReq
 	err := c.ShouldBind(&req)
@@ -51,13 +82,13 @@ func (s RoomService) CreateRoom(c *gin.Context) error {
 	mapper := model.NewMapper[Room](m, w)
 	_, err = mapper.SelectOne()
 	if err == nil {
-		config.GVA_LOG.Error("Room exist", zap.String("room", req.Name))
-		return errors.Errorf("Room exist: %s", req.Name)
+		config.GVA_LOG.Error("Room already exist", zap.String("room", req.Name))
+		return errors.Errorf("Room already exist: %s", req.Name)
 	}
 	room := Room{
 		RoomName:   req.Name,
 		Creator:    req.Creator,
-		RoomStatus: int(created),
+		RoomStatus: int(CREATE),
 	}
 	err = mapper.Insert(&room)
 	if err != nil {
@@ -143,7 +174,6 @@ func (s RoomService) SendRoomMsg(c *gin.Context) error {
 	return nil
 }
 
-
 // room msg
 type RoomMsgService struct {
 	service.Service[RoomMsg]
@@ -152,7 +182,6 @@ type RoomMsgService struct {
 func NewRoomMsgService(msg RoomMsg) RoomMsgService {
 	return RoomMsgService{service.NewBaseService[RoomMsg](msg)}
 }
-
 
 func (s RoomMsgService) GetRoomMsg(c *gin.Context) ([]RoomMsg, error) {
 

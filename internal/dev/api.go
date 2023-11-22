@@ -38,6 +38,12 @@ func (r DevApi) GetCmd(c *gin.Context) {
 	response.OkWithData(resp, c)
 }
 
+// @Description	DevLogin
+// @Accept			json
+// @Produce		json
+// @Param			super_token	header	string		false	"Authentication header"
+// @Param			DevLoginReq	body	DevLoginReq	true	"dev login"
+// @Router			/api/v1/dev/login [post]
 func (r DevApi) Login(c *gin.Context) {
 	err := r.Service.Login(c)
 	if err != nil {
@@ -48,6 +54,13 @@ func (r DevApi) Login(c *gin.Context) {
 	response.Ok(c)
 }
 
+// @Description	OrderList
+// @Accept			json
+// @Produce		json
+// @Param			super_token	header	string		false	"Authentication header"
+// @Param			DevLoginReq	body	DevLoginReq	true	"OrderList"
+// @Success		200			{array}	Order
+// @Router			/api/v1/dev/order [get]
 func (r DevApi) OrderList(c *gin.Context) {
 	orders, err := r.Service.OrderList(c)
 	if err != nil {
@@ -58,6 +71,12 @@ func (r DevApi) OrderList(c *gin.Context) {
 	response.OkWithData(orders, c)
 }
 
+// @Description	send Order
+// @Accept			json
+// @Produce		json
+// @Param			super_token	header	string		false	"Authentication header"
+// @Param			OrderReq	body	OrderReq	true	"send order"
+// @Router			/api/v1/dev/order [post]
 func (r DevApi) Order(c *gin.Context) {
 	err := r.Service.Order(c)
 	if err != nil {
@@ -67,10 +86,6 @@ func (r DevApi) Order(c *gin.Context) {
 
 	response.Ok(c)
 }
-
-
-
-
 
 // order api
 
@@ -105,7 +120,6 @@ func (r DevOrderApi) OrderList(c *gin.Context) {
 
 	response.OkWithData(orders, c)
 }
-
 
 // set api
 func (r DevApi) Set(c *gin.Context) {

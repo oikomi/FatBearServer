@@ -19,6 +19,12 @@ func NewUserApi() UserApi {
 	return UserApi{Api: baseApi, Service: s}
 }
 
+// @Description	user login
+// @Accept			json
+// @Produce		json
+// @Param			super_token	header	string		false	"Authentication header"
+// @Param			LoginReq	body	LoginReq	true	"user login"
+// @Router			/api/v1/user/login [post]
 func (u UserApi) Login(c *gin.Context) {
 	token, err := u.Service.Login(c)
 	if err != nil {
@@ -29,6 +35,12 @@ func (u UserApi) Login(c *gin.Context) {
 	response.OkWithData(token, c)
 }
 
+// @Description	user add token
+// @Accept			json
+// @Produce		json
+// @Param			super_token	header	string		false	"Authentication header"
+// @Param			AddTokenReq	body	AddTokenReq	true	"AddToken"
+// @Router			/api/v1/user/addToken [post]
 func (u UserApi) AddToken(c *gin.Context) {
 	err := u.Service.AddToken(c)
 	if err != nil {
@@ -39,6 +51,13 @@ func (u UserApi) AddToken(c *gin.Context) {
 	response.Ok(c)
 }
 
+// @Description	user add token
+// @Accept			json
+// @Produce		json
+// @Param			super_token	header		string		false	"Authentication header"
+// @Param			AddTokenReq	body		AddTokenReq	true	"AddToken"
+// @Success		200			{integer}	string		"token"
+// @Router			/api/v1/user/getToken [get]
 func (u UserApi) GetToken(c *gin.Context) {
 	token, err := u.Service.GetToken(c)
 	if err != nil {
