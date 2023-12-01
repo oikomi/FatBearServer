@@ -138,13 +138,12 @@ func (r DevApi) Set(c *gin.Context) {
 	response.OkWithData(sets, c)
 }
 
-// @Description	set
+// @Description	add set
 // @Accept			json
 // @Produce		json
-// @Param			super_token	header	string	false	"Authentication header"
-// @Param			model_name	query	string	true	"model 名字"
-// @Success		200			{array}	DevSetting
-// @Router			/api/v1/dev/set [get]
+// @Param			super_token	header	string		false	"Authentication header"
+// @Param			AddSetReq	body	AddSetReq	true	"add set"
+// @Router			/api/v1/dev/set [post]
 func (r DevApi) AddSet(c *gin.Context) {
 	err := r.Service.AddSet(c)
 	if err != nil {

@@ -152,6 +152,33 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "description": "add set",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication header",
+                        "name": "super_token",
+                        "in": "header"
+                    },
+                    {
+                        "description": "add set",
+                        "name": "AddSetReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dev.AddSetReq"
+                        }
+                    }
+                ],
+                "responses": {}
             }
         },
         "/api/v1/room/create": {
@@ -384,6 +411,23 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "dev.AddSetReq": {
+            "type": "object",
+            "properties": {
+                "duration": {
+                    "type": "integer"
+                },
+                "model_name": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "integer"
+                },
+                "vibration": {
+                    "type": "string"
+                }
+            }
+        },
         "dev.DevLoginReq": {
             "type": "object",
             "properties": {

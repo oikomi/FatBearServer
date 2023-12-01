@@ -1,4 +1,15 @@
 definitions:
+  dev.AddSetReq:
+    properties:
+      duration:
+        type: integer
+      model_name:
+        type: string
+      token:
+        type: integer
+      vibration:
+        type: string
+    type: object
   dev.DevLoginReq:
     properties:
       dev_name:
@@ -268,6 +279,24 @@ paths:
             items:
               $ref: '#/definitions/dev.DevSetting'
             type: array
+    post:
+      consumes:
+      - application/json
+      description: add set
+      parameters:
+      - description: Authentication header
+        in: header
+        name: super_token
+        type: string
+      - description: add set
+        in: body
+        name: AddSetReq
+        required: true
+        schema:
+          $ref: '#/definitions/dev.AddSetReq'
+      produces:
+      - application/json
+      responses: {}
   /api/v1/room/create:
     post:
       consumes:
