@@ -57,8 +57,8 @@ func (r DevApi) Login(c *gin.Context) {
 // @Description	OrderList
 // @Accept			json
 // @Produce		json
-// @Param			super_token	header	string		false	"Authentication header"
-// @Param			DevLoginReq	body	DevLoginReq	true	"OrderList"
+// @Param			super_token	header	string	false	"Authentication header"
+// @Param			send_user	query	string	true	"model 名字"
 // @Success		200			{array}	Order
 // @Router			/api/v1/dev/order [get]
 func (r DevApi) OrderList(c *gin.Context) {

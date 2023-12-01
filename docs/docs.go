@@ -70,13 +70,11 @@ const docTemplate = `{
                         "in": "header"
                     },
                     {
-                        "description": "OrderList",
-                        "name": "DevLoginReq",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dev.DevLoginReq"
-                        }
+                        "type": "string",
+                        "description": "model 名字",
+                        "name": "send_user",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -281,13 +279,11 @@ const docTemplate = `{
                         "in": "header"
                     },
                     {
-                        "description": "AddToken",
-                        "name": "AddTokenReq",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/user.AddTokenReq"
-                        }
+                        "type": "string",
+                        "description": "用户名称",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -355,13 +351,19 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "dev_name": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "设备名称"
                 },
                 "model_name": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "设备主播账号名称"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "设备密码"
                 }
             }
         },
@@ -407,22 +409,34 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "dev_name": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "设备名称"
                 },
                 "duration": {
-                    "type": "integer"
+                    "type": "integer",
+                    "format": "int",
+                    "example": 10
                 },
                 "model_name": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "主播账号名称"
                 },
                 "send_user": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "观众名称"
                 },
                 "token": {
-                    "type": "integer"
+                    "type": "integer",
+                    "format": "int",
+                    "example": 50
                 },
                 "vibration": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "震动强度, 比如 Medium"
                 }
             }
         },
@@ -430,10 +444,14 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "creator": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "房间创建者，就是主播账号名称"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "房间名称"
                 }
             }
         },
@@ -445,17 +463,23 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "creator": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "房间创建者，就是主播账号名称"
                 },
                 "id": {
                     "description": "主键ID",
                     "type": "integer"
                 },
                 "room_name": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "房间名称"
                 },
                 "room_status": {
-                    "type": "integer"
+                    "type": "integer",
+                    "format": "int",
+                    "example": 0
                 },
                 "updatedAt": {
                     "description": "更新时间",
@@ -507,10 +531,14 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "充值的用户名称"
                 },
                 "token": {
-                    "type": "integer"
+                    "type": "integer",
+                    "format": "int",
+                    "example": 1000
                 }
             }
         },
@@ -534,7 +562,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8080",
+	Host:             "127.0.0.1:8080",
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Swagger Example API",

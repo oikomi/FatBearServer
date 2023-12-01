@@ -15,7 +15,7 @@
         },
         "version": "1.0"
     },
-    "host": "localhost:8080",
+    "host": "127.0.0.1:8080",
     "paths": {
         "/api/v1/dev/login": {
             "post": {
@@ -63,13 +63,11 @@
                         "in": "header"
                     },
                     {
-                        "description": "OrderList",
-                        "name": "DevLoginReq",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dev.DevLoginReq"
-                        }
+                        "type": "string",
+                        "description": "model 名字",
+                        "name": "send_user",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -274,13 +272,11 @@
                         "in": "header"
                     },
                     {
-                        "description": "AddToken",
-                        "name": "AddTokenReq",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/user.AddTokenReq"
-                        }
+                        "type": "string",
+                        "description": "用户名称",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -348,13 +344,19 @@
             "type": "object",
             "properties": {
                 "dev_name": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "设备名称"
                 },
                 "model_name": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "设备主播账号名称"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "设备密码"
                 }
             }
         },
@@ -400,22 +402,34 @@
             "type": "object",
             "properties": {
                 "dev_name": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "设备名称"
                 },
                 "duration": {
-                    "type": "integer"
+                    "type": "integer",
+                    "format": "int",
+                    "example": 10
                 },
                 "model_name": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "主播账号名称"
                 },
                 "send_user": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "观众名称"
                 },
                 "token": {
-                    "type": "integer"
+                    "type": "integer",
+                    "format": "int",
+                    "example": 50
                 },
                 "vibration": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "震动强度, 比如 Medium"
                 }
             }
         },
@@ -423,10 +437,14 @@
             "type": "object",
             "properties": {
                 "creator": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "房间创建者，就是主播账号名称"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "房间名称"
                 }
             }
         },
@@ -438,17 +456,23 @@
                     "type": "string"
                 },
                 "creator": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "房间创建者，就是主播账号名称"
                 },
                 "id": {
                     "description": "主键ID",
                     "type": "integer"
                 },
                 "room_name": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "房间名称"
                 },
                 "room_status": {
-                    "type": "integer"
+                    "type": "integer",
+                    "format": "int",
+                    "example": 0
                 },
                 "updatedAt": {
                     "description": "更新时间",
@@ -500,10 +524,14 @@
             "type": "object",
             "properties": {
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "string",
+                    "example": "充值的用户名称"
                 },
                 "token": {
-                    "type": "integer"
+                    "type": "integer",
+                    "format": "int",
+                    "example": 1000
                 }
             }
         },

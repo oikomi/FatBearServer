@@ -17,22 +17,22 @@ type GetCmdReq struct {
 }
 
 type DevLoginReq struct {
-	DevName   string `json:"dev_name" `
-	Password  string `json:"password" `
-	ModelName string `json:"model_name" `
+	DevName   string `json:"dev_name"  example:"设备名称" format:"string"`
+	Password  string `json:"password" example:"设备密码" format:"string"`
+	ModelName string `json:"model_name" example:"设备主播账号名称" format:"string"`
 }
 
 type OrderReq struct {
-	DevName   string `json:"dev_name" form:"dev_name"`
-	ModelName string `json:"model_name" form:"model_name"`
-	SendUser  string `json:"send_user" form:"send_user"`
-	Vibration string `json:"vibration" form:"vibration"`
-	Duration  int    `json:"duration" form:"duration"`
-	Token     int    `json:"token" form:"token"`
+	DevName   string `json:"dev_name" form:"dev_name" example:"设备名称" format:"string"`
+	ModelName string `json:"model_name" form:"model_name" example:"主播账号名称" format:"string"`
+	SendUser  string `json:"send_user" form:"send_user" example:"观众名称" format:"string"`
+	Vibration string `json:"vibration" form:"vibration" example:"震动强度, 比如 Medium" format:"string"`
+	Duration  int    `json:"duration" form:"duration" example:"10" format:"int"`
+	Token     int    `json:"token" form:"token" example:"50" format:"int"`
 }
 
 type OrderListReq struct {
-	SendUser string `form:"send_user" `
+	SendUser string `form:"send_user" json:"send_user"`
 }
 
 type SetReq struct {

@@ -55,7 +55,7 @@ func (u UserApi) AddToken(c *gin.Context) {
 // @Accept			json
 // @Produce		json
 // @Param			super_token	header		string		false	"Authentication header"
-// @Param			AddTokenReq	body		AddTokenReq	true	"AddToken"
+// @Param			name	query	string	true	"用户名称"
 // @Success		200			{integer}	string		"token"
 // @Router			/api/v1/user/getToken [get]
 func (u UserApi) GetToken(c *gin.Context) {

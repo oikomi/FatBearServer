@@ -2,10 +2,16 @@ definitions:
   dev.DevLoginReq:
     properties:
       dev_name:
+        example: 设备名称
+        format: string
         type: string
       model_name:
+        example: 设备主播账号名称
+        format: string
         type: string
       password:
+        example: 设备密码
+        format: string
         type: string
     type: object
   dev.Order:
@@ -37,23 +43,39 @@ definitions:
   dev.OrderReq:
     properties:
       dev_name:
+        example: 设备名称
+        format: string
         type: string
       duration:
+        example: 10
+        format: int
         type: integer
       model_name:
+        example: 主播账号名称
+        format: string
         type: string
       send_user:
+        example: 观众名称
+        format: string
         type: string
       token:
+        example: 50
+        format: int
         type: integer
       vibration:
+        example: 震动强度, 比如 Medium
+        format: string
         type: string
     type: object
   room.CreateRoomReq:
     properties:
       creator:
+        example: 房间创建者，就是主播账号名称
+        format: string
         type: string
       name:
+        example: 房间名称
+        format: string
         type: string
     type: object
   room.Room:
@@ -62,13 +84,19 @@ definitions:
         description: 创建时间
         type: string
       creator:
+        example: 房间创建者，就是主播账号名称
+        format: string
         type: string
       id:
         description: 主键ID
         type: integer
       room_name:
+        example: 房间名称
+        format: string
         type: string
       room_status:
+        example: 0
+        format: int
         type: integer
       updatedAt:
         description: 更新时间
@@ -104,8 +132,12 @@ definitions:
   user.AddTokenReq:
     properties:
       name:
+        example: 充值的用户名称
+        format: string
         type: string
       token:
+        example: 1000
+        format: int
         type: integer
     type: object
   user.LoginReq:
@@ -117,7 +149,7 @@ definitions:
       user_name:
         type: string
     type: object
-host: localhost:8080
+host: 127.0.0.1:8080
 info:
   contact:
     email: support@swagger.io
@@ -160,12 +192,11 @@ paths:
         in: header
         name: super_token
         type: string
-      - description: OrderList
-        in: body
-        name: DevLoginReq
+      - description: model 名字
+        in: query
+        name: send_user
         required: true
-        schema:
-          $ref: '#/definitions/dev.DevLoginReq'
+        type: string
       produces:
       - application/json
       responses:
@@ -297,12 +328,11 @@ paths:
         in: header
         name: super_token
         type: string
-      - description: AddToken
-        in: body
-        name: AddTokenReq
+      - description: 用户名称
+        in: query
+        name: name
         required: true
-        schema:
-          $ref: '#/definitions/user.AddTokenReq'
+        type: string
       produces:
       - application/json
       responses:

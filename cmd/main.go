@@ -60,7 +60,7 @@ func initServer(address string, router *gin.Engine) server {
 //	@license.name	Apache 2.0
 //	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host	localhost:8080
+// @host	127.0.0.1:8080
 func main() {
 	// 初始化配置
 	config.GVA_VP = initialize.Viper()
@@ -97,6 +97,7 @@ func main() {
 
 	// initialize.Swagger(router)
 
+	// docs.SwaggerInfo.Host = "127.0.0.1:8080"
 	docs.SwaggerInfo.Host = "120.55.60.98:8080"
 	// url := ginSwagger.URL("http://127.0.0.1:8080/swagger/doc.json") // The url pointing to API definition
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

@@ -5,8 +5,8 @@ type Request struct {
 }
 
 type CreateRoomReq struct {
-	Name    string `json:"name" `
-	Creator string `json:"creator" `
+	Name    string `json:"name" example:"房间名称" format:"string"`
+	Creator string `json:"creator" example:"房间创建者，就是主播账号名称" format:"string"`
 }
 
 type HeartbeatReq struct {
