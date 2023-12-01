@@ -14,6 +14,26 @@ definitions:
         format: string
         type: string
     type: object
+  dev.DevSetting:
+    properties:
+      createdAt:
+        description: 创建时间
+        type: string
+      duration:
+        type: integer
+      id:
+        description: 主键ID
+        type: integer
+      model_name:
+        type: string
+      token:
+        type: integer
+      updatedAt:
+        description: 更新时间
+        type: string
+      vibration:
+        type: string
+    type: object
   dev.Order:
     properties:
       createdAt:
@@ -224,6 +244,30 @@ paths:
       produces:
       - application/json
       responses: {}
+  /api/v1/dev/set:
+    get:
+      consumes:
+      - application/json
+      description: set
+      parameters:
+      - description: Authentication header
+        in: header
+        name: super_token
+        type: string
+      - description: model 名字
+        in: query
+        name: model_name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dev.DevSetting'
+            type: array
   /api/v1/room/create:
     post:
       consumes:

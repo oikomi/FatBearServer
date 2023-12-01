@@ -117,6 +117,43 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/api/v1/dev/set": {
+            "get": {
+                "description": "set",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication header",
+                        "name": "super_token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "model 名字",
+                        "name": "model_name",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dev.DevSetting"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/room/create": {
             "post": {
                 "description": "CreateRoom",
@@ -364,6 +401,35 @@ const docTemplate = `{
                     "type": "string",
                     "format": "string",
                     "example": "设备密码"
+                }
+            }
+        },
+        "dev.DevSetting": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
+                "duration": {
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "主键ID",
+                    "type": "integer"
+                },
+                "model_name": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "description": "更新时间",
+                    "type": "string"
+                },
+                "vibration": {
+                    "type": "string"
                 }
             }
         },
