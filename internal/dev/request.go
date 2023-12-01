@@ -42,6 +42,13 @@ type SetReq struct {
 	Token     int    `json:"token" `
 }
 
+type AddSetReq struct {
+	ModelName string `json:"model_name" `
+	Vibration string `json:"vibration" `
+	Duration  int    `json:"duration" `
+	Token     int    `json:"token" `
+}
+
 // MarshalLogObject implements zapcore.ObjectMarshaler.
 func (o GetCmdReq) MarshalLogObject(enc zapcore.ObjectEncoder) error {
 	enc.AddString("dev_name", o.DevName)

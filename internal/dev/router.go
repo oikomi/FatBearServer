@@ -25,4 +25,6 @@ func InitRouter(g *gin.RouterGroup) {
 	devOrderRouter.BindGet("order", devOrderApi.OrderList)
 
 	r.BindGet("set", a.Set)
+	r.BindPost("set", a.Set)
+
 }

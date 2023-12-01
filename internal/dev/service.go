@@ -302,3 +302,32 @@ func (s DevService) Set(c *gin.Context) ([]DevSetting, error) {
 
 	return *sets, nil
 }
+
+func (s DevService) AddSet(c *gin.Context) error {
+	var req AddSetReq
+	err := c.ShouldBind(&req)
+	if err != nil {
+		config.GVA_LOG.Error("add set failed", zap.Error(err))
+		return err
+	}
+
+	w := model.NewWrapper()
+	if req.ModelName != "" {
+		w.Eq("model_name", req.ModelName)
+	}
+
+	set := DevSetting{
+		ModelName: req.ModelName,
+		Vibration: req.Vibration,
+		Duration:  req.Duration,
+		Token:     req.Token,
+	}
+	mapper := model.NewMapper[DevSetting](set, w)
+	err = mapper.Insert(&set)
+	if err != nil {
+		config.GVA_LOG.Error("insert dev set failed")
+		return errors.Errorf("insert dev set failed: %s", err)
+	}
+
+	return nil
+}
