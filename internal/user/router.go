@@ -15,4 +15,6 @@ func InitRouter(g *gin.RouterGroup) {
 
 	r.BindGet("getToken", a.GetToken)
 
+	r.BindGet("info", a.GetUser)
+
 }

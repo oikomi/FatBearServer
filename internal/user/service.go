@@ -114,3 +114,30 @@ func (s UserService) GetToken(c *gin.Context) (int, error) {
 
 	return storeUser.Token, nil
 }
+
+func (s UserService) GetUser(c *gin.Context) (auth.BaseUser, error) {
+	var req GetUserReq
+	err := c.ShouldBind(&req)
+	if err != nil {
+		config.GVA_LOG.Error("Bind GetUserReq failed", zap.Error(err))
+		return auth.BaseUser{}, err
+	}
+
+	config.GVA_LOG.Info("get user info , name is", zap.String("name", req.Name))
+
+	user := auth.BaseUser{
+		Name: req.Name,
+	}
+
+	w := model.NewWrapper()
+	w.Eq("name", req.Name)
+
+	mapper := model.NewMapper[auth.BaseUser](user, w)
+	storeUser, err := mapper.SelectOne()
+	if err != nil {
+		config.GVA_LOG.Error("user not exist", zap.String("name", req.Name))
+		return auth.BaseUser{}, errors.Errorf("user not exist: %s", req.Name)
+	}
+
+	return storeUser, nil
+}

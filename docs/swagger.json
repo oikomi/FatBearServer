@@ -353,6 +353,40 @@
                 }
             }
         },
+        "/api/v1/user/info": {
+            "get": {
+                "description": "get user info",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication header",
+                        "name": "super_token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "用户名称",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "token",
+                        "schema": {
+                            "$ref": "#/definitions/auth.BaseUser"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/user/login": {
             "post": {
                 "description": "user login",
@@ -404,6 +438,44 @@
         }
     },
     "definitions": {
+        "auth.BaseUser": {
+            "type": "object",
+            "properties": {
+                "chat_room_id": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
+                "dev_id": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "description": "主键ID",
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "description": "更新时间",
+                    "type": "string"
+                }
+            }
+        },
         "dev.AddSetReq": {
             "type": "object",
             "properties": {

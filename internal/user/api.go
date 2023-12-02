@@ -54,9 +54,9 @@ func (u UserApi) AddToken(c *gin.Context) {
 // @Description	user add token
 // @Accept			json
 // @Produce		json
-// @Param			super_token	header		string		false	"Authentication header"
-// @Param			name	query	string	true	"用户名称"
-// @Success		200			{integer}	string		"token"
+// @Param			super_token	header		string	false	"Authentication header"
+// @Param			name		query		string	true	"用户名称"
+// @Success		200			{integer}	string	"token"
 // @Router			/api/v1/user/getToken [get]
 func (u UserApi) GetToken(c *gin.Context) {
 	token, err := u.Service.GetToken(c)
@@ -66,4 +66,21 @@ func (u UserApi) GetToken(c *gin.Context) {
 	}
 
 	response.OkWithData(token, c)
+}
+
+// @Description	get user info
+// @Accept			json
+// @Produce		json
+// @Param			super_token	header		string			false	"Authentication header"
+// @Param			name		query		string			true	"用户名称"
+// @Success		200			{object}	auth.BaseUser	"token"
+// @Router			/api/v1/user/info [get]
+func (u UserApi) GetUser(c *gin.Context) {
+	user, err := u.Service.GetUser(c)
+	if err != nil {
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.OkWithData(user, c)
 }

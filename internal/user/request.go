@@ -18,3 +18,7 @@ type AddTokenReq struct {
 type GetTokenReq struct {
 	Name string `json:"name" form:"name"`
 }
+
+type GetUserReq struct {
+	Name string `json:"name" form:"name" example:"用户名称" format:"string"`
+}

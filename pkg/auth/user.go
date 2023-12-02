@@ -19,12 +19,13 @@ type User interface {
 
 type BaseUser struct {
 	model.BaseModel
-	Name     string `json:"name"`
-	Password string `json:"password"`
-	Role     string `json:"role"`
-	DevId    string `json:"dev_id"`
-	Email    string `json:"email"`
-	Token    int    `json:"token"`
+	Name       string `json:"name"`
+	Password   string `json:"password"`
+	Role       string `json:"role"`
+	DevId      string `json:"dev_id"`
+	Email      string `json:"email"`
+	Token      int    `json:"token"`
+	ChatRoomId string `json:"chat_room_id"`
 }
 
 func (b BaseUser) Login(c *gin.Context) (string, error) {
