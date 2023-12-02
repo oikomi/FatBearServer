@@ -297,6 +297,35 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/api/v1/room/updateRoomStatus": {
+            "post": {
+                "description": "updateRoomStatus",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication header",
+                        "name": "super_token",
+                        "in": "header"
+                    },
+                    {
+                        "description": "updateRoomStatus",
+                        "name": "updateRoomStatus",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/room.updateRoomStatusReq"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/api/v1/user/addToken": {
             "post": {
                 "description": "user add token",
@@ -706,6 +735,21 @@ const docTemplate = `{
                 },
                 "send_user": {
                     "type": "string"
+                }
+            }
+        },
+        "room.updateRoomStatusReq": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "房间名称"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int",
+                    "example": 1
                 }
             }
         },

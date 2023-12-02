@@ -111,8 +111,11 @@ func (s RoomService) GetRoomList(c *gin.Context) ([]Room, error) {
 	if req.Name != "" {
 		w.Eq("room_name", req.Name)
 	}
+	w.EqF("room_status", 0)
 
-	m := Room{}
+	m := Room{
+		RoomStatus: 0,
+	}
 	mapper := model.NewMapper[Room](m, w)
 	rooms, err := mapper.Select()
 	if err != nil {
@@ -124,6 +127,34 @@ func (s RoomService) GetRoomList(c *gin.Context) ([]Room, error) {
 }
 
 func (s RoomService) UpdateRoom(c *gin.Context) error {
+
+	return nil
+}
+
+func (s RoomService) updateRoomStatus(c *gin.Context) error {
+
+	var req updateRoomStatusReq
+	err := c.ShouldBind(&req)
+	if err != nil {
+		config.GVA_LOG.Error("Bind updateRoomStatusReq failed", zap.Error(err))
+		return err
+	}
+
+	w := model.NewWrapper()
+	w.Eq("room_name", req.Name)
+
+	m := Room{}
+	mapper := model.NewMapper[Room](m, w)
+	findRoom, err := mapper.SelectOne()
+	if err != nil || findRoom.ID < 0 {
+		config.GVA_LOG.Error("Room not exist : ", zap.String("room", req.Name))
+		return err
+	}
+
+	err = config.GVA_DB.Debug().Model(&Room{}).Where("room_name=?", findRoom.RoomName).Update("room_status", req.Status).Error
+	if err != nil {
+		return errors.Errorf("update room status failed: %s", req.Name)
+	}
 
 	return nil
 }

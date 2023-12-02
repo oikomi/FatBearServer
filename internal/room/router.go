@@ -15,6 +15,9 @@ func InitRouter(g *gin.RouterGroup) {
 
 	r.BindGet("list", a.GetRoomList)
 	r.BindPost("update", a.UpdateRoom)
+
+	r.BindPost("updateRoomStatus", a.updateRoomStatus)
+
 	r.BindGet("msg", a.GetRoomMsg)
 	r.BindPost("msg", a.SendRoomMsg)
 

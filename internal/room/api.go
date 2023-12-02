@@ -70,6 +70,22 @@ func (r RoomApi) UpdateRoom(c *gin.Context) {
 	response.Ok(c)
 }
 
+// @Description	updateRoomStatus
+// @Accept			json
+// @Produce		json
+// @Param			super_token			header	string				false	"Authentication header"
+// @Param			updateRoomStatus	body	updateRoomStatusReq	true	"updateRoomStatus"
+// @Router			/api/v1/room/updateRoomStatus [post]
+func (r RoomApi) updateRoomStatus(c *gin.Context) {
+	err := r.Service.updateRoomStatus(c)
+	if err != nil {
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.Ok(c)
+}
+
 // @Description	GetRoomMsg
 // @Accept			json
 // @Produce		json

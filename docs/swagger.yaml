@@ -186,6 +186,17 @@ definitions:
       send_user:
         type: string
     type: object
+  room.updateRoomStatusReq:
+    properties:
+      name:
+        example: 房间名称
+        format: string
+        type: string
+      status:
+        example: 1
+        format: int
+        type: integer
+    type: object
   user.AddTokenReq:
     properties:
       name:
@@ -395,6 +406,25 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/room.SendRoomMsgReq'
+      produces:
+      - application/json
+      responses: {}
+  /api/v1/room/updateRoomStatus:
+    post:
+      consumes:
+      - application/json
+      description: updateRoomStatus
+      parameters:
+      - description: Authentication header
+        in: header
+        name: super_token
+        type: string
+      - description: updateRoomStatus
+        in: body
+        name: updateRoomStatus
+        required: true
+        schema:
+          $ref: '#/definitions/room.updateRoomStatusReq'
       produces:
       - application/json
       responses: {}

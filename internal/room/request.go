@@ -9,6 +9,11 @@ type CreateRoomReq struct {
 	Creator string `json:"creator" example:"房间创建者，就是主播账号名称" format:"string"`
 }
 
+type updateRoomStatusReq struct {
+	Name   string `json:"name" example:"房间名称" format:"string"`
+	Status int    `json:"status" example:"1" format:"int"`
+}
+
 type HeartbeatReq struct {
 	Name string `json:"name" `
 }
