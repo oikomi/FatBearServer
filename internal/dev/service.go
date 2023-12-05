@@ -2,6 +2,7 @@ package dev
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/go-resty/resty/v2"
 	"github.com/oikomi/FatBearServer/config"
 	"github.com/oikomi/FatBearServer/pkg/auth"
 	"github.com/oikomi/FatBearServer/pkg/model"
@@ -85,6 +86,35 @@ func (s DevService) GetCmd(c *gin.Context) (*Dev, error) {
 	return nil, nil
 }
 
+type CraftSuccess struct {
+	Code int    `json:"code" `
+	Msg  string `json:"msg"`
+}
+
+func (s DevService) craftLogin(username, password string) error {
+
+	// Create a Resty Client
+	client := resty.New()
+
+	res := &CraftSuccess{}
+	_, err := client.R().
+		SetHeader("Content-Type", "application/json").
+		SetBody(map[string]interface{}{"name": username, "password": password}).
+		SetResult(res). // or SetResult(&AuthSuccess{}).
+		Post("https://api.missvib.com/craft/login")
+
+	if err != nil {
+		config.GVA_LOG.Error("login craft failed", zap.Error(err))
+		return err
+	}
+	if res.Code == 200 {
+		return nil
+	} else {
+		return errors.Errorf("login craft failed")
+	}
+
+}
+
 func (s DevService) Login(c *gin.Context) error {
 	var req DevLoginReq
 
@@ -94,21 +124,32 @@ func (s DevService) Login(c *gin.Context) error {
 		return err
 	}
 
-	w := model.NewWrapper()
-	w.Eq("dev_name", req.DevName)
-
-	mapper := model.NewMapper[DevInfo](DevInfo{}, w)
-	dev, err := mapper.SelectOne()
+	err = s.craftLogin(req.DevName, req.Password)
 	if err != nil {
-		return errors.Errorf("find dev failed: %s", req.DevName)
+		config.GVA_LOG.Error("login craft failed", zap.Error(err))
+		return err
 	}
-	if dev.ModelName != req.ModelName {
-		config.GVA_LOG.Info("model name not the same")
-		mapper := model.NewMapper[DevInfo](DevInfo{DevName: req.DevName}, w)
-		err = mapper.Update("model_name", req.ModelName)
-		if err != nil {
-			return errors.Errorf("update dev failed: %s", req.DevName)
-		}
+
+	// w := model.NewWrapper()
+	// w.Eq("dev_name", req.DevName)
+
+	// mapper := model.NewMapper[DevInfo](DevInfo{}, w)
+	// dev, err := mapper.SelectOne()
+	// if err != nil {
+	// 	return errors.Errorf("find dev failed: %s", req.DevName)
+	// }
+	// if dev.ModelName != req.ModelName {
+	// 	config.GVA_LOG.Info("model name not the same")
+	// 	mapper := model.NewMapper[DevInfo](DevInfo{DevName: req.DevName}, w)
+	// 	err = mapper.Update("model_name", req.ModelName)
+	// 	if err != nil {
+	// 		return errors.Errorf("update dev failed: %s", req.DevName)
+	// 	}
+	// }
+
+	err = config.GVA_DB.Debug().Model(&auth.BaseUser{}).Where("name=?", req.ModelName).Update("dev_id", req.DevName).Error
+	if err != nil {
+		return errors.Errorf("update user devid failed: %s", req.DevName)
 	}
 
 	return nil
