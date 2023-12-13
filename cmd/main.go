@@ -98,7 +98,8 @@ func main() {
 	// initialize.Swagger(router)
 
 	// docs.SwaggerInfo.Host = "127.0.0.1:8080"
-	docs.SwaggerInfo.Host = "120.55.60.98:8080"
+	// docs.SwaggerInfo.Host = "120.55.60.98:8080"
+	docs.SwaggerInfo.Host = "54.146.155.159:8080"
 	// url := ginSwagger.URL("http://127.0.0.1:8080/swagger/doc.json") // The url pointing to API definition
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
