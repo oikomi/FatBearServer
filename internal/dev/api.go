@@ -54,6 +54,23 @@ func (r DevApi) Login(c *gin.Context) {
 	response.Ok(c)
 }
 
+// @Description	DevLogout
+// @Accept			json
+// @Produce		json
+// @Param			super_token	header	string		false	"Authentication header"
+// @Param			DevLogoutReq	body	DevLogoutReq	true	"dev Logout"
+// @Router			/api/v1/dev/logout [post]
+func (r DevApi) Logout(c *gin.Context) {
+	err := r.Service.Logout(c)
+	if err != nil {
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.Ok(c)
+}
+
+
 // @Description	OrderList
 // @Accept			json
 // @Produce		json

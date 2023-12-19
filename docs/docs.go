@@ -116,6 +116,35 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/api/v1/dev/logout": {
+            "post": {
+                "description": "DevLogout",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication header",
+                        "name": "super_token",
+                        "in": "header"
+                    },
+                    {
+                        "description": "dev Logout",
+                        "name": "DevLogoutReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dev.DevLogoutReq"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/api/v1/dev/order": {
             "get": {
                 "description": "OrderList",
@@ -617,6 +646,21 @@ const docTemplate = `{
                     "type": "string",
                     "format": "string",
                     "example": "设备密码"
+                }
+            }
+        },
+        "dev.DevLogoutReq": {
+            "type": "object",
+            "properties": {
+                "dev_name": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "设备名称"
+                },
+                "model_name": {
+                    "type": "string",
+                    "format": "string",
+                    "example": "设备主播账号名称"
                 }
             }
         },

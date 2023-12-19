@@ -22,6 +22,12 @@ type DevLoginReq struct {
 	ModelName string `json:"model_name" example:"设备主播账号名称" format:"string"`
 }
 
+type DevLogoutReq struct {
+	DevName   string `json:"dev_name"  example:"设备名称" format:"string"`
+	ModelName string `json:"model_name" example:"设备主播账号名称" format:"string"`
+}
+
+
 type OrderReq struct {
 	DevName   string `json:"dev_name" form:"dev_name" example:"设备名称" format:"string"`
 	ModelName string `json:"model_name" form:"model_name" example:"主播账号名称" format:"string"`

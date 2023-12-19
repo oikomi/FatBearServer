@@ -56,6 +56,17 @@ definitions:
         format: string
         type: string
     type: object
+  dev.DevLogoutReq:
+    properties:
+      dev_name:
+        example: 设备名称
+        format: string
+        type: string
+      model_name:
+        example: 设备主播账号名称
+        format: string
+        type: string
+    type: object
   dev.DevSetting:
     properties:
       createdAt:
@@ -293,6 +304,25 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/dev.DevLoginReq'
+      produces:
+      - application/json
+      responses: {}
+  /api/v1/dev/logout:
+    post:
+      consumes:
+      - application/json
+      description: DevLogout
+      parameters:
+      - description: Authentication header
+        in: header
+        name: super_token
+        type: string
+      - description: dev Logout
+        in: body
+        name: DevLogoutReq
+        required: true
+        schema:
+          $ref: '#/definitions/dev.DevLogoutReq'
       produces:
       - application/json
       responses: {}

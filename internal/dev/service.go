@@ -115,6 +115,30 @@ func (s DevService) craftLogin(username, password string) error {
 
 }
 
+
+func (s DevService) Logout(c *gin.Context) error {
+	var req DevLogoutReq
+
+	err := c.ShouldBind(&req)
+	if err != nil {
+		config.GVA_LOG.Error("dev logout failed", zap.Error(err))
+		return err
+	}
+
+	_, err = s.getUserByName(req.ModelName)
+	if err != nil {
+		return err
+	}
+
+	err = config.GVA_DB.Debug().Model(&auth.BaseUser{}).Where("name=?", req.ModelName).Update("dev_id", "").Error
+	if err != nil {
+		return errors.Errorf("update user devid failed: %s", req.DevName)
+	}
+
+	return nil
+}
+
+
 func (s DevService) Login(c *gin.Context) error {
 	var req DevLoginReq
 
@@ -204,6 +228,27 @@ func (s DevService) fetchUserByDev(devName string) (auth.BaseUser, error) {
 
 	return storeUser, nil
 }
+
+func (s DevService) getUserByName(name string) (auth.BaseUser, error) {
+
+	config.GVA_LOG.Info("get user info , name is", zap.String("name", name))
+
+	user := auth.BaseUser{
+		Name: name,
+	}
+
+	w := model.NewWrapper()
+	w.Eq("name", name)
+
+	mapper := model.NewMapper[auth.BaseUser](user, w)
+	storeUser, err := mapper.SelectOne()
+	if err != nil {
+		config.GVA_LOG.Error("user not exist", zap.String("name", name))
+		return auth.BaseUser{}, errors.Errorf("user not exist: %s", name)
+	}
+	return storeUser, nil
+}
+
 
 func (s DevService) getUserByDev(c *gin.Context) (auth.BaseUser, error) {
 	var req GetUserByDevReq
