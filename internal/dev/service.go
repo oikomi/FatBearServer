@@ -149,10 +149,6 @@ func (s DevService) Login(c *gin.Context) error {
 
 	uu, err := s.fetchUserByDev2login(req.DevName)
 	config.GVA_LOG.Info("get user ", zap.String("user name", uu.Name))
-	if err != nil {
-		return err
-	}
-
 	if uu != nil && uu.Name != req.ModelName {
 		return errors.Errorf("can not bind dev to same model : %s, %s", req.ModelName, req.DevName)
 	}
@@ -173,6 +169,8 @@ func (s DevService) fetchUserByDev2login(devName string) (*auth.BaseUser, error)
 
 	w := model.NewWrapper()
 	w.Eq("dev_id", devName)
+
+	storeUser := auth.BaseUser{}
 
 	mapper := model.NewMapper[auth.BaseUser](user, w)
 	storeUser, err := mapper.SelectOne()
