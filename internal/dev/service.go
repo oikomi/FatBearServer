@@ -148,6 +148,8 @@ func (s DevService) Login(c *gin.Context) error {
 	// }
 
 	uu, err := s.fetchUserByDev2(req.DevName)
+	config.GVA_LOG.Info("get user ", zap.String("user name", uu.Name))
+
 	if uu != nil && uu.Name != req.ModelName {
 		return errors.Errorf("can not bind dev to same model : %s, %s", req.ModelName, req.DevName)
 	}
