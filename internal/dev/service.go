@@ -186,6 +186,10 @@ func (s DevService) fetchUserByDev(devName string) (auth.BaseUser, error) {
 	}
 
 	w := model.NewWrapper()
+	if devName == "" {
+		config.GVA_LOG.Error("dev name is empty", zap.String("name", devName))
+		return auth.BaseUser{}, errors.Errorf("user not exist by dev name: %s", devName)
+	}
 	w.Eq("dev_id", devName)
 
 	mapper := model.NewMapper[auth.BaseUser](user, w)
