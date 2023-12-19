@@ -231,6 +231,28 @@ info:
   title: Swagger Example API
   version: "1.0"
 paths:
+  /api/v1/dev/getUserByDev:
+    get:
+      consumes:
+      - application/json
+      description: getUserByDev
+      parameters:
+      - description: Authentication header
+        in: header
+        name: super_token
+        type: string
+      - description: model 名字
+        in: query
+        name: send_user
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: user
+          schema:
+            $ref: '#/definitions/auth.BaseUser'
   /api/v1/dev/login:
     post:
       consumes:

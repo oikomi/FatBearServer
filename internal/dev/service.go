@@ -179,7 +179,6 @@ func (s DevService) fetchUserByDev2(devName string) (*auth.BaseUser, error) {
 	return &storeUser, nil
 }
 
-
 func (s DevService) fetchUserByDev(devName string) (auth.BaseUser, error) {
 
 	user := auth.BaseUser{

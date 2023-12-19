@@ -24,6 +24,40 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/v1/dev/getUserByDev": {
+            "get": {
+                "description": "getUserByDev",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication header",
+                        "name": "super_token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "model 名字",
+                        "name": "send_user",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "user",
+                        "schema": {
+                            "$ref": "#/definitions/auth.BaseUser"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/dev/login": {
             "post": {
                 "description": "DevLogin",

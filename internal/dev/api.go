@@ -87,7 +87,6 @@ func (r DevApi) Order(c *gin.Context) {
 	response.Ok(c)
 }
 
-
 // @Description	getUserByDev
 // @Accept			json
 // @Produce		json
@@ -104,8 +103,6 @@ func (r DevApi) getUserByDev(c *gin.Context) {
 
 	response.OkWithData(user, c)
 }
-
-
 
 // order api
 
