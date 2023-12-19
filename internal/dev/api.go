@@ -87,6 +87,26 @@ func (r DevApi) Order(c *gin.Context) {
 	response.Ok(c)
 }
 
+
+// @Description	getUserByDev
+// @Accept			json
+// @Produce		json
+// @Param			super_token	header	string	false	"Authentication header"
+// @Param			send_user	query	string	true	"model 名字"
+// @Success		200			{object}	auth.BaseUser	"user"
+// @Router			/api/v1/dev/getUserByDev [get]
+func (r DevApi) getUserByDev(c *gin.Context) {
+	user, err := r.Service.getUserByDev(c)
+	if err != nil {
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.OkWithData(user, c)
+}
+
+
+
 // order api
 
 type DevOrderApi struct {

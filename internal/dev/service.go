@@ -147,12 +147,69 @@ func (s DevService) Login(c *gin.Context) error {
 	// 	}
 	// }
 
+	uu, err := s.fetchUserByDev2(req.DevName)
+	if uu != nil {
+		return errors.Errorf("can not bind dev to same model : %s, %s", req.ModelName, req.DevName)
+	}
+
 	err = config.GVA_DB.Debug().Model(&auth.BaseUser{}).Where("name=?", req.ModelName).Update("dev_id", req.DevName).Error
 	if err != nil {
 		return errors.Errorf("update user devid failed: %s", req.DevName)
 	}
 
 	return nil
+}
+
+func (s DevService) fetchUserByDev2(devName string) (*auth.BaseUser, error) {
+
+	user := auth.BaseUser{
+		DevId: devName,
+	}
+
+	w := model.NewWrapper()
+	w.Eq("dev_id", devName)
+
+	mapper := model.NewMapper[auth.BaseUser](user, w)
+	storeUser, err := mapper.SelectOne()
+	if err != nil {
+		config.GVA_LOG.Error("user not exist", zap.String("name", devName))
+		return &auth.BaseUser{}, errors.Errorf("user not exist by dev name: %s", devName)
+	}
+
+	return &storeUser, nil
+}
+
+
+func (s DevService) fetchUserByDev(devName string) (auth.BaseUser, error) {
+
+	user := auth.BaseUser{
+		DevId: devName,
+	}
+
+	w := model.NewWrapper()
+	w.Eq("dev_id", devName)
+
+	mapper := model.NewMapper[auth.BaseUser](user, w)
+	storeUser, err := mapper.SelectOne()
+	if err != nil {
+		config.GVA_LOG.Error("user not exist", zap.String("name", devName))
+		return auth.BaseUser{}, errors.Errorf("user not exist by dev name: %s", devName)
+	}
+
+	return storeUser, nil
+}
+
+func (s DevService) getUserByDev(c *gin.Context) (auth.BaseUser, error) {
+	var req GetUserByDevReq
+	err := c.ShouldBind(&req)
+	if err != nil {
+		config.GVA_LOG.Error("Bind GetUserByDevReq failed", zap.Error(err))
+		return auth.BaseUser{}, err
+	}
+
+	config.GVA_LOG.Info("get user info , dev name is", zap.String("name", req.DevName))
+
+	return s.fetchUserByDev(req.DevName)
 }
 
 func (s DevService) OrderList(c *gin.Context) ([]Order, error) {

@@ -35,6 +35,10 @@ type OrderListReq struct {
 	SendUser string `form:"send_user" json:"send_user"`
 }
 
+type GetUserByDevReq struct {
+	DevName string `form:"dev_name" json:"dev_name"`
+}
+
 type SetReq struct {
 	ModelName string `json:"model_name" `
 	Vibration string `json:"vibration" `

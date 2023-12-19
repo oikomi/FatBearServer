@@ -17,6 +17,9 @@ func InitRouter(g *gin.RouterGroup) {
 	r.BindGet("order", a.OrderList)
 	r.BindPost("order", a.Order)
 
+	r.BindGet("getUserByDev", a.getUserByDev)
+
+
 	r.BindGet("set", a.Set)
 	r.BindPost("set", a.AddSet)
 
