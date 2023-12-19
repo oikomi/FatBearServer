@@ -148,7 +148,7 @@ func (s DevService) Login(c *gin.Context) error {
 	// }
 
 	uu, err := s.fetchUserByDev2(req.DevName)
-	if uu != nil {
+	if uu != nil && uu.Name != req.ModelName {
 		return errors.Errorf("can not bind dev to same model : %s, %s", req.ModelName, req.DevName)
 	}
 
