@@ -21,6 +21,7 @@ func InitRouter(g *gin.RouterGroup) {
 
 	r.BindGet("set", a.Set)
 	r.BindPost("set", a.AddSet)
+	r.BindPost("delSet", a.DelSet)
 
 	// dev order
 	devOrderRouter := router.NewRouter(g.Group("devorder"))

@@ -53,6 +53,10 @@ type AddSetReq struct {
 	Token     int    `json:"token" `
 }
 
+type DelSetReq struct {
+	Id int `json:"id" `
+}
+
 // MarshalLogObject implements zapcore.ObjectMarshaler.
 func (o GetCmdReq) MarshalLogObject(enc zapcore.ObjectEncoder) error {
 	enc.AddString("dev_name", o.DevName)

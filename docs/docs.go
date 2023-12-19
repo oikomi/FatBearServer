@@ -24,6 +24,35 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/v1/dev/delSet": {
+            "post": {
+                "description": "del set",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication header",
+                        "name": "super_token",
+                        "in": "header"
+                    },
+                    {
+                        "description": "del set",
+                        "name": "DelSetReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dev.DelSetReq"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/api/v1/dev/getUserByDev": {
             "get": {
                 "description": "getUserByDev",
@@ -560,6 +589,14 @@ const docTemplate = `{
                 },
                 "vibration": {
                     "type": "string"
+                }
+            }
+        },
+        "dev.DelSetReq": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
                 }
             }
         },

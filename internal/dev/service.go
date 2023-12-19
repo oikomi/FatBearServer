@@ -435,3 +435,23 @@ func (s DevService) AddSet(c *gin.Context) error {
 
 	return nil
 }
+
+func (s DevService) DelSet(c *gin.Context) error {
+	var req DelSetReq
+	err := c.ShouldBind(&req)
+	if err != nil {
+		config.GVA_LOG.Error("del set failed", zap.Error(err))
+		return err
+	}
+
+	w := model.NewWrapper()
+	set := DevSetting{}
+	mapper := model.NewMapper[DevSetting](set, w)
+	err = mapper.DeleteById(int64(req.Id))
+	if err != nil {
+		config.GVA_LOG.Error("del dev set failed")
+		return errors.Errorf("del dev set failed: %s", err)
+	}
+
+	return nil
+}

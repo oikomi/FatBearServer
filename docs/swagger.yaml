@@ -36,6 +36,11 @@ definitions:
       vibration:
         type: string
     type: object
+  dev.DelSetReq:
+    properties:
+      id:
+        type: integer
+    type: object
   dev.DevLoginReq:
     properties:
       dev_name:
@@ -231,6 +236,25 @@ info:
   title: Swagger Example API
   version: "1.0"
 paths:
+  /api/v1/dev/delSet:
+    post:
+      consumes:
+      - application/json
+      description: del set
+      parameters:
+      - description: Authentication header
+        in: header
+        name: super_token
+        type: string
+      - description: del set
+        in: body
+        name: DelSetReq
+        required: true
+        schema:
+          $ref: '#/definitions/dev.DelSetReq'
+      produces:
+      - application/json
+      responses: {}
   /api/v1/dev/getUserByDev:
     get:
       consumes:

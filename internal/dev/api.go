@@ -170,3 +170,19 @@ func (r DevApi) AddSet(c *gin.Context) {
 
 	response.Ok(c)
 }
+
+// @Description	del set
+// @Accept			json
+// @Produce		json
+// @Param			super_token	header	string		false	"Authentication header"
+// @Param			DelSetReq	body	DelSetReq	true	"del set"
+// @Router			/api/v1/dev/delSet [post]
+func (r DevApi) DelSet(c *gin.Context) {
+	err := r.Service.DelSet(c)
+	if err != nil {
+		response.FailWithError(err, c)
+		return
+	}
+
+	response.Ok(c)
+}
