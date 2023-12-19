@@ -42,8 +42,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "model 名字",
-                        "name": "send_user",
+                        "description": "dev名字",
+                        "name": "dev_name",
                         "in": "query",
                         "required": true
                     }

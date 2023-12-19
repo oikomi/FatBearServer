@@ -241,9 +241,9 @@ paths:
         in: header
         name: super_token
         type: string
-      - description: model 名字
+      - description: dev名字
         in: query
-        name: send_user
+        name: dev_name
         required: true
         type: string
       produces:

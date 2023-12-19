@@ -91,7 +91,7 @@ func (r DevApi) Order(c *gin.Context) {
 // @Accept			json
 // @Produce		json
 // @Param			super_token	header	string	false	"Authentication header"
-// @Param			send_user	query	string	true	"model 名字"
+// @Param			dev_name	query	string	true	"dev名字"
 // @Success		200			{object}	auth.BaseUser	"user"
 // @Router			/api/v1/dev/getUserByDev [get]
 func (r DevApi) getUserByDev(c *gin.Context) {
