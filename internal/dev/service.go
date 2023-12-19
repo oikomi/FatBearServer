@@ -228,7 +228,7 @@ func (s DevService) OrderList(c *gin.Context) ([]Order, error) {
 
 	w := model.NewWrapper()
 	if req.SendUser != "" {
-		w.Eq("model_name", "host").EqF("status", 0)
+		w.Eq("model_name", req.SendUser).EqF("status", 0)
 	}
 
 	mapper := model.NewMapper[Order](Order{}, w)
@@ -242,7 +242,7 @@ func (s DevService) OrderList(c *gin.Context) ([]Order, error) {
 	// w.Eq("model_name", req.SendUser)
 	// w.EqF("status", 0)
 
-	err = config.GVA_DB.Debug().Model(&Order{}).Where("model_name=?", "host").Where("status=?", 0).Update("status", 1).Error
+	err = config.GVA_DB.Debug().Model(&Order{}).Where("model_name=?", req.SendUser).Where("status=?", 0).Update("status", 1).Error
 	if err != nil {
 		return nil, errors.Errorf("update order status failed: %s", req.SendUser)
 	}
