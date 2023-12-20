@@ -60,7 +60,7 @@ type AddSetReq struct {
 }
 
 type DelSetReq struct {
-	Id int `json:"id" `
+	Id int64 `json:"id" `
 }
 
 // MarshalLogObject implements zapcore.ObjectMarshaler.

@@ -502,7 +502,7 @@ func (s DevService) DelSet(c *gin.Context) error {
 		return err
 	}
 
-	err = s.getSet(int64(req.Id))
+	err = s.getSet(req.Id)
 	if err != nil {
 		return err
 	}
