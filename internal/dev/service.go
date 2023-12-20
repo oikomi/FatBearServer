@@ -480,9 +480,10 @@ func (s DevService) AddSet(c *gin.Context) error {
 
 func (s DevService) getSet(id int64) error {
 	w := model.NewWrapper()
+	w.EqF("id", id)
 	set := DevSetting{}
 	mapper := model.NewMapper[DevSetting](set, w)
-	err := mapper.SelectById(id)
+	_, err := mapper.SelectOne()
 	if err != nil {
 		config.GVA_LOG.Error("dev set not exist")
 		return errors.Errorf("dev set not exist: %s", err)
