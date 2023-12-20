@@ -27,7 +27,6 @@ type DevLogoutReq struct {
 	ModelName string `json:"model_name" example:"设备主播账号名称" format:"string"`
 }
 
-
 type OrderReq struct {
 	DevName   string `json:"dev_name" form:"dev_name" example:"设备名称" format:"string"`
 	ModelName string `json:"model_name" form:"model_name" example:"主播账号名称" format:"string"`
@@ -60,7 +59,7 @@ type AddSetReq struct {
 }
 
 type DelSetReq struct {
-	Id *int64 `json:"id" `
+	Id int64 `json:"id" `
 }
 
 // MarshalLogObject implements zapcore.ObjectMarshaler.

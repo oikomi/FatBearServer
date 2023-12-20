@@ -70,7 +70,6 @@ func (r DevApi) Logout(c *gin.Context) {
 	response.Ok(c)
 }
 
-
 // @Description	OrderList
 // @Accept			json
 // @Produce		json

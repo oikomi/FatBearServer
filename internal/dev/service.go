@@ -115,7 +115,6 @@ func (s DevService) craftLogin(username, password string) error {
 
 }
 
-
 func (s DevService) Logout(c *gin.Context) error {
 	var req DevLogoutReq
 
@@ -137,7 +136,6 @@ func (s DevService) Logout(c *gin.Context) error {
 
 	return nil
 }
-
 
 func (s DevService) Login(c *gin.Context) error {
 	var req DevLoginReq
@@ -248,7 +246,6 @@ func (s DevService) getUserByName(name string) (auth.BaseUser, error) {
 	}
 	return storeUser, nil
 }
-
 
 func (s DevService) getUserByDev(c *gin.Context) (auth.BaseUser, error) {
 	var req GetUserByDevReq
@@ -483,8 +480,7 @@ func (s DevService) AddSet(c *gin.Context) error {
 
 func (s DevService) getSet(id int64) error {
 	w := model.NewWrapper()
-	set := DevSetting{
-	}
+	set := DevSetting{}
 	mapper := model.NewMapper[DevSetting](set, w)
 	err := mapper.SelectById(id)
 	if err != nil {
@@ -498,7 +494,7 @@ func (s DevService) DelSet(c *gin.Context) error {
 	var req DelSetReq
 	err := c.ShouldBind(&req)
 	if err != nil {
-		config.GVA_LOG.Error("del set failed", zap.Error(err))
+		config.GVA_LOG.Error("bind del set failed", zap.Error(err))
 		return err
 	}
 
@@ -510,7 +506,7 @@ func (s DevService) DelSet(c *gin.Context) error {
 	w := model.NewWrapper()
 	set := DevSetting{}
 	mapper := model.NewMapper[DevSetting](set, w)
-	err = mapper.DeleteById(int64(req.Id))
+	err = mapper.DeleteById(req.Id)
 	if err != nil {
 		config.GVA_LOG.Error("del dev set failed")
 		return errors.Errorf("del dev set failed: %s", err)
